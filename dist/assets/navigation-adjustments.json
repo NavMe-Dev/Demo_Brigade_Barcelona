@@ -1,0 +1,754 @@
+{
+  "status": "Use canonical geometry navigation_nodes/edges; optional view framing only",
+  "coordinate_system": "x right, y up, z down plan, meters",
+  "viewpoints": [
+    {
+      "room_id": "bedroom-1",
+      "position": [
+        3.9467,
+        1.6,
+        3.2520000000000002
+      ],
+      "look_at": [
+        1.8069,
+        1.0,
+        2.1792540000000002
+      ]
+    },
+    {
+      "room_id": "bathroom-1",
+      "position": [
+        5.9803999999999995,
+        1.6,
+        1.31375
+      ],
+      "look_at": [
+        5.2912,
+        1.0,
+        0.4569
+      ]
+    },
+    {
+      "room_id": "bathroom-2",
+      "position": [
+        8.12745,
+        1.6,
+        2.5
+      ],
+      "look_at": [
+        7.624499999999999,
+        1.0,
+        1.4569
+      ]
+    },
+    {
+      "room_id": "bedroom-2",
+      "position": [
+        13.0643,
+        1.6,
+        3.1931000000000003
+      ],
+      "look_at": [
+        12.2343,
+        1.0,
+        2.1474480000000002
+      ]
+    },
+    {
+      "room_id": "living",
+      "position": [
+        0.8769,
+        1.6,
+        5.1853
+      ],
+      "look_at": [
+        2.4062759999999996,
+        1.0,
+        7.3308
+      ]
+    },
+    {
+      "room_id": "dining",
+      "position": [
+        5.4912,
+        1.6,
+        6.944100000000001
+      ],
+      "look_at": [
+        6.9216,
+        1.0,
+        6.944100000000001
+      ]
+    },
+    {
+      "room_id": "family-lounge",
+      "position": [
+        9.876900000000001,
+        1.6,
+        5.1853
+      ],
+      "look_at": [
+        11.0769,
+        1.0,
+        7.3308
+      ]
+    },
+    {
+      "room_id": "primary-bedroom",
+      "position": [
+        3.9467,
+        1.6,
+        11.6833
+      ],
+      "look_at": [
+        1.8069,
+        1.0,
+        10.457236
+      ]
+    },
+    {
+      "room_id": "closet",
+      "position": [
+        5.66665,
+        1.6,
+        10.93135
+      ],
+      "look_at": [
+        5.66665,
+        1.2,
+        9.7794
+      ]
+    },
+    {
+      "room_id": "primary-bathroom",
+      "position": [
+        7.53925,
+        1.6,
+        10.93135
+      ],
+      "look_at": [
+        6.9971,
+        1.0,
+        9.829400000000001
+      ]
+    },
+    {
+      "room_id": "utility",
+      "position": [
+        9.62745,
+        1.6,
+        11.6833
+      ],
+      "look_at": [
+        9.124699999999999,
+        0.9,
+        9.909400000000002
+      ]
+    },
+    {
+      "room_id": "kitchen",
+      "position": [
+        11.5647,
+        1.6,
+        9.1549
+      ],
+      "look_at": [
+        13.4843,
+        1.1,
+        10.2941
+      ]
+    },
+    {
+      "room_id": "deck",
+      "position": [
+        13.8814,
+        1.6,
+        3.3451
+      ],
+      "look_at": [
+        19.4314,
+        1.6,
+        3.3451
+      ]
+    }
+  ],
+  "navigation_nodes": [
+    {
+      "id": "entry",
+      "position": [
+        0.8431,
+        1.6,
+        5.0
+      ],
+      "look_at": [
+        7.0196,
+        1.6,
+        6.0588
+      ],
+      "room_id": "living",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "living",
+      "position": [
+        2.7059,
+        1.6,
+        5.6275
+      ],
+      "look_at": [
+        7.0196,
+        1.6,
+        6.2549
+      ],
+      "room_id": "living",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "dining",
+      "position": [
+        8.25,
+        1.6,
+        5.1
+      ],
+      "look_at": [
+        12.1176,
+        1.6,
+        5.8627
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "dining-south-bypass",
+      "position": [
+        8.55,
+        1.6,
+        8.62
+      ],
+      "look_at": [
+        12.3137,
+        1.6,
+        9.9804
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "family",
+      "position": [
+        11.6275,
+        1.6,
+        5.4706
+      ],
+      "look_at": [
+        14.9608,
+        1.6,
+        5.8627
+      ],
+      "room_id": "family-lounge",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "deck-threshold",
+      "position": [
+        13.2941,
+        1.6,
+        6.0196
+      ],
+      "look_at": [
+        14.9608,
+        1.6,
+        5.8627
+      ],
+      "room_id": "deck",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "deck",
+      "position": [
+        14.6667,
+        1.6,
+        5.8627
+      ],
+      "look_at": [
+        14.6667,
+        1.6,
+        2.3333
+      ],
+      "room_id": "deck",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed1-hall",
+      "position": [
+        6.6275,
+        1.6,
+        4.7843
+      ],
+      "look_at": [
+        5.902,
+        1.6,
+        3.3922
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed1-approach",
+      "position": [
+        5.902,
+        1.6,
+        3.3922
+      ],
+      "look_at": [
+        3.6863,
+        1.6,
+        2.5294
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed1-threshold",
+      "position": [
+        4.8235,
+        1.6,
+        3.3922
+      ],
+      "look_at": [
+        2.7059,
+        1.6,
+        2.3333
+      ],
+      "room_id": "bedroom-1",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed1",
+      "position": [
+        3.451,
+        1.6,
+        2.8431
+      ],
+      "look_at": [
+        1.7255,
+        1.6,
+        1.1569
+      ],
+      "room_id": "bedroom-1",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bath1-threshold",
+      "position": [
+        4.8235,
+        1.6,
+        2.098
+      ],
+      "look_at": [
+        6.0392,
+        1.6,
+        1.3529
+      ],
+      "room_id": "bathroom-1",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bath1",
+      "position": [
+        5.9412,
+        1.6,
+        1.7843
+      ],
+      "look_at": [
+        5.9412,
+        1.6,
+        0.6667
+      ],
+      "room_id": "bathroom-1",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed2-approach",
+      "position": [
+        9.7647,
+        1.6,
+        4.8039
+      ],
+      "look_at": [
+        10.7451,
+        1.6,
+        2.0392
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed2-threshold",
+      "position": [
+        9.7647,
+        1.6,
+        4.0
+      ],
+      "look_at": [
+        10.9412,
+        1.6,
+        2.0392
+      ],
+      "room_id": "bedroom-2",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bed2",
+      "position": [
+        10.2745,
+        1.6,
+        2.8627
+      ],
+      "look_at": [
+        12.1176,
+        1.6,
+        1.1569
+      ],
+      "room_id": "bedroom-2",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bath2-threshold",
+      "position": [
+        9.1176,
+        1.6,
+        2.3529
+      ],
+      "look_at": [
+        8.0,
+        1.6,
+        1.6471
+      ],
+      "room_id": "bathroom-2",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "bath2",
+      "position": [
+        8.0588,
+        1.6,
+        2.2549
+      ],
+      "look_at": [
+        8.0,
+        1.6,
+        1.3529
+      ],
+      "room_id": "bathroom-2",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "south-hall",
+      "position": [
+        7.0196,
+        1.6,
+        8.6863
+      ],
+      "look_at": [
+        12.3137,
+        1.6,
+        9.9804
+      ],
+      "room_id": "dining",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "primary-threshold",
+      "position": [
+        4.8235,
+        1.6,
+        8.8039
+      ],
+      "look_at": [
+        2.7059,
+        1.6,
+        10.3725
+      ],
+      "room_id": "primary-bedroom",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "primary",
+      "position": [
+        3.5882,
+        1.6,
+        9.6667
+      ],
+      "look_at": [
+        1.7255,
+        1.6,
+        11.1569
+      ],
+      "room_id": "primary-bedroom",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "closet-threshold",
+      "position": [
+        4.8235,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        5.9412,
+        1.6,
+        11.1373
+      ],
+      "room_id": "closet",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "closet",
+      "position": [
+        5.6471,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        7.0196,
+        1.6,
+        11.1373
+      ],
+      "room_id": "closet",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "primary-bath-threshold",
+      "position": [
+        6.5098,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        7.8039,
+        1.6,
+        11.1373
+      ],
+      "room_id": "primary-bathroom",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "primary-bath",
+      "position": [
+        7.549,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        7.549,
+        1.6,
+        9.9804
+      ],
+      "room_id": "primary-bathroom",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "kitchen-approach",
+      "position": [
+        11.7255,
+        1.6,
+        8.7647
+      ],
+      "look_at": [
+        12.3529,
+        1.6,
+        10.7647
+      ],
+      "room_id": "kitchen",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "kitchen",
+      "position": [
+        12.0196,
+        1.6,
+        10.6863
+      ],
+      "look_at": [
+        13.451,
+        1.6,
+        10.6863
+      ],
+      "room_id": "kitchen",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "utility-threshold",
+      "position": [
+        10.6471,
+        1.6,
+        11.098
+      ],
+      "look_at": [
+        9.5686,
+        1.6,
+        11.098
+      ],
+      "room_id": "utility",
+      "eye_height_status": "design_assumption"
+    },
+    {
+      "id": "utility",
+      "position": [
+        9.6667,
+        1.6,
+        11.098
+      ],
+      "look_at": [
+        9.6667,
+        1.6,
+        9.9804
+      ],
+      "room_id": "utility",
+      "eye_height_status": "design_assumption"
+    }
+  ],
+  "navigation_edges": [
+    {
+      "a": "entry",
+      "b": "living",
+      "bidirectional": true
+    },
+    {
+      "a": "living",
+      "b": "dining",
+      "bidirectional": true
+    },
+    {
+      "a": "dining",
+      "b": "family",
+      "bidirectional": true
+    },
+    {
+      "a": "family",
+      "b": "deck-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "deck-threshold",
+      "b": "deck",
+      "bidirectional": true
+    },
+    {
+      "a": "dining",
+      "b": "bed1-hall",
+      "bidirectional": true
+    },
+    {
+      "a": "bed1-hall",
+      "b": "bed1-approach",
+      "bidirectional": true
+    },
+    {
+      "a": "bed1-approach",
+      "b": "bed1-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "bed1-threshold",
+      "b": "bed1",
+      "bidirectional": true
+    },
+    {
+      "a": "bed1",
+      "b": "bath1-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "bath1-threshold",
+      "b": "bath1",
+      "bidirectional": true
+    },
+    {
+      "a": "dining",
+      "b": "bed2-approach",
+      "bidirectional": true
+    },
+    {
+      "a": "bed2-approach",
+      "b": "bed2-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "bed2-threshold",
+      "b": "bed2",
+      "bidirectional": true
+    },
+    {
+      "a": "bed2",
+      "b": "bath2-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "bath2-threshold",
+      "b": "bath2",
+      "bidirectional": true
+    },
+    {
+      "a": "dining",
+      "b": "dining-south-bypass",
+      "bidirectional": true
+    },
+    {
+      "a": "dining-south-bypass",
+      "b": "south-hall",
+      "bidirectional": true
+    },
+    {
+      "a": "south-hall",
+      "b": "primary-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "primary-threshold",
+      "b": "primary",
+      "bidirectional": true
+    },
+    {
+      "a": "primary",
+      "b": "closet-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "closet-threshold",
+      "b": "closet",
+      "bidirectional": true
+    },
+    {
+      "a": "closet",
+      "b": "primary-bath-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "primary-bath-threshold",
+      "b": "primary-bath",
+      "bidirectional": true
+    },
+    {
+      "a": "south-hall",
+      "b": "kitchen-approach",
+      "bidirectional": true
+    },
+    {
+      "a": "kitchen-approach",
+      "b": "kitchen",
+      "bidirectional": true
+    },
+    {
+      "a": "kitchen",
+      "b": "utility-threshold",
+      "bidirectional": true
+    },
+    {
+      "a": "utility-threshold",
+      "b": "utility",
+      "bidirectional": true
+    }
+  ]
+}

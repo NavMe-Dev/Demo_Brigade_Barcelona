@@ -1,0 +1,35 @@
+{
+  "glb_bytes": 3561188,
+  "mesh_count": 29,
+  "triangle_count": 89532,
+  "bounds": {
+    "min": [
+      -0.09290003776550293,
+      -0.19200000166893005,
+      -0.11249999701976776
+    ],
+    "max": [
+      15.568599700927734,
+      3,
+      12.602700233459473
+    ]
+  },
+  "navigation_nodes": 29,
+  "navigation_edges": 28,
+  "pairwise_routes": 56,
+  "failures": [],
+  "visibility_groups": [
+    {
+      "name": "ceiling",
+      "present": true
+    },
+    {
+      "name": "walls_upper",
+      "present": true
+    },
+    {
+      "name": "lighting_fixtures",
+      "present": true
+    }
+  ]
+}

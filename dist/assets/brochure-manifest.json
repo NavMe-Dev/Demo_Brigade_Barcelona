@@ -1,0 +1,170 @@
+{
+  "project": "Brigade Barcelona",
+  "location_from_brochure": "Plot 20, Neopolis Layout, Kokapet Village, Hyderabad",
+  "source_page_location": 26,
+  "advertised_storeys": 52,
+  "source_page_storeys": 3,
+  "layouts": [
+    {
+      "code": "A1",
+      "wing": "A",
+      "brochure_unit_label": 1,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": true,
+      "total_sba_sqft": 3351,
+      "total_carpet_area_sqft": 2256,
+      "source_pdf_page": 17
+    },
+    {
+      "code": "A2",
+      "wing": "A",
+      "brochure_unit_label": 2,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 3031,
+      "total_carpet_area_sqft": 2036,
+      "source_pdf_page": 17
+    },
+    {
+      "code": "A3",
+      "wing": "A",
+      "brochure_unit_label": 3,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2790,
+      "total_carpet_area_sqft": 1873,
+      "source_pdf_page": 18
+    },
+    {
+      "code": "A4",
+      "wing": "A",
+      "brochure_unit_label": 4,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2790,
+      "total_carpet_area_sqft": 1873,
+      "source_pdf_page": 18
+    },
+    {
+      "code": "A5",
+      "wing": "A",
+      "brochure_unit_label": 5,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2790,
+      "total_carpet_area_sqft": 1873,
+      "source_pdf_page": 19
+    },
+    {
+      "code": "A6",
+      "wing": "A",
+      "brochure_unit_label": 6,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2993,
+      "total_carpet_area_sqft": 1997,
+      "source_pdf_page": 19
+    },
+    {
+      "code": "A7",
+      "wing": "A",
+      "brochure_unit_label": 7,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": true,
+      "total_sba_sqft": 3313,
+      "total_carpet_area_sqft": 2222,
+      "source_pdf_page": 20
+    },
+    {
+      "code": "B8",
+      "wing": "B",
+      "brochure_unit_label": 8,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2857,
+      "total_carpet_area_sqft": 1920,
+      "source_pdf_page": 20
+    },
+    {
+      "code": "B9",
+      "wing": "B",
+      "brochure_unit_label": 9,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 2857,
+      "total_carpet_area_sqft": 1920,
+      "source_pdf_page": 21
+    },
+    {
+      "code": "B10",
+      "wing": "B",
+      "brochure_unit_label": 10,
+      "bedrooms": 4,
+      "washrooms": 4,
+      "has_study": false,
+      "total_sba_sqft": 3764,
+      "total_carpet_area_sqft": 2547,
+      "source_pdf_page": 21
+    },
+    {
+      "code": "B11",
+      "wing": "B",
+      "brochure_unit_label": 11,
+      "bedrooms": 4,
+      "washrooms": 4,
+      "has_study": false,
+      "total_sba_sqft": 3764,
+      "total_carpet_area_sqft": 2547,
+      "source_pdf_page": 22
+    },
+    {
+      "code": "B12",
+      "wing": "B",
+      "brochure_unit_label": 12,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 3081,
+      "total_carpet_area_sqft": 2072,
+      "source_pdf_page": 22
+    },
+    {
+      "code": "B14",
+      "wing": "B",
+      "brochure_unit_label": 14,
+      "bedrooms": 3,
+      "washrooms": 3,
+      "has_study": false,
+      "total_sba_sqft": 3091,
+      "total_carpet_area_sqft": 2076,
+      "source_pdf_page": 23
+    }
+  ],
+  "inventory_notice": "Layout/stack labels only. These are not a verified list of sellable units, floors, prices or availability. Unit 13 is not in this brochure.",
+  "typical_plan_floors": [
+    17,
+    18,
+    19,
+    20,
+    22,
+    23,
+    24,
+    25,
+    26
+  ],
+  "refuge_plan_floor": 12,
+  "source_page_floor_scope": 15,
+  "registration_brochure_text": "P02400011156",
+  "registration_source_page": 26,
+  "registration_verification": "transcribed_from_brochure_not_independently_verified",
+  "dimension_basis": "Metric primary; imperial reference; unfinished surfaces excluding plaster and tile thickness (plan footnotes)."
+}

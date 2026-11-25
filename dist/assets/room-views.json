@@ -1,0 +1,152 @@
+{
+  "status": "illustrative_rendered_still_views",
+  "source_asset": "apartment-a3.glb",
+  "source_pdf_page": 18,
+  "notice": "Rendered views of the same brochure-derived concept model; not panoramic or live 3D, not architect-approved, no real exterior views or daylight study.",
+  "coordinate_system": "meters, x right, y up, z down plan",
+  "lighting": "Soft warm diffuse presentation lighting; not georeferenced sun simulation",
+  "size": [
+    1100,
+    730
+  ],
+  "views": [
+    {
+      "room_id": "living",
+      "label": "Living area",
+      "node_id": "entry",
+      "file": "room-living.webp",
+      "position": [
+        0.8431,
+        1.6,
+        5.0
+      ],
+      "look_at": [
+        2.8,
+        1.05,
+        6.8
+      ],
+      "bytes": 32038
+    },
+    {
+      "room_id": "dining",
+      "label": "Dining and circulation",
+      "node_id": "dining",
+      "file": "room-dining.webp",
+      "position": [
+        8.25,
+        1.6,
+        5.1
+      ],
+      "look_at": [
+        6.92,
+        1.04,
+        6.94
+      ],
+      "bytes": 34244
+    },
+    {
+      "room_id": "family-lounge",
+      "label": "Family lounge",
+      "node_id": "family",
+      "file": "room-family-lounge.webp",
+      "position": [
+        11.6275,
+        1.6,
+        5.4706
+      ],
+      "look_at": [
+        11.05,
+        1.0,
+        7.33
+      ],
+      "bytes": 19404
+    },
+    {
+      "room_id": "primary-bedroom",
+      "label": "Primary bedroom",
+      "node_id": "primary",
+      "file": "room-primary-bedroom.webp",
+      "position": [
+        3.5882,
+        1.6,
+        9.6667
+      ],
+      "look_at": [
+        1.81,
+        1.02,
+        10.45
+      ],
+      "bytes": 24574
+    },
+    {
+      "room_id": "bedroom-1",
+      "label": "Bedroom 1",
+      "node_id": "bed1",
+      "file": "room-bedroom-1.webp",
+      "position": [
+        3.451,
+        1.6,
+        2.8431
+      ],
+      "look_at": [
+        1.81,
+        1.0,
+        2.18
+      ],
+      "bytes": 27018
+    },
+    {
+      "room_id": "bedroom-2",
+      "label": "Bedroom 2",
+      "node_id": "bed2",
+      "file": "room-bedroom-2.webp",
+      "position": [
+        10.2745,
+        1.6,
+        2.8627
+      ],
+      "look_at": [
+        12.23,
+        1.0,
+        2.15
+      ],
+      "bytes": 29900
+    },
+    {
+      "room_id": "kitchen",
+      "label": "Kitchen",
+      "node_id": "kitchen",
+      "file": "room-kitchen.webp",
+      "position": [
+        12.0196,
+        1.6,
+        10.6863
+      ],
+      "look_at": [
+        13.44,
+        1.1,
+        10.92
+      ],
+      "bytes": 24698
+    },
+    {
+      "room_id": "deck",
+      "label": "Expansive deck",
+      "node_id": "deck",
+      "file": "room-deck.webp",
+      "position": [
+        14.6667,
+        1.6,
+        5.8627
+      ],
+      "look_at": [
+        14.43,
+        1.0,
+        7.28
+      ],
+      "bytes": 25638
+    }
+  ],
+  "image_processing": "Deterministic small median/bilateral noise reduction; no generative additions",
+  "total_image_bytes": 217514
+}

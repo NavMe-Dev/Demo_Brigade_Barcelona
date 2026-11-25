@@ -1,0 +1,10 @@
+{
+  "name": "brigade-barcelona-experience",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Brochure-grounded immersive buyer experience concept",
+  "dependencies": {
+    "three": "0.180.0"
+  }
+}

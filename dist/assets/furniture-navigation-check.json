@@ -1,0 +1,26 @@
+{
+  "status": "pass",
+  "checks_scope": "Authored navigation graph against furniture AABBs; architectural wall checks are in source geometry validation",
+  "capsule_radius_m": 0.18,
+  "method": "Segment intersects axis-aligned furniture box expanded by capsule radius; conservative near corners",
+  "navigation_nodes": 29,
+  "navigation_edges": 28,
+  "furniture_boxes": 270,
+  "intersecting_edges": 0,
+  "issues": [],
+  "glb_bytes": 3561188,
+  "glb_nodes": 38,
+  "glb_meshes": 29,
+  "glb_primitives": 29,
+  "triangles": 89532,
+  "group_names": [
+    "ceiling",
+    "floors",
+    "furniture",
+    "lighting_fixtures",
+    "openings",
+    "walls_lower",
+    "walls_upper",
+    "walls"
+  ]
+}
