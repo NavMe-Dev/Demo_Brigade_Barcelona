@@ -1,0 +1,34 @@
+Brigade Barcelona · geographic sources
+
+SATELLITE IMAGERY
+Contains modified Copernicus Sentinel data (2025). The local true-colour tiles and regional horizon come from Sentinel‑2A acquisition S2A_44QKE_20250315_0_L2A on 15 March 2025. The native detailed optical sampling is 10 metres. The outer terrain ring uses the independently registered 32 metre regional crop. See IMAGERY.txt for source and processing details.
+https://dataspace.copernicus.eu/terms-and-conditions
+https://registry.opendata.aws/sentinel-2-l2a-cogs/
+
+Optional online World Imagery · Powered by Esri
+Source at the November 2026 check: Esri, Vantor, Earthstar Geographics, and the GIS User Community. The map displays provider attribution returned by the live service when licensed imagery is active. The verified high-resolution source at Plot 20 was Vantor WV03, acquired 19 May 2026. Source data are licensed by their respective providers and streamed with the application operator’s authorized credentials.
+https://www.esri.com/
+https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9
+https://www.esri.com/en-us/legal/terms/data-attributions
+
+BUILDING FOOTPRINTS AND INFRASTRUCTURE
+© Overture Maps Foundation and its contributors. Sources include © OpenStreetMap contributors, Google Open Buildings (Google) and Microsoft ML Buildings (Microsoft). The local Overture extract uses release 2026-11-18.0. The distributed derivatives are available under the Open Data Commons Open Database License (ODbL) 1.0. Runtime tile manifest and derived geometries are supplied alongside this notice in buildings/index.json and buildings/*.bin.
+https://docs.overturemaps.org/attribution/
+https://www.openstreetmap.org/copyright
+https://sites.research.google/open-buildings/
+https://github.com/microsoft/GlobalMLBuildingFootprints
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Roads and paths, mapped shorelines, green and construction areas and individually mapped trees © OpenStreetMap contributors. Map snapshot 25 November 2026, 15:28 UTC. The optional overlay is supplied in infrastructure.bin and infrastructure.json under ODbL 1.0. The accompanying source bundle includes the machine-readable Overture extract, lifecycle exclusion data and source queries under sources/geography/building-context/. Height attributes, floor-count conversions and documented estimates are identified in the source report. The geometry represents the source data’s observation dates.
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+
+ELEVATION
+Terrain Tiles by Mapzen. Global SRTM and GMTED2010 terrain data courtesy of the U.S. Geological Survey. Global ETOPO1 terrain data courtesy of the U.S. National Oceanic and Atmospheric Administration. At Kokapet, SRTM heights reference the EGM96 geoid. Twenty Terrarium tiles were sampled to a 449 × 449 local grid every 32 metres. The DEM sample at the model origin is 596.286 m. The project pad is conceptually leveled within its geographic parcel and feathered into the neighboring terrain. The regional backdrop uses a coarser derived surface.
+https://registry.opendata.aws/terrain-tiles/
+https://github.com/tilezen/joerd/blob/master/docs/attribution.md
+Local terrain · elevation.json and elevation.i16
+
+PARCEL CONTROL
+Hyderabad Metropolitan Development Authority. Neopolis Phase III, Plot Coordinates, PDF page 22. Plot 20 vertices A–P are supplied in plot-20.geojson. Tower placement within the parcel is registered to a hand-traced marketing plan. The parcel source is independent of the optical and elevation sources.
+https://www.hmda.gov.in/wp-content/uploads/2020/07/HMDA_Neopolis_Phase-III.pdf

@@ -1,0 +1,325 @@
+{
+  "tested": "2026-11-25T14:27:34.737Z",
+  "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "models": {
+    "brigade-barcelona": {
+      "verticesBounds": [
+        [
+          -77.5273438,
+          -1.29998779,
+          -67.7070312
+        ],
+        [
+          74.5039062,
+          181.5,
+          97.8476562
+        ]
+      ],
+      "draws": 191,
+      "triangles": 504685,
+      "amenityIds": [
+        "clubhouse-15",
+        "clubhouse-16",
+        "eco-deck-01",
+        "eco-deck-02",
+        "eco-deck-03",
+        "eco-deck-04",
+        "eco-deck-05",
+        "eco-deck-06",
+        "eco-deck-07",
+        "eco-deck-08",
+        "eco-deck-09",
+        "eco-deck-10",
+        "eco-deck-11",
+        "eco-deck-12",
+        "eco-deck-13",
+        "eco-deck-14",
+        "eco-deck-15",
+        "eco-deck-16",
+        "eco-deck-17",
+        "eco-deck-18",
+        "eco-deck-19",
+        "eco-deck-20",
+        "eco-deck-21",
+        "eco-deck-22",
+        "eco-deck-23",
+        "eco-deck-24",
+        "eco-deck-25",
+        "masterplan-01",
+        "masterplan-02",
+        "masterplan-03",
+        "masterplan-04",
+        "masterplan-05",
+        "masterplan-06",
+        "masterplan-07",
+        "masterplan-08",
+        "masterplan-09",
+        "masterplan-10",
+        "masterplan-11",
+        "masterplan-12",
+        "masterplan-13",
+        "masterplan-14",
+        "masterplan-15",
+        "masterplan-16",
+        "masterplan-17",
+        "masterplan-18",
+        "masterplan-19",
+        "masterplan-20",
+        "masterplan-21",
+        "sky-deck-01",
+        "sky-deck-02",
+        "sky-deck-03",
+        "sky-deck-04",
+        "sky-deck-05",
+        "sky-deck-06",
+        "sky-deck-07",
+        "sky-deck-08",
+        "sky-deck-09",
+        "sky-deck-10",
+        "sky-deck-11",
+        "sky-deck-12",
+        "sky-deck-13",
+        "sky-deck-14",
+        "sky-deck-15"
+      ],
+      "bytes": "743332"
+    },
+    "exterior-lod": {
+      "verticesBounds": [
+        [
+          -77.5273438,
+          -1.29998779,
+          -67.7070312
+        ],
+        [
+          74.5039062,
+          181.5,
+          97.8476562
+        ]
+      ],
+      "draws": 77,
+      "triangles": 101203,
+      "amenityIds": [
+        "clubhouse-15",
+        "clubhouse-16"
+      ],
+      "bytes": "514164"
+    },
+    "wing-a": {
+      "verticesBounds": [
+        [
+          -39.4257812,
+          15,
+          -38.0351562
+        ],
+        [
+          41.1757812,
+          159.671875,
+          -1.32501221
+        ]
+      ],
+      "draws": 28,
+      "triangles": 185202,
+      "amenityIds": [],
+      "bytes": "154436"
+    },
+    "wing-b": {
+      "verticesBounds": [
+        [
+          -21.0351562,
+          15,
+          -12.5
+        ],
+        [
+          21.5351562,
+          177.976562,
+          50.7851562
+        ]
+      ],
+      "draws": 20,
+      "triangles": 211552,
+      "amenityIds": [],
+      "bytes": "118960"
+    },
+    "podium": {
+      "verticesBounds": [
+        [
+          -46.5351562,
+          0,
+          -39.5332031
+        ],
+        [
+          44.2851562,
+          21.0996094,
+          64.7617188
+        ]
+      ],
+      "draws": 5,
+      "triangles": 15480,
+      "amenityIds": [],
+      "bytes": "134236"
+    },
+    "landscape": {
+      "verticesBounds": [
+        [
+          -63.64241486293233,
+          0,
+          -67.6061155567789
+        ],
+        [
+          59.894060459631405,
+          18.958519957553406,
+          78.48864291178313
+        ]
+      ],
+      "draws": 7,
+      "triangles": 66195,
+      "amenityIds": [],
+      "bytes": "27468"
+    },
+    "eco-deck": {
+      "verticesBounds": [
+        [
+          -46.25,
+          14.8100586,
+          -39.0722656
+        ],
+        [
+          43.8925781,
+          18.1103516,
+          63.5878906
+        ]
+      ],
+      "draws": 43,
+      "triangles": 9336,
+      "amenityIds": [
+        "eco-deck-01",
+        "eco-deck-02",
+        "eco-deck-03",
+        "eco-deck-04",
+        "eco-deck-05",
+        "eco-deck-06",
+        "eco-deck-07",
+        "eco-deck-08",
+        "eco-deck-09",
+        "eco-deck-10",
+        "eco-deck-11",
+        "eco-deck-12",
+        "eco-deck-13",
+        "eco-deck-14",
+        "eco-deck-15",
+        "eco-deck-16",
+        "eco-deck-17",
+        "eco-deck-18",
+        "eco-deck-19",
+        "eco-deck-20",
+        "eco-deck-21",
+        "eco-deck-22",
+        "eco-deck-23",
+        "eco-deck-24",
+        "eco-deck-25"
+      ],
+      "bytes": "110408"
+    },
+    "sky-deck": {
+      "verticesBounds": [
+        [
+          -20,
+          178.171875,
+          -2.6595459
+        ],
+        [
+          20.4941406,
+          181.5,
+          49.3789062
+        ]
+      ],
+      "draws": 26,
+      "triangles": 8732,
+      "amenityIds": [
+        "sky-deck-01",
+        "sky-deck-02",
+        "sky-deck-03",
+        "sky-deck-04",
+        "sky-deck-05",
+        "sky-deck-06",
+        "sky-deck-07",
+        "sky-deck-08",
+        "sky-deck-09",
+        "sky-deck-10",
+        "sky-deck-11",
+        "sky-deck-12",
+        "sky-deck-13",
+        "sky-deck-14",
+        "sky-deck-15"
+      ],
+      "bytes": "95088"
+    },
+    "clubhouse": {
+      "verticesBounds": [
+        [
+          33.6074219,
+          0,
+          25.5
+        ],
+        [
+          48.0449219,
+          27.1699219,
+          55.5390625
+        ]
+      ],
+      "draws": 15,
+      "triangles": 1876,
+      "amenityIds": [
+        "clubhouse-15",
+        "clubhouse-16"
+      ],
+      "bytes": "25008"
+    },
+    "clubhouse-studies": {
+      "verticesBounds": [
+        [
+          -4.41918945,
+          -0.199996948,
+          -3.45129395
+        ],
+        [
+          4.42529297,
+          3.2800293,
+          3.30004883
+        ]
+      ],
+      "draws": 109,
+      "triangles": 15696,
+      "amenityIds": [
+        "clubhouse-01",
+        "clubhouse-02",
+        "clubhouse-03",
+        "clubhouse-04",
+        "clubhouse-05",
+        "clubhouse-06",
+        "clubhouse-07",
+        "clubhouse-08",
+        "clubhouse-09",
+        "clubhouse-10",
+        "clubhouse-11",
+        "clubhouse-12",
+        "clubhouse-13",
+        "clubhouse-14"
+      ],
+      "bytes": "198024"
+    }
+  },
+  "checkedFeatures": {
+    "masterplan": 21,
+    "eco-deck": 25,
+    "sky-deck": 15,
+    "clubhouse": 16
+  },
+  "expandedMapSelection": true,
+  "eyeLevelSelection": true,
+  "startedAndStoppedTour": true,
+  "clubStudyCanvas": true,
+  "fits360": true,
+  "exceptions": []
+}

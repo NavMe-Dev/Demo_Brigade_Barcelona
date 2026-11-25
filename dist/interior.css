@@ -1,0 +1,390 @@
+#planDialog .plan-image-wrap {
+  align-items: center;
+  overflow: auto;
+}
+.interactive-plan-frame {
+  position: relative;
+  flex: none;
+  width: min(100%, calc((100dvh - 245px) * 1.03488));
+  line-height: 0;
+}
+#planDialog .interactive-plan-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.interactive-plan-frame svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.interactive-plan-frame polygon {
+  fill: transparent;
+  stroke: transparent;
+  stroke-width: 3;
+  cursor: pointer;
+  transition: fill 0.15s;
+}
+.interactive-plan-frame polygon:is(:hover, :focus-visible, [aria-pressed='true']) {
+  fill: #c49c5860;
+  stroke: #795a31;
+  outline: none;
+}
+#enquiryForm .contact-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7em;
+  font-weight: 400;
+  line-height: 1.5;
+}
+#enquiryForm .contact-consent input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin: 0;
+  accent-color: #775937;
+}
+#enquiryForm [hidden],
+.enquiry-error:empty {
+  display: none;
+}
+.enquiry-error {
+  color: #8a2926;
+}
+#interiorFilmstrip {
+  position: absolute;
+  z-index: 6;
+  left: 4vw;
+  right: calc(4vw + 345px);
+  bottom: 128px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  pointer-events: auto;
+  padding: 3px;
+  background: #25231edb;
+  border: 1px solid #ffffff27;
+  border-radius: 6px;
+  backdrop-filter: blur(16px);
+}
+#interiorFilmstrip button {
+  position: relative;
+  flex: 0 0 88px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid transparent;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #393531;
+  color: #fff;
+  cursor: pointer;
+}
+#interiorFilmstrip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#interiorFilmstrip span {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 8px 3px 3px;
+  background: linear-gradient(transparent, #1a1715de);
+  text-shadow: 0 1px 3px #000;
+  font-size: 10px;
+}
+#interiorFilmstrip button:is(.active, :focus-visible, :hover) {
+  border-color: #ecd29e;
+}
+#experience .room-caption {
+  bottom: 206px;
+  max-width: min(450px, 68vw);
+}
+#experience .walk-pad {
+  bottom: 226px;
+}
+#balconyView {
+  margin-top: 9px;
+  border: 1px solid #887452;
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: #403629;
+  background: #fff8ec;
+  cursor: pointer;
+}
+#experience .room-caption .view-source {
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 5px 0 0;
+  color: #594a3a;
+}
+#experience .room-caption .view-source a {
+  color: inherit;
+}
+#interiorFilmstrip[hidden],
+#balconyView[hidden],
+.view-source[hidden] {
+  display: none;
+}
+@media (max-width: 800px) {
+  #interiorFilmstrip {
+    left: 14px;
+    right: 14px;
+    bottom: 187px;
+  }
+  #interiorFilmstrip button {
+    flex-basis: 75px;
+    height: 47px;
+  }
+  #experience .room-caption {
+    left: 14px;
+    bottom: 251px;
+    max-width: 57vw;
+  }
+  #experience .walk-pad {
+    bottom: 256px;
+  }
+  #experience:has(.property-card:not(.collapsed)) #interiorFilmstrip,
+  #experience:has(.property-card:not(.collapsed)) .walk-pad,
+  #experience:has(.property-card:not(.collapsed)) .room-caption {
+    visibility: hidden;
+  }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  #interiorFilmstrip {
+    right: auto;
+    max-width: 43vw;
+    left: 14px;
+    bottom: 12px;
+  }
+  #experience .room-caption {
+    top: 67px;
+    bottom: auto;
+    left: 16px;
+    padding: 7px !important;
+  }
+  #experience .room-caption h2 {
+    font-size: 21px;
+  }
+  #experience .walk-pad {
+    right: auto;
+    left: 16px;
+    transform: none;
+    bottom: 75px;
+  }
+  #experience .property-card {
+    bottom: 10px;
+    left: auto;
+    right: 14px;
+    width: 220px;
+    max-height: 70dvh;
+  }
+  #experience .bottom-controls {
+    left: 50%;
+    width: auto;
+    bottom: 10px;
+  }
+  #experience .controls-hint,
+  #experience .scene-footer {
+    display: none;
+  }
+  .interactive-plan-frame {
+    width: min(100%, calc((100dvh - 145px) * 1.03488));
+  }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  body.walking #experience .walk-pad {
+    left: auto;
+    right: 16px;
+    bottom: 100px;
+  }
+  body.walking #experience .scene-tools {
+    top: 82px;
+    left: 12px;
+    flex-direction: row;
+  }
+  body.walking #experience .room-caption {
+    left: 165px;
+    top: 75px;
+  }
+  body.walking #experience .concept-badge {
+    display: none;
+  }
+  #experience .bottom-controls {
+    left: auto;
+    right: 14px;
+    bottom: 12px;
+    transform: none;
+  }
+  #experience .property-card {
+    bottom: auto;
+    top: 68px;
+  }
+}
+.interactive-plan-frame {
+  width: min(100%, calc((100dvh - 238px) * var(--plan-ratio, 1.03488)));
+}
+.interior-return {
+  position: absolute;
+  z-index: 8;
+  top: 104px;
+  left: 4vw;
+  display: flex;
+  gap: 7px;
+  pointer-events: auto;
+}
+.interior-return button {
+  background: #322b24ed;
+  color: #fff8e9;
+  border: 1px solid #bc9e72;
+  border-radius: 6px;
+  font: inherit;
+  min-height: 42px;
+  padding: 7px 13px;
+  cursor: pointer;
+}
+.interior-return button[hidden] {
+  display: none;
+}
+.interior-view-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 13px 0;
+  font-size: 13px;
+}
+.interior-view-options select {
+  color: #372921;
+  background: #f8f3e9;
+  padding: 6px 4px;
+  border: 1px solid #b4a68c;
+  border-radius: 5px;
+  margin-left: 6px;
+}
+.interior-view-options input {
+  accent-color: #681712;
+}
+#experience .lighting-control .segmented {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+#experience .lighting-control .segmented button {
+  font-size: 11px;
+  padding: 8px 2px;
+}
+#experience .scene-title {
+  margin-top: 48px;
+}
+@media (max-width: 800px) {
+  .interior-return {
+    top: 72px;
+    left: 14px;
+  }
+  .interior-return button {
+    font-size: 12px;
+  }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  .interior-return {
+    left: 12px;
+    top: 67px;
+  }
+  .interior-return button {
+    min-height: 30px;
+    padding: 3px 8px;
+  }
+  body.walking #experience .scene-tools {
+    top: 105px;
+  }
+}
+.interior-view-options input {
+  vertical-align: middle;
+  width: 18px;
+  height: 18px;
+  min-height: 0;
+  margin: 0 5px 0 0;
+}
+body.walking #experience .concept-badge {
+  left: auto;
+  right: 3.2vw;
+  top: auto;
+  bottom: 26px;
+}
+@media (max-width: 800px) {
+  #experience .lighting-control {
+    display: block;
+  }
+  #experience .lighting-control .section-label {
+    margin: 8px 0;
+  }
+  body.walking #experience .concept-badge {
+    display: none;
+  }
+  #experience .tour-bar {
+    top: 118px;
+  }
+}
+#experience .scene-title {
+  top: 160px;
+  margin: 0;
+}
+#experience .scene-title h1 {
+  margin: 3px 0 4px;
+}
+#experience .scene-title #conceptBadge {
+  position: static;
+  margin-top: 10px;
+}
+#experience .scene-title > p:last-of-type {
+  font-size: 13px;
+  color: #574b40;
+}
+#experience .scene-tools {
+  top: 300px;
+}
+body.walking #experience .scene-title {
+  visibility: hidden;
+}
+body.walking #experience .scene-tools {
+  top: 170px;
+}
+.hotspot.compact:not(:hover):not(:focus-visible) {
+  padding: 0;
+  min-height: 26px;
+  width: 26px;
+  height: 26px;
+  justify-content: center;
+}
+.hotspot.compact:not(:hover):not(:focus-visible) .hotspot-label {
+  display: none;
+}
+@media (max-width: 800px) {
+  #experience .scene-title {
+    top: 122px;
+    left: 16px;
+  }
+  #experience .scene-title h1 {
+    font-size: 22px;
+  }
+  #experience .scene-title #conceptBadge {
+    display: none;
+  }
+  #experience .scene-tools {
+    top: 198px;
+  }
+  body.walking #experience .scene-tools {
+    top: 130px;
+  }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  #experience .scene-title {
+    display: none;
+  }
+  #experience .scene-tools,
+  body.walking #experience .scene-tools {
+    top: 109px;
+  }
+}

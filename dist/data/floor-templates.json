@@ -1,0 +1,57 @@
+[
+  {
+    "id": "typical",
+    "levels": [
+      17,
+      18,
+      19,
+      20,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "sourcePage": 15,
+    "verification": "visible on brochure floor plate",
+    "plan": "assets/plans/typical.webp",
+    "layouts": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "A7",
+      "B8",
+      "B9",
+      "B10",
+      "B11",
+      "B12",
+      "B14"
+    ]
+  },
+  {
+    "id": "refuge-12",
+    "levels": [
+      12
+    ],
+    "sourcePage": 15,
+    "verification": "brochure refuge plan; A7 bay used for refuge",
+    "plan": "assets/plans/refuge.webp",
+    "layouts": [
+      "A1",
+      "A2",
+      "A3",
+      "A4",
+      "A5",
+      "A6",
+      "B8",
+      "B9",
+      "B10",
+      "B11",
+      "B12",
+      "B14"
+    ]
+  }
+]

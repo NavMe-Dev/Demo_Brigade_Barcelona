@@ -1,0 +1,374 @@
+{
+  "stage": "before",
+  "url": "http://127.0.0.1:5179/experience/",
+  "browser": "158.0.8127.37",
+  "date": "2026-11-25T15:26:38.718Z",
+  "captures": [
+    {
+      "file": "before-desktop-wide.webp",
+      "pose": "wide",
+      "position": [
+        475,
+        335,
+        540
+      ],
+      "target": [
+        0,
+        20,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          474.99999999999994,
+          334.99999999999994,
+          540
+        ],
+        "target": [
+          0,
+          20,
+          0
+        ],
+        "pixelRatio": 1,
+        "triangles": 168129,
+        "drawCalls": 87,
+        "geometries": 98,
+        "textures": 6,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 3,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "before-desktop-overview.webp",
+      "pose": "overview",
+      "position": [
+        183,
+        152,
+        298
+      ],
+      "target": [
+        0,
+        80,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          183,
+          152,
+          298
+        ],
+        "target": [
+          0,
+          80,
+          0
+        ],
+        "pixelRatio": 1,
+        "triangles": 571611,
+        "drawCalls": 201,
+        "geometries": 286,
+        "textures": 6,
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 5,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "before-desktop-context.webp",
+      "pose": "context",
+      "position": [
+        135,
+        104,
+        145
+      ],
+      "target": [
+        310,
+        0,
+        410
+      ],
+      "metrics": {
+        "camera": [
+          135.00000000000003,
+          104,
+          145
+        ],
+        "target": [
+          310,
+          0,
+          410.00000000000006
+        ],
+        "pixelRatio": 1,
+        "triangles": 66926,
+        "drawCalls": 10,
+        "geometries": 286,
+        "textures": 6,
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 6,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "before-phone-wide.webp",
+      "pose": "wide",
+      "position": [
+        475,
+        335,
+        540
+      ],
+      "target": [
+        0,
+        20,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          474.99999999999994,
+          334.99999999999994,
+          540
+        ],
+        "target": [
+          0,
+          20,
+          0
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 168129,
+        "drawCalls": 87,
+        "geometries": 99,
+        "textures": 6,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 5,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    },
+    {
+      "file": "before-phone-overview.webp",
+      "pose": "overview",
+      "position": [
+        218,
+        165,
+        345
+      ],
+      "target": [
+        0,
+        81,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          218,
+          165,
+          345
+        ],
+        "target": [
+          0,
+          81,
+          0
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 168129,
+        "drawCalls": 87,
+        "geometries": 99,
+        "textures": 6,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 6,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    },
+    {
+      "file": "before-phone-context.webp",
+      "pose": "context",
+      "position": [
+        135,
+        104,
+        145
+      ],
+      "target": [
+        310,
+        0,
+        410
+      ],
+      "metrics": {
+        "camera": [
+          135.00000000000003,
+          104,
+          145
+        ],
+        "target": [
+          310,
+          0,
+          410.00000000000006
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 66926,
+        "drawCalls": 10,
+        "geometries": 99,
+        "textures": 6,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 7,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true
+      },
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    }
+  ]
+}

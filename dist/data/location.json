@@ -1,0 +1,68 @@
+{
+  "id": "plot-20",
+  "address": "Brigade Barcelona, Plot No 20, Neopolis, Kokapet, Hyderabad, Telangana 500075, India.",
+  "sourcePage": 6,
+  "status": "published HMDA parcel; approximate tower siting",
+  "projectCenter": [
+    78.312086932,
+    17.402192529
+  ],
+  "northXZ": [
+    -0.972308952,
+    0.233699171
+  ],
+  "eastXZ": [
+    -0.233699171,
+    -0.972308952
+  ],
+  "boundary": "assets/geography/plot-20.geojson",
+  "context": "assets/geography/kokapet.geojson",
+  "region": {
+    "image": "assets/geography/hyderabad-region.webp",
+    "corners": [
+      [
+        78.2,
+        17.605
+      ],
+      [
+        78.735,
+        17.605
+      ],
+      [
+        78.735,
+        17.2
+      ],
+      [
+        78.2,
+        17.2
+      ]
+    ],
+    "center": [
+      78.4675,
+      17.4025
+    ]
+  },
+  "neighborhood": {
+    "image": "assets/geography/kokapet-color.webp",
+    "corners": [
+      [
+        78.38474845,
+        17.44465662
+      ],
+      [
+        78.35658788,
+        17.33285681
+      ],
+      [
+        78.23942542,
+        17.35972844
+      ],
+      [
+        78.26758598,
+        17.47152825
+      ]
+    ]
+  },
+  "attribution": "Contains modified Copernicus Sentinel data (2025). \u00a9 OpenStreetMap contributors.",
+  "sourceAsset": "https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/Q/KE/2025/3/S2A_44QKE_20250315_0_L2A/TCI.tif"
+}

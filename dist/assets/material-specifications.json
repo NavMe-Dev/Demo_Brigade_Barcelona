@@ -1,0 +1,119 @@
+{
+  "id": "brochure-materials",
+  "sourcePage": 24,
+  "status": "Brochure specification; individual assets and decorative choices are illustrative.",
+  "specifications": [
+    {
+      "id": "interior-floor",
+      "sourcePage": 24,
+      "appliesTo": "Living, dining, family lounge, all bedrooms and kitchen",
+      "description": "Large-format marble-finish vitrified tile.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "deck-floor",
+      "sourcePage": 24,
+      "appliesTo": "Balcony and deck",
+      "description": "Wood-finish outdoor vitrified tile.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "wet-floor",
+      "sourcePage": 24,
+      "appliesTo": "Washrooms, powder room and utility",
+      "description": "Matte-finish vitrified tile.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "common-floor",
+      "sourcePage": 24,
+      "appliesTo": "Reception, waiting lounge, ground-floor lift lobby and corridor",
+      "description": "Large-format vitrified tile. Typical-floor lift lobby and corridor use vitrified tile.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "wall-dado",
+      "sourcePage": 24,
+      "appliesTo": "Kitchen, washrooms and powder room",
+      "description": "Kitchen is provided for a modular installation. Glazed vitrified tiles extend to the washroom and powder-room false ceiling.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "kitchen-connections",
+      "sourcePage": 24,
+      "appliesTo": "Kitchen",
+      "description": "Water purifier, sink, dishwasher, washing machine, instant geyser and hot/cold water provisions.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "bath-fixtures",
+      "sourcePage": 24,
+      "appliesTo": "Washrooms",
+      "description": "Kohler, Grohe or equivalent fittings. Granite counter and countertop basin, concealed diverter, overhead and hand shower, bath spout, wall-mounted WC with concealed tank. Master washroom has a shower partition. Paper holder, calcium-silicate board grid ceiling and provision for instant geyser.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "main-door",
+      "sourcePage": 24,
+      "appliesTo": "Entry",
+      "description": "Eight-foot-high teak frame, designer veneered shutter, PU polish and 4-in-1 digital lock.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "bedroom-door",
+      "sourcePage": 24,
+      "appliesTo": "Bedroom",
+      "description": "Eight-foot-high hardwood frame with PU-polished veneered shutter.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "wet-door",
+      "sourcePage": 24,
+      "appliesTo": "Washroom and utility",
+      "description": "Hardwood frame, exterior veneer and interior laminate.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "glazing",
+      "sourcePage": 24,
+      "appliesTo": "Balcony, windows and ventilators",
+      "description": "Aluminium or uPVC sliding deck doors with toughened glass and bug screen. Windows use aluminium or uPVC, toughened glazing and bug screens. Ventilators follow the façade design.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "rails",
+      "sourcePage": 24,
+      "appliesTo": "Balcony and common stairs",
+      "description": "Laminated glass balcony railing. Common stairs use MS railing.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "paint",
+      "sourcePage": 24,
+      "appliesTo": "Building interior and exterior",
+      "description": "Textured exterior paint with exterior emulsion. Acrylic emulsion unit walls and acrylic economy emulsion unit ceilings. Common walls and ceilings use emulsion; typical lift-side walls use vitrified tile cladding. Basement walls and ceilings use cement or emulsion paint.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "cooling",
+      "sourcePage": 24,
+      "appliesTo": "Living, dining and bedrooms",
+      "description": "VRF with high-wall units.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "electrical",
+      "sourcePage": 24,
+      "appliesTo": "Apartments and common areas",
+      "description": "Eleven kW for 3-bed and 3-bed + study. Thirteen kW for 4-bed. Legrand, Schneider, Panasonic or equivalent modular switches. Brochure marks 100% DG backup to common areas and apartments at additional cost.",
+      "verification": "read from brochure"
+    },
+    {
+      "id": "transport-security",
+      "sourcePage": 24,
+      "appliesTo": "Common areas and parking",
+      "description": "High-speed elevators, common-area CCTV, digital main-door lock, gas leak detection and common EV charge points.",
+      "verification": "read from brochure"
+    }
+  ]
+}

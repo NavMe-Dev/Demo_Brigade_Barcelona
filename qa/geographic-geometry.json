@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "tiles": 274,
+  "footprints": 23520,
+  "foundationSegments": 175674,
+  "roofTriangles": 58447,
+  "minWallHeightM": 3,
+  "maxFoundationVertexErrorM": 0.000010633468626508602,
+  "maxFoundationSegmentMidpointErrorM": 0.0000062274932863815025,
+  "hmdaSource": "Neopolis Phase III, Plot 20 coordinate table, page 22. Independent transcription of all DMS values A–P.",
+  "officialVertexCount": 16,
+  "maxCoordinateTranscriptionDifferenceM": 0.00000548099228788028,
+  "maxWgsRoundTripM": 6.517069651577858e-8,
+  "maximumPadHeightAtOfficialCornersM": 0,
+  "terrainReferenceM": 596.286,
+  "samples": 201601,
+  "sourceModelTranslationY": 0,
+  "sceneElevationRangeM": [
+    -90.67,
+    35.04
+  ]
+}

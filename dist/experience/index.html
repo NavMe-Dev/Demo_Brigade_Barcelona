@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="../">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#202a29">
+  <title>Brigade Barcelona · Step inside your future home</title>
+  <meta name="description" content="Explore a brochure-inspired 3D concept for Brigade Barcelona. Explore both wings, thirteen brochure layouts, the grounds and furnished interiors.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235b171d'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='Georgia' font-size='48' fill='%23fff6ea'%3EB%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="estate.css">
+  <link rel="stylesheet" href="interior.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/addons/"}}</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to experience</a>
+  <div id="estateScene" aria-label="Interactive exterior concept"><div id="estateCanvas"></div><div id="regionalMap" hidden aria-label="Hyderabad regional map"></div><div class="estate-shade"></div><div id="scenePins"></div></div>
+  <div id="sceneDissolve"></div>
+  <div id="scene" aria-label="Interactive apartment model"></div>
+  <div id="renderFallback" class="render-fallback hidden"><img id="fallbackRender" src="assets/apartment-a3-thumbnail.webp" alt="Rendered apartment concept"><p id="fallbackLabel">Rendered overview</p></div>
+  <div id="hotspots" aria-label="Room viewpoints"></div>
+  <header class="header">
+    <button class="wordmark brochure-logo" id="homeButton" aria-label="Brigade Barcelona home"><img src="assets/branding/brigade-barcelona.png" alt="Brigade Barcelona"></button>
+    <nav class="estate-nav" aria-label="Estate navigation"><button data-section="overview">Explore</button><button data-section="apartments">Apartments</button><button data-section="amenities">Amenities</button><button data-section="location">Location</button><button data-section="compare">Compare</button></nav>
+    <div class="header-actions"><button class="enquire-link" data-section="enquire">Enquire</button><button id="estateMenu" class="estate-menu" aria-label="Open navigation" aria-haspopup="dialog"><i></i><i></i></button></div>
+    <nav hidden class="legacy-nav" aria-label="Residence navigation"><button id="residenceNav">The residence</button><button id="lifestyleNav">Lifestyle</button><button id="aboutNav">About this preview</button></nav>
+    <button class="icon-button save-header" id="saveHeader" aria-label="Save this home" title="Save this home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-8-5.1-8-11a4.5 4.5 0 0 1 8-2.6A4.5 4.5 0 0 1 20 9c0 5.9-8 11-8 11Z"/></svg><span>Save home</span></button>
+  </header>
+  <main id="main">
+    <section id="arrival" class="arrival" aria-labelledby="arrivalTitle">
+      <div class="estate-hero">
+        <p class="estate-kicker"><span></span> KOKAPET, HYDERABAD</p>
+        <h1 id="arrivalTitle">Brigade<br><em>Barcelona</em></h1>
+        <p class="estate-description">Discover thirteen residence designs<br class="desktop-break"> in the heart of Neopolis.</p>
+        <button class="estate-cta" data-section="towers"><span data-icon="layers"></span> Explore building</button>
+      </div>
+      <div class="estate-foot">
+        <div class="estate-chapters" aria-label="Explore the estate">
+          <button data-section="apartments"><img src="assets/apartment-a3-thumbnail.webp" alt=""><span>Explore apartments</span></button>
+          <button data-section="amenities"><img src="assets/landscape.webp" alt=""><span>Explore amenities</span></button>
+          <button data-section="tour"><img src="assets/room-living.webp" alt=""><span>Start guided tour</span></button>
+        </div>
+      </div>
+      <div class="view-readout"><span class="readout-dot"></span><span id="estateStatus" role="status">Preparing the 3D masterplan</span></div>
+      <div class="estate-orbit-tools" aria-label="Exterior camera controls">
+        <button id="introControl" aria-label="Replay introduction" hidden><span data-icon="reset"></span><span class="intro-label">Replay intro</span></button>
+        <button id="estateLight" aria-label="Choose time of day" title="Choose time of day"><span data-icon="sun"></span></button>
+        <button id="estateReset" aria-label="Reset exterior camera" title="Reset exterior camera"><span data-icon="reset"></span></button>
+        <button id="estateZoomIn" aria-label="Zoom in" title="Zoom in"><span data-icon="plus"></span></button>
+        <button id="estateZoomOut" aria-label="Zoom out" title="Zoom out"><span data-icon="minus"></span></button>
+      </div>
+      <aside id="lightingSheet" class="lighting-sheet" hidden aria-label="Time of day"><strong>Time of day</strong><div id="estateMoods"></div><small>Simulated equinox lighting · Hyderabad</small></aside>
+      <aside id="layoutInfo" class="estate-panel layout-info" hidden aria-label="Selected apartment"></aside>
+      <button id="showLayout" class="estate-reopen details-reopen" hidden>Apartment details</button>
+      <button id="skipApproach" class="estate-reopen skip-approach" hidden>Skip animation</button>
+      <aside id="estatePanel" class="estate-panel" hidden aria-labelledby="estatePanelTitle">
+        <div class="panel-top"><div><p class="estate-kicker" id="estatePanelKicker"></p><h2 id="estatePanelTitle"></h2></div><button id="panelClose" class="plain-icon" aria-label="Collapse panel"><span data-icon="close"></span></button></div>
+        <div id="estatePanelContent"></div>
+      </aside>
+      <button id="reopenPanel" class="estate-reopen" hidden><span data-icon="layers"></span><span></span></button>
+      <div id="cityFlightHud" hidden><span id="cityFlightStage" aria-live="polite">Hyderabad</span><button id="skipCityFlight">Skip to building</button></div>
+      <nav id="experienceDock" hidden aria-label="Experience views"><button data-view="exterior">Exterior</button><button data-view="neighborhood">Back to Neighborhood</button><button data-view="masterplan">Masterplan</button><button data-view="plan">Floor plan</button><button data-view="dollhouse">Dollhouse</button><button data-view="walk">Walkthrough</button><button data-view="tour">Guided tour</button><button data-view="fullscreen">Fullscreen</button></nav>
+      <div class="estate-attribution"><span id="sceneQualification">Concept architecture</span> · <span id="geoCredits"><a href="assets/geography/CREDITS.txt" target="_blank" rel="noreferrer">Geographic sources</a></span></div>
+      <button id="enterButton" hidden>Explore A3</button><button id="heroPlan" hidden>Source plan</button>
+    </section>
+    <section id="experience" class="experience hidden" aria-label="Residence explorer">
+      <div class="scene-title"><p class="eyebrow">THE RESIDENCE COLLECTION</p><h1>Room for your <em>next chapter.</em></h1><p>Wing A · Unit 3 <span>3 bedrooms · 3 washrooms</span></p></div>
+      <div class="interior-return"><button id="buildingReturn">← Back to building</button><button id="neighborhoodReturn">Back to Neighborhood</button><button id="skipInterior" hidden>Skip animation</button></div><button id="conceptBadge" class="concept-badge">Brochure-based 3D concept <span>ⓘ</span></button>
+      <div class="scene-tools"><button id="resetButton" class="icon-button" aria-label="Reset camera" title="Reset camera"><svg viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg></button><button id="fullscreenButton" class="icon-button" aria-label="Toggle fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m6 0h5v-5"/></svg></button><button id="motionButton" class="icon-button" aria-label="Toggle reduced motion" title="Reduce motion"><svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h6M4 17h10M17 9l4 3-4 3"/></svg></button></div>
+      <aside id="propertyCard" class="property-card" aria-label="Home details">
+        <button id="cardToggle" class="card-toggle" aria-expanded="true"><span><span class="eyebrow">YOUR SELECTED HOME</span><strong>Unit 3 <span>Wing A</span></strong></span><span class="toggle-symbol">−</span></button>
+        <div class="card-body">
+          <div class="area-grid"><div><strong>2,790 <small>sq ft</small></strong><span>Total SBA</span></div><div><strong>1,873 <small>sq ft</small></strong><span>Total carpet area</span></div></div>
+          <p class="area-source">As listed in the brochure · PDF page 18</p>
+          <div class="section-label">EXPLORE A ROOM <span>Tap to enter</span></div><div id="roomList" class="room-list"></div>
+          <div class="interior-view-options"><div><label for="dollhouseAngle">Dollhouse view</label><select id="dollhouseAngle"><option value="isometric">Isometric</option><option value="top">Top-down</option></select></div><label><input type="checkbox" id="furnishedMode" checked> Show furnishings</label></div><div class="lighting-control"><div class="section-label">SET THE MOOD</div><div class="segmented" id="lightingModes"><button data-light="morning" aria-pressed="false">Morning</button><button data-light="day" aria-pressed="true">Daylight</button><button data-light="sunset" aria-pressed="false">Sunset</button><button data-light="evening" aria-pressed="false">Evening</button></div><p>Illustrative lighting and interior finishes</p></div>
+          <button id="tourButton" class="button burgundy full"><svg viewBox="0 0 24 24"><path d="m9 5 11 7-11 7Z"/></svg>Take a guided tour</button>
+          <div class="secondary-actions"><button id="saveButton">♡ Save home</button><button id="enquiryButton">Create enquiry note</button></div>
+          <p class="inventory-note">Furniture and finishes are illustrative.</p>
+        </div>
+      </aside>
+      <div id="roomCaption" class="room-caption hidden"><p class="eyebrow">SELECTED VIEWPOINT</p><h2 id="roomName">Living room</h2><p id="roomDimensions"></p></div>
+      <div id="walkPad" class="walk-pad hidden" aria-label="Walk controls"><button data-move="forward" aria-label="Move forward">↑</button><div><button data-move="left" aria-label="Move left">←</button><button data-move="back" aria-label="Move backward">↓</button><button data-move="right" aria-label="Move right">→</button></div></div>
+      <div class="bottom-controls"><p id="controlsHint" class="controls-hint">Drag to orbit · Scroll to zoom · Select a room to step inside</p><div class="mode-switch" role="group" aria-label="View mode"><button id="dollhouseButton" class="active" aria-pressed="true"><svg viewBox="0 0 24 24"><path d="m12 3 9 5v9l-9 5-9-5V8Zm0 9 9-4M12 12 3 8m9 4v10"/></svg>Dollhouse</button><button id="walkButton" aria-pressed="false"><svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="2"/><path d="m8 21 3-8-3-3-4 3m7-5 4 5h5m-9 0 5 8m-5-8 2-6"/></svg>Walkthrough</button><button id="planButton" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M3 4h18v16H3Zm8 0v8h10M3 12h8m3 0v8"/></svg>Floor plan</button></div></div>
+      <div class="scene-footer"><span>DESIGNED TO BE EXPLORED</span><span id="sceneStatus">Preparing the 3D home</span></div>
+      <div id="tourBar" class="tour-bar hidden"><span id="tourStep">Your guided tour</span><button id="pauseTour">Pause</button><button id="exitTour">End tour</button></div>
+    </section>
+    <div id="loader" class="loader hidden" role="status"><div class="loader-mark">B</div><h2>Preparing your home</h2><p id="loadMessage">Building a new perspective…</p><button id="loaderPlan" class="button light">View floor plan while it loads</button></div>
+    <div id="fallback" class="fallback hidden"><h2>Explore the floor plan</h2><p>The interactive 3D view is unavailable on this device. The source plan and residence details are still available.</p><button id="fallbackPlan" class="button burgundy">Open source floor plan</button></div>
+  </main>
+  <dialog id="planDialog" class="plan-dialog"><div class="dialog-heading"><div><p class="eyebrow">FROM THE PROJECT BROCHURE · PAGE 18</p><h2>Unit 3 · Wing A</h2></div><button class="close-dialog icon-button" aria-label="Close floor plan">×</button></div><div class="plan-image-wrap"><img src="assets/plan-a3.webp" alt="Brochure floor plan of Unit 3 Wing A showing three bedrooms, living area, dining, family lounge, kitchen, utility, washrooms and expansive deck."></div><div class="plan-footer"><span>2,790 sq ft Total SBA · 1,873 sq ft Total carpet area</span><button id="planExplore" class="button burgundy">Explore in 3D</button></div></dialog>
+  <dialog id="aboutDialog" class="text-dialog"><div class="dialog-heading"><p class="eyebrow">ABOUT THIS EXPERIENCE</p><button class="close-dialog icon-button" aria-label="Close preview information">×</button></div><h2>About the experience</h2><p>Explore the proposed development in Kokapet, then enter a furnished interpretation of a brochure layout.</p><div class="about-facts"><h3>Architecture and plans</h3><p>The masterplan, two wings, amenities and thirteen residence designs come from the developer brochure. The exterior dimensions, floor elevations and furnished interiors are illustrative. The apartment plan shows the brochure’s room dimensions.</p><h3>Surroundings and views</h3><p>Mapped roads, building footprints, elevation samples and satellite imagery form the geographic setting. The balcony outlook is a simulation. Confirm architectural specifications, orientation and views with the developer.</p></div><p class="privacy-note" id="aboutPrivacy">Saved homes and comparisons stay in this browser. You can download an enquiry note to share yourself.</p><p class="privacy-note"><a href="assets/architectural-manifest.json" target="_blank" rel="noreferrer">Architectural sources</a> · <a href="assets/geography/CREDITS.txt" target="_blank" rel="noreferrer">Map and imagery credits</a></p><button class="button burgundy close-dialog">Continue exploring</button></dialog>
+  <dialog id="lifestyleDialog" class="lifestyle-dialog"><div class="dialog-heading"><div><p class="eyebrow">BEYOND YOUR FRONT DOOR</p><h2>Space for a fuller life.</h2></div><button class="close-dialog icon-button" aria-label="Close lifestyle">×</button></div><div id="amenityGallery" class="amenity-gallery"></div><p class="privacy-note">Amenities and images from the supplied brochure. Illustrations are artist’s impressions; confirm current specifications and inclusions with the developer.</p></dialog>
+  <dialog id="enquiryDialog" class="text-dialog"><div class="dialog-heading"><p class="eyebrow">YOUR NEXT CHAPTER</p><button class="close-dialog icon-button" aria-label="Close enquiry note">×</button></div><h2>Keep the conversation<br><em>about your home.</em></h2><p>Prepare a note about <strong data-enquiry-layout>Unit 3 · Wing A</strong> to share with your property advisor.</p><form id="enquiryForm"><label>Your name<input name="name" autocomplete="name" maxlength="100" placeholder="Name" required></label><label>What would you like to know?<textarea name="message" rows="4" maxlength="2000" placeholder="Availability, a particular floor, pricing, finishes…" required></textarea></label><p class="privacy-note">Draft only. Your note is downloaded to your device and is not sent to a sales team or stored by this preview.</p><button class="button burgundy full" type="submit">Download enquiry note</button></form></dialog>
+  <dialog id="estateNavDialog" class="estate-nav-dialog"><div class="panel-top"><h2>Explore Barcelona</h2><button class="plain-icon close-dialog" aria-label="Close navigation"><span data-icon="close"></span></button></div><nav aria-label="All destinations"></nav><button id="previewInfo">About this experience</button></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="estate.js"></script>
+</body>
+</html>

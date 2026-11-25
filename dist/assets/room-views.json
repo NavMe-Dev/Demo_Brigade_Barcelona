@@ -1,13 +1,14 @@
 {
   "status": "illustrative_rendered_still_views",
-  "source_asset": "apartment-a3.glb",
+  "source_asset": "apartment-a3-web.glb",
   "source_pdf_page": 18,
   "notice": "Rendered views of the same brochure-derived concept model; not panoramic or live 3D, not architect-approved, no real exterior views or daylight study.",
   "coordinate_system": "meters, x right, y up, z down plan",
   "lighting": "Soft warm diffuse presentation lighting; not georeferenced sun simulation",
+  "image_processing": "Deterministic small median/bilateral noise reduction; no generative additions",
   "size": [
-    1100,
-    730
+    840,
+    560
   ],
   "views": [
     {
@@ -25,7 +26,7 @@
         1.05,
         6.8
       ],
-      "bytes": 32038
+      "bytes": 22402
     },
     {
       "room_id": "dining",
@@ -42,7 +43,7 @@
         1.04,
         6.94
       ],
-      "bytes": 34244
+      "bytes": 19120
     },
     {
       "room_id": "family-lounge",
@@ -59,7 +60,7 @@
         1.0,
         7.33
       ],
-      "bytes": 19404
+      "bytes": 16364
     },
     {
       "room_id": "primary-bedroom",
@@ -76,7 +77,7 @@
         1.02,
         10.45
       ],
-      "bytes": 24574
+      "bytes": 16290
     },
     {
       "room_id": "bedroom-1",
@@ -93,7 +94,7 @@
         1.0,
         2.18
       ],
-      "bytes": 27018
+      "bytes": 18586
     },
     {
       "room_id": "bedroom-2",
@@ -110,7 +111,7 @@
         1.0,
         2.15
       ],
-      "bytes": 29900
+      "bytes": 18594
     },
     {
       "room_id": "kitchen",
@@ -127,7 +128,7 @@
         1.1,
         10.92
       ],
-      "bytes": 24698
+      "bytes": 15526
     },
     {
       "room_id": "deck",
@@ -144,9 +145,93 @@
         1.0,
         7.28
       ],
-      "bytes": 25638
+      "bytes": 17186
+    },
+    {
+      "room_id": "bathroom-1",
+      "label": "Washroom 1",
+      "node_id": "bath1",
+      "file": "room-bathroom-1.webp",
+      "position": [
+        5.9412,
+        1.6,
+        1.7843
+      ],
+      "look_at": [
+        5.48,
+        0.95,
+        0.52
+      ],
+      "bytes": 10604
+    },
+    {
+      "room_id": "bathroom-2",
+      "label": "Washroom 2",
+      "node_id": "bath2",
+      "file": "room-bathroom-2.webp",
+      "position": [
+        8.0588,
+        1.6,
+        2.2549
+      ],
+      "look_at": [
+        7.91,
+        0.96,
+        1.01
+      ],
+      "bytes": 7192
+    },
+    {
+      "room_id": "primary-bathroom",
+      "label": "Primary washroom",
+      "node_id": "primary-bath",
+      "file": "room-primary-bathroom.webp",
+      "position": [
+        7.549,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        7.04,
+        0.94,
+        9.68
+      ],
+      "bytes": 8536
+    },
+    {
+      "room_id": "closet",
+      "label": "Walk-in closet",
+      "node_id": "closet",
+      "file": "room-closet.webp",
+      "position": [
+        5.6471,
+        1.6,
+        11.1373
+      ],
+      "look_at": [
+        5.93,
+        1.24,
+        10.19
+      ],
+      "bytes": 16620
+    },
+    {
+      "room_id": "utility",
+      "label": "Utility",
+      "node_id": "utility",
+      "file": "room-utility.webp",
+      "position": [
+        9.6667,
+        1.6,
+        11.098
+      ],
+      "look_at": [
+        9.63,
+        0.95,
+        9.67
+      ],
+      "bytes": 6484
     }
   ],
-  "image_processing": "Deterministic small median/bilateral noise reduction; no generative additions",
-  "total_image_bytes": 217514
+  "total_image_bytes": 193504
 }

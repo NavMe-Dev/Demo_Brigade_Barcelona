@@ -1,0 +1,37 @@
+{
+  "source": {
+    "project": "Neopolis Phase III, Kokapet",
+    "plot": 20,
+    "source": "https://www.hmda.gov.in/wp-content/uploads/2020/07/HMDA_Neopolis_Phase-III.pdf",
+    "pdfPage": 22,
+    "table": "Plot coordinates, plot code 20",
+    "vertexOrder": "A to P, then A",
+    "sourceSha256": "bec281c1a210509bad2c99341f43091444c8d203b2ee8e1754c0b56cf0ebdf80"
+  },
+  "modelOriginWGS84": [
+    78.312086932,
+    17.402192529
+  ],
+  "projection": "Local equirectangular meters at origin latitude; adequate for neighborhood-scale context.",
+  "parcelVertices": 16,
+  "derivedAreaSqMApprox": 16440.07,
+  "validPolygon": true,
+  "modelFootprintComponents": 18,
+  "allWingFootprintsWithinParcel": true,
+  "northXZ": [
+    -0.972308952,
+    0.233699171
+  ],
+  "eastXZ": [
+    -0.233699171,
+    -0.972308952
+  ],
+  "rmsRegistrationM": 1.033,
+  "cornerResidualM": {
+    "A": 0.44,
+    "P": 1.05,
+    "O": 1.56,
+    "B": 0.74
+  },
+  "qualification": "Brochure rendering outlines give an indicative siting within the published parcel. Tower set-out and floor elevations require approved architectural drawings."
+}

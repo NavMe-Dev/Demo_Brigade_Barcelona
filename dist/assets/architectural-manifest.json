@@ -1,0 +1,368 @@
+{
+  "project": "Brigade Barcelona, Kokapet",
+  "auditDate": "2026-11-25",
+  "sourceAuthority": "Verified means visible in the cited source. Building setting-out, built condition, contractual specifications and live inventory require separate confirmation.",
+  "sources": {
+    "brochure": {
+      "publisher": "Brigade Group",
+      "title": "Brigade Barcelona digital brochure, 26 pages",
+      "url": "https://d1di04ifehjy6m.cloudfront.net/media/filer_public/1b/7b/1b7b3c68-2058-4f1d-99c4-7cafe84546c5/brigade_barcelona_digital_brochure.pdf",
+      "sha256": "721c1b62b306f79d9ff2fa27a9052448ab016e6335d6acf46f743066a336682e",
+      "reviewedPages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "rights": "Developer marketing artwork. Retain source attribution for the local demonstration; public reuse rights require confirmation."
+    },
+    "developer": {
+      "publisher": "Brigade Group",
+      "url": "https://www.brigadegroup.com/residential/projects/hyderabad/brigade-barcelona",
+      "scope": "4.05 acres, 3 and 4 bed residences, marketing images, indicative masterplan and embedded location map."
+    },
+    "masterplan": {
+      "publisher": "Brigade Group",
+      "url": "https://d1di04ifehjy6m.cloudfront.net/media/filer_public/7f/77/7f777405-eb57-49cc-8e78-82959b6afc44/brigadebarcelonamasterplan.webp",
+      "scope": "Ground-level amenity layout cross-check. Brochure page 7 provides clearer wing outlines."
+    },
+    "providedWebsite": {
+      "url": "https://brigade-neopolis-hyd.com/",
+      "scope": "Reviewed as secondary context. Sales prices and inventory excluded."
+    },
+    "providedRepo": {
+      "url": "https://github.com/NavMe-Dev/Demo_Brigade_Barcelona",
+      "scope": "Local checkout contains brochure-derived A3, 3D navigation, art and model scripts."
+    },
+    "interactionReference": {
+      "url": "https://connectlabs.navme.space/experience",
+      "scope": "Page unavailable to source audit. No assets or UI reproduced.",
+      "recording": "Supplied November 25 screen recording reviewed as the reference for exterior selection, room transitions and filmstrip."
+    },
+    "openstreetmap": {
+      "publisher": "OpenStreetMap contributors",
+      "url": "https://api.openstreetmap.org/api/0.6/map?bbox=78.304,17.394,78.324,17.413",
+      "license": "ODbL-1.0",
+      "derivedDatabase": "geography/kokapet.geojson",
+      "credits": "geography/CREDITS.txt"
+    },
+    "terrain": {
+      "publisher": "Mapzen; global elevation sources credited in CREDITS.txt",
+      "url": "https://registry.opendata.aws/terrain-tiles/",
+      "tileTemplate": "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/13/{x}/{y}.png",
+      "tiles": [
+        [
+          5877,
+          3693
+        ],
+        [
+          5877,
+          3694
+        ],
+        [
+          5878,
+          3693
+        ],
+        [
+          5878,
+          3694
+        ]
+      ],
+      "credits": "geography/CREDITS.txt"
+    },
+    "sentinel": {
+      "publisher": "Copernicus Sentinel-2A",
+      "acquisition": "2025-03-15",
+      "product": "S2A_44QKE_20250315_0_L2A",
+      "asset": "geography/kokapet-color.webp",
+      "credits": "geography/IMAGERY.txt"
+    },
+    "sky": {
+      "publisher": "Poly Haven",
+      "authors": [
+        "Greg Zaal",
+        "Jarod Guest"
+      ],
+      "work": "Kloppenheim 06 (Pure Sky)",
+      "license": "CC0-1.0",
+      "url": "https://polyhaven.com/a/kloppenheim_06_puresky",
+      "credits": "sky-light.LICENSE.txt"
+    },
+    "parcel": {
+      "publisher": "Hyderabad Metropolitan Development Authority",
+      "title": "HMDA Neopolis Phase III",
+      "url": "https://www.hmda.gov.in/wp-content/uploads/2020/07/HMDA_Neopolis_Phase-III.pdf",
+      "pdfPage": 22,
+      "table": "Plot coordinates, Plot Code 20, vertices A–P",
+      "sha256": "bec281c1a210509bad2c99341f43091444c8d203b2ee8e1754c0b56cf0ebdf80",
+      "derivedFile": "geography/plot-20.geojson"
+    },
+    "interactionRecording": {
+      "title": "Local screen recording, 25 November 2026 at 18:43",
+      "durationSeconds": 12.917,
+      "review": "Sampled frames show aerial context, a design selection sheet, furnished interiors and bottom room thumbnails. Used as interaction reference."
+    }
+  },
+  "verified": [
+    {
+      "subject": "Address and floor count",
+      "evidence": "Brochure pages 26 and 3 identify Plot 20, Neopolis Layout, Kokapet, Hyderabad and advertise 52 storeys."
+    },
+    {
+      "subject": "Wings and floor plates",
+      "evidence": "Pages 7 and 15 show a connected T-shaped tower, transverse A wing of seven designs and B wing of six. The typical arrangement is specifically labelled floors 17–20 and 22–26. Floor 12 replaces the A7 bay with a refuge area."
+    },
+    {
+      "subject": "Layout facts",
+      "evidence": "Pages 17–23 provide the 13 plan sheets, bedroom/study configuration, design code and distinct TOTAL SBA and TOTAL CARPET AREA. See brochure-manifest.json. Page 18 identifies A3 at 2,790 and 1,873 square feet respectively. Brochure plans govern the demo where overview ranges differ."
+    },
+    {
+      "subject": "Façade vocabulary",
+      "evidence": "Artist impressions on pages 2, 3, 12 and 23 show recessed windows, tall limestone frames, bands of terracotta, a ventilated podium, glazed balconies and projecting crown cornices."
+    },
+    {
+      "subject": "Outdoor amenities",
+      "evidence": "Page 7 identifies entry, driveway, drop-off, water feature, paths, event lawn, clubhouse access, padel, tennis, pickleball, practice basketball and pet park. Page 9 depicts the eco deck, page 11 the landscaped sky deck and page 12 the clubhouse artist impression with roof pool."
+    },
+    {
+      "subject": "Geographic evidence",
+      "evidence": "HMDA Plot 20 WGS84 coordinate table, brochure parcel/wing plan, clipped OpenStreetMap roads/buildings/lakes, March 2025 Sentinel imagery and gridded elevation. Kokapet Lake, Osman Sagar and Outer Ring Road are named in the OSM extract."
+    }
+  ],
+  "illustrative": [
+    {
+      "subject": "Exterior and masterplan",
+      "files": [
+        "brigade-barcelona.glb",
+        "exterior-lod.glb",
+        "wing-a.glb",
+        "wing-b.glb",
+        "podium.glb",
+        "landscape.glb",
+        "eco-deck.glb",
+        "sky-deck.glb",
+        "clubhouse.glb",
+        "clubhouse-studies.glb",
+        "scene-map.json",
+        "../../models/masterplan.blend",
+        "../../models/architecture",
+        "../../scripts/generate_exterior.py"
+      ],
+      "basis": "Hand traces of pages 7, 9, 11 and 15. The published Plot 20 vertices set the site outline. The façade profile uses nominal 15 m podium, open Eco level, 3.05 m module, and stepped crowns. The taller conceptual wing reaches the 52-storey silhouette described on page 3; per-wing band counts and elevations are illustrative. Floor 12 has an A7 refuge opening. Seven club levels and the rooftop pool follow pages 3 and 12. Club interiors are unlocated studies; room placement and tower setting-out remain indicative."
+    },
+    {
+      "subject": "A3 furnished apartment",
+      "files": [
+        "apartment-a3.glb",
+        "apartment-a3-web.glb",
+        "apartment-geometry.json",
+        "room-views.json"
+      ],
+      "basis": "Plan trace from brochure page 18. Materials, ceiling heights, furniture, fixtures, lighting and clearance approximations are design interpretation. Room stills support non-WebGL browsers."
+    },
+    {
+      "subject": "Development placement",
+      "basis": "The source-plan trace is registered to HMDA Plot 20 with a rigid four-corner fit (A, P, O, B) and 1.033 m RMS corner residual. Origin 17.402192529 N, 78.312086932 E. The lawn boundary follows the 16 published vertices. Model axes and residuals appear in scene-map.json. Tower setting-out, floor height, eye position and actual balcony views remain approximate."
+    },
+    {
+      "subject": "Neighborhood representation",
+      "files": [
+        "neighborhood.glb",
+        "geography/kokapet.geojson",
+        "geography/terrain-grid.json",
+        "geography/landmarks.json",
+        "geography/kokapet-color.webp",
+        "geography/hyderabad-region.webp"
+      ],
+      "basis": "Community-mapped features clipped to the documented WGS84 bounding box. Heights are estimated from footprint area. Single line roads use representative widths and map layer values. Roadside planting is representative. Terrain comes from the 40 m sampled grid with a locally leveled building pad. Imagery records land cover in March 2025."
+    },
+    {
+      "subject": "Geographic lighting presets",
+      "files": [
+        "sky-light.hdr",
+        "sky-light.LICENSE.txt",
+        "../solar.js"
+      ],
+      "basis": "Representative licensed HDR reflections and four lighting simulations use the registered axes, latitude and longitude on an equinox day. A construction daylight or verified outlook study is unavailable."
+    },
+    {
+      "subject": "Residence collection",
+      "sourcePages": [
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "verification": "Brochure-registered furnished interpretations",
+      "files": [
+        "../data/unit-layouts.json",
+        "apartments/",
+        "../../models/apartments",
+        "../../scripts/architectural"
+      ],
+      "basis": "Each of the remaining twelve apartments has an independent metric trace and model, a room-by-room navigation graph, its own stills and an editable Blender master. Furniture, wall elevations, finishes and glazing are illustrative."
+    }
+  ],
+  "sourceArtwork": [
+    {
+      "files": [
+        "plans/typical.webp",
+        "plans/refuge.webp"
+      ],
+      "page": 15,
+      "description": "Separate source drawings for the two published floor regimes."
+    },
+    {
+      "files": [
+        "plans/A1.webp",
+        "plans/A2.webp",
+        "plans/A3.webp",
+        "plans/A4.webp",
+        "plans/A5.webp",
+        "plans/A6.webp",
+        "plans/A7.webp",
+        "plans/B8.webp",
+        "plans/B9.webp",
+        "plans/B10.webp",
+        "plans/B11.webp",
+        "plans/B12.webp",
+        "plans/B14.webp"
+      ],
+      "pages": "17–23",
+      "description": "Each file contains its corresponding brochure plan, area labels and key plan."
+    },
+    {
+      "files": [
+        "project-exterior.webp",
+        "project-exterior-mobile.webp"
+      ],
+      "page": 2,
+      "description": "Original project artist impression."
+    },
+    {
+      "files": [
+        "plan-a3.webp",
+        "plan-a3-with-details.webp"
+      ],
+      "page": 18,
+      "description": "A3 source sheet crops."
+    },
+    {
+      "files": [
+        "clubhouse.webp",
+        "landscape.webp",
+        "sky-deck.webp"
+      ],
+      "description": "Existing developer brochure artwork, indicative visualisations."
+    },
+    {
+      "files": [
+        "brochure/masterplan.webp",
+        "brochure/eco-deck-plan.webp",
+        "brochure/sky-deck-plan.webp",
+        "brochure/eco-terrace.webp",
+        "brochure/sky-terrace.webp",
+        "brochure/club-terrace.webp",
+        "brochure/facade-crown.webp",
+        "brochure/podium-colonnade.webp",
+        "brochure/location-reference.webp",
+        "branding/brigade-barcelona.png"
+      ],
+      "pages": [
+        1,
+        3,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "description": "Cropped source artwork and printed plans. Printed feature points and their registered local positions are in amenity-plans.json."
+    }
+  ],
+  "missing": [
+    {
+      "subject": "Building setting-out",
+      "needed": "Georeferenced approved tower footprint and finished-floor elevations on the surveyed parcel, construction control points and architectural sections."
+    },
+    {
+      "subject": "Construction geometry",
+      "needed": "Approved CAD/BIM, elevations/sections, all-floor plans, measured podium and storey heights, exact façade, structural/services packages, fit-out and lighting schedules."
+    },
+    {
+      "subject": "Tower inventory",
+      "needed": "Authoritative floor-by-floor unit schedule, sellable IDs, prices, availability, publication approvals and commercial data feeds."
+    },
+    {
+      "subject": "Context and view",
+      "needed": "Architect-reviewed orientation and observer coordinates, as-built neighboring heights and current on-site panorama."
+    },
+    {
+      "subject": "Publication",
+      "needed": "Owner approval for architecture, images, model, public sales claims and distribution rights."
+    }
+  ],
+  "brochureExtraction": {
+    "pagesReviewed": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "materials": "material-specifications.json",
+    "registeredAmenityPlans": "amenity-plans.json",
+    "pdfToSourceAssets": "../../scripts/extract_architecture.py",
+    "report": "../../docs/BROCHURE_EXTRACTION_REPORT.md",
+    "coverMark": "branding/brigade-barcelona.png"
+  }
+}

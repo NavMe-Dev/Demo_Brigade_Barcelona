@@ -1,0 +1,274 @@
+{
+  "tested": "2026-11-25",
+  "scope": "Current public buyer experience on macOS. Phones and tablets are viewport or touch emulations.",
+  "firefox": {
+    "engine": "Gecko",
+    "browser": "Playwright Firefox 159.0",
+    "profiles": [
+      {
+        "viewport": [
+          1920,
+          1080
+        ],
+        "input": "mouse",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 562927,
+          "drawCalls": 188,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 93232,
+          "drawCalls": 27,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      },
+      {
+        "viewport": [
+          360,
+          800
+        ],
+        "input": "emulated touch tap",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 157301,
+          "drawCalls": 93,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 92284,
+          "drawCalls": 25,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      },
+      {
+        "viewport": [
+          390,
+          844
+        ],
+        "input": "emulated touch tap",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 157301,
+          "drawCalls": 93,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 92284,
+          "drawCalls": 25,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      },
+      {
+        "viewport": [
+          430,
+          932
+        ],
+        "input": "emulated touch tap",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 157301,
+          "drawCalls": 93,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 92284,
+          "drawCalls": 25,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      },
+      {
+        "viewport": [
+          820,
+          1180
+        ],
+        "input": "emulated touch tap",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 559271,
+          "drawCalls": 156,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 93228,
+          "drawCalls": 26,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      },
+      {
+        "viewport": [
+          1180,
+          820
+        ],
+        "input": "emulated touch tap",
+        "exteriorDeepLink": "Wing A, floor 17, evening",
+        "selectedFloor": 18,
+        "collapsedAndReopened": true,
+        "noHorizontalOverflow": true,
+        "exterior": {
+          "wing": "A",
+          "floor": 18,
+          "webgl2": true,
+          "gpu": "Apple M1, or similar",
+          "triangles": 562747,
+          "drawCalls": 184,
+          "contextLoaded": true
+        },
+        "interiorDeepLink": "Walk → kitchen",
+        "interior": {
+          "room": "Kitchen",
+          "webgl2": true,
+          "triangles": 93232,
+          "drawCalls": 27,
+          "fallback": false
+        },
+        "sourcePlanOpened": true,
+        "ecoEyeCamera": [
+          -34.113166666666665,
+          16.68,
+          5.177000000000002
+        ],
+        "pageErrors": []
+      }
+    ]
+  },
+  "webkit": {
+    "amenity": {
+      "drawCalls": 27,
+      "eyeCamera": [
+        -0.1406249999999995,
+        180.07,
+        7.838499999999996
+      ],
+      "selected": "sky-deck-14",
+      "triangles": 107094,
+      "walk": true
+    },
+    "exterior": {
+      "canvasSize": [
+        390,
+        844
+      ],
+      "collapsed": true,
+      "drawCalls": 100,
+      "evening": "evening",
+      "gpu": "WebKit WebGL",
+      "height": 844,
+      "noOverflow": true,
+      "reopened": true,
+      "selectedFloor": "true",
+      "status": "Live 3D · Concept exterior",
+      "title": "Wing A",
+      "triangles": 168025,
+      "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+      "url": "?scene=towers&wing=A&floor=17&light=evening",
+      "webgl2": true,
+      "width": 390
+    },
+    "interior": {
+      "drawCalls": 41,
+      "fallback": false,
+      "planOpened": true,
+      "room": "Kitchen",
+      "status": "Wing A · Design A3 · Concept model",
+      "triangles": 96040,
+      "url": "?layout=A3&view=walk&design=A3&room=kitchen",
+      "webgl2": true
+    },
+    "runtime": "System WKWebView",
+    "frameworkVersion": "19617.2.4.11.8",
+    "installedSafari": "17.3",
+    "safariApplicationAutomation": "Safari WebDriver requires configuration on this Mac. Remote automation was left disabled."
+  },
+  "physicalDevices": {
+    "USB": "system_profiler reported three USB 3.1 buses and no attached phone or tablet.",
+    "tools": "Android adb, iOS devicectl and idevice_id are unavailable.",
+    "physicalAndroid": "Unverified",
+    "physicalIOS": "Unverified"
+  }
+}

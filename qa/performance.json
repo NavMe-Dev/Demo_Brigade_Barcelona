@@ -1,0 +1,52 @@
+{
+  "browser": "158.0.8127.37",
+  "date": "2026-11-25T15:11:24.229Z",
+  "network": {
+    "downloadMbps": 20,
+    "uploadMbps": 5,
+    "latencyMs": 40,
+    "coldCache": true
+  },
+  "trials": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "dpr": 1,
+      "mobile": false,
+      "uiMs": 1659,
+      "exteriorMs": 1707,
+      "frames": {
+        "seconds": 4.52,
+        "frames": 271,
+        "fps": 60,
+        "pixelRatio": 1,
+        "drawCalls": 204,
+        "triangles": 567835,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+        "detail": "full"
+      },
+      "transferredBytes": 6884471,
+      "requestedApartmentModels": 0
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "mobile": true,
+      "uiMs": 1620,
+      "exteriorMs": 1668,
+      "frames": {
+        "seconds": 4.51,
+        "frames": 271,
+        "fps": 60.1,
+        "pixelRatio": 1.35,
+        "drawCalls": 110,
+        "triangles": 159601,
+        "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+        "detail": "low"
+      },
+      "transferredBytes": 6088693,
+      "requestedApartmentModels": 0
+    }
+  ]
+}

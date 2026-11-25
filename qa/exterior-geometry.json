@@ -1,0 +1,85 @@
+{
+  "checked": "2026-11-25",
+  "method": "Standalone live Three.js loader and WebGL2 renderer. Camera at [190,149,310] in a 1100 x 840 viewport. Timings include local fetch, WASM decode and scene graph creation.",
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36",
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "models": {
+    "exterior": {
+      "decodeAndLoadMs": 28,
+      "wings": {
+        "A": [
+          [
+            -39.4257812,
+            15,
+            -37.6757812
+          ],
+          [
+            41.1757812,
+            159.671875,
+            -1.32501221
+          ]
+        ],
+        "B": [
+          [
+            -20.6748047,
+            15,
+            -3.42504883
+          ],
+          [
+            21.1748047,
+            177.976562,
+            50.4257812
+          ]
+        ]
+      },
+      "instancedObjects": 39,
+      "drawCallsInView": 191,
+      "trianglesInView": 504685,
+      "bytes": 743332,
+      "sha256": "cf87228794b069f403bd29e5e21d5a0f1934f9d04814e41d431807547e3d4f5c"
+    },
+    "exterior-lod": {
+      "decodeAndLoadMs": 16,
+      "wings": {
+        "A": [
+          [
+            -39.4257812,
+            15,
+            -37.6757812
+          ],
+          [
+            41.1757812,
+            159.671875,
+            -1.32501221
+          ]
+        ],
+        "B": [
+          [
+            -20.6748047,
+            15,
+            -3.42504883
+          ],
+          [
+            21.1748047,
+            177.976562,
+            50.4257812
+          ]
+        ]
+      },
+      "instancedObjects": 19,
+      "drawCallsInView": 77,
+      "trianglesInView": 101203,
+      "bytes": 514164,
+      "sha256": "0a3539fa188564925477d52f92009419b60ce050027b229a33bc31045d483b35"
+    },
+    "neighborhood": {
+      "decodeAndLoadMs": 6,
+      "wings": {},
+      "instancedObjects": 2,
+      "drawCallsInView": 8,
+      "trianglesInView": 66912,
+      "bytes": 311016,
+      "sha256": "6d6cf49f549714daf5c72e15a423e1c93cdddd34ff05fdf0e6d5bc21e25acb91"
+    }
+  }
+}

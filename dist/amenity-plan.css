@@ -1,0 +1,28 @@
+.amenity-atlas{display:grid;gap:.7rem;min-width:0;clear:both}
+.amenity-atlas button,.building-plan-dialog button{font:inherit;cursor:pointer}
+.amenity-tablist,.amenity-actions{display:flex;gap:.32rem;flex-wrap:wrap}
+.amenity-tablist button,.amenity-actions button,.building-plan-dialog button,.amenity-expand{background:#fffcf5;color:#512c22;border:1px solid #c8bba8;border-radius:18px;padding:.43rem .66rem;font:500 .75rem/1.2 system-ui,sans-serif}
+.amenity-tablist button[aria-pressed=true],.amenity-actions button:hover{background:#681712;color:#fff6e6;border-color:#681712}
+.amenity-map-frame{position:relative;margin:0 auto;max-width:100%}
+.amenity-plate{position:relative;line-height:0;isolation:isolate;width:max-content;max-width:100%;margin:auto;overflow:hidden;border:1px solid #d5c8b3;border-radius:5px}
+.amenity-plate>img{display:block;height:auto;width:auto;max-width:100%;max-height:330px}
+.amenity-atlas .amenity-point,.building-plan-dialog .amenity-point{position:absolute;transform:translate(-50%,-50%);width:13px;height:13px;min-width:0;min-height:0;border-radius:50%;border:1px solid #fff8e6;background:#563529;color:#fff;font:700 8px/1 system-ui;padding:0;letter-spacing:0;display:grid;place-items:center}
+.amenity-point::after{content:"";position:absolute;inset:-3px;border-radius:50%}
+.amenity-atlas .amenity-point[aria-pressed=true],.building-plan-dialog .amenity-point[aria-pressed=true]{background:#8d281d;outline:2px solid #f7d58d;z-index:2;transform:translate(-50%,-50%) scale(1.4)}
+.amenity-atlas .amenity-expand{position:absolute;right:4px;bottom:4px;padding:.3rem .55rem;box-shadow:0 1px 5px #39312738}
+.amenity-atlas label{margin-top:.3rem;font:.71rem/1.2 system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.amenity-atlas select{font:inherit;min-height:42px;max-width:100%}
+.amenity-feature-title{font:1.15rem/1.25 Georgia,serif;margin:0;color:#52211c}
+.amenity-source-note{font:.75rem/1.5 system-ui,sans-serif;color:#675d51;margin:0}
+.amenity-club-art{width:100%;max-height:215px;object-fit:cover;border-radius:4px}
+.building-plan-dialog{width:min(780px,94vw);max-width:94vw;max-height:92dvh;padding:.9rem;background:#f8f3e9;color:#302722;border:1px solid #bc9f75;border-radius:10px;overflow:auto;box-shadow:0 12px 55px #241c2080}
+.building-plan-dialog::backdrop{background:#28201cd6}
+.building-plan-dialog>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:.7rem;margin-bottom:.55rem}
+.building-plan-dialog h2{font:1.45rem/1.25 Georgia,serif;margin:0}
+.building-plan-dialog .amenity-plate>img{max-height:74dvh}
+.building-plan-dialog .amenity-point{width:19px;height:19px;font-size:10px}
+.club-study-viewport{height:min(60vh,480px);width:100%;background:#e9ddc9;border-radius:5px;overflow:hidden}
+.club-study-dialog p{font:.8rem/1.4 system-ui,sans-serif}
+@media(max-width:700px){.amenity-plate>img{max-height:214px}.amenity-tablist button,.amenity-actions button{min-height:36px}.building-plan-dialog .amenity-point{width:15px;height:15px}}
+.amenity-walk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.3rem;padding:.35rem;background:#ebe2d2;border-radius:7px}
+.amenity-walk button{min-height:34px;border:1px solid #ccbdab;border-radius:5px;background:#f9f4eb;color:#4d3027;font:500 .75rem system-ui,sans-serif}

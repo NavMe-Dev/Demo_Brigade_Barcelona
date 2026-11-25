@@ -1,0 +1,566 @@
+{
+  "stage": "after",
+  "url": "http://127.0.0.1:5173/experience/",
+  "browser": "158.0.8127.37",
+  "date": "2026-11-25T15:46:01.763Z",
+  "captures": [
+    {
+      "file": "after-desktop-wide.webp",
+      "pose": "wide",
+      "position": [
+        475,
+        335,
+        540
+      ],
+      "target": [
+        0,
+        20,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          474.99999999999994,
+          334.99999999999994,
+          540
+        ],
+        "target": [
+          0,
+          20,
+          0
+        ],
+        "pixelRatio": 1,
+        "triangles": 338014,
+        "drawCalls": 192,
+        "geometries": 203,
+        "textures": 16,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 13,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 9,
+            "loading": 0,
+            "textures": 11,
+            "estimatedTextureBytes": 4811627
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 70,
+            "cachedTiles": 70,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 5461,
+            "distantTiles": 32,
+            "residentBytes": 8795808,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "after-desktop-overview.webp",
+      "pose": "overview",
+      "position": [
+        183,
+        152,
+        298
+      ],
+      "target": [
+        0,
+        80,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          183,
+          152,
+          298
+        ],
+        "target": [
+          0,
+          80,
+          0
+        ],
+        "pixelRatio": 1,
+        "triangles": 749296,
+        "drawCalls": 304,
+        "geometries": 404,
+        "textures": 16,
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 16,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 9,
+            "loading": 0,
+            "textures": 11,
+            "estimatedTextureBytes": 4811627
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 70,
+            "cachedTiles": 81,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 6224,
+            "distantTiles": 32,
+            "residentBytes": 10251216,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "after-desktop-context.webp",
+      "pose": "context",
+      "position": [
+        135,
+        104,
+        145
+      ],
+      "target": [
+        310,
+        0,
+        410
+      ],
+      "metrics": {
+        "camera": [
+          135.00000000000003,
+          104,
+          145
+        ],
+        "target": [
+          310,
+          0,
+          410.00000000000006
+        ],
+        "pixelRatio": 1,
+        "triangles": 126097,
+        "drawCalls": 75,
+        "geometries": 448,
+        "textures": 16,
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 21,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 9,
+            "loading": 0,
+            "textures": 11,
+            "estimatedTextureBytes": 4811627
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 37,
+            "cachedTiles": 92,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 1389,
+            "distantTiles": 16,
+            "residentBytes": 9885276,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        1920,
+        1080
+      ],
+      "buffer": [
+        1920,
+        1080
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 1920,
+        "fullHeight": 1080,
+        "offsetX": -297.6,
+        "offsetY": 0,
+        "width": 1920,
+        "height": 1080
+      },
+      "fov": 43
+    },
+    {
+      "file": "after-phone-wide.webp",
+      "pose": "wide",
+      "position": [
+        475,
+        335,
+        540
+      ],
+      "target": [
+        0,
+        20,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          474.99999999999994,
+          334.99999999999994,
+          540
+        ],
+        "target": [
+          0,
+          20,
+          0
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 198815,
+        "drawCalls": 127,
+        "geometries": 138,
+        "textures": 13,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 9,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 22,
+            "cachedTiles": 22,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 937,
+            "distantTiles": 14,
+            "residentBytes": 1743168,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    },
+    {
+      "file": "after-phone-overview.webp",
+      "pose": "overview",
+      "position": [
+        218,
+        165,
+        345
+      ],
+      "target": [
+        0,
+        81,
+        0
+      ],
+      "metrics": {
+        "camera": [
+          218,
+          165,
+          345
+        ],
+        "target": [
+          0,
+          81,
+          0
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 206442,
+        "drawCalls": 131,
+        "geometries": 147,
+        "textures": 13,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 11,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 26,
+            "cachedTiles": 29,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 1149,
+            "distantTiles": 18,
+            "residentBytes": 2489052,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    },
+    {
+      "file": "after-phone-context.webp",
+      "pose": "context",
+      "position": [
+        135,
+        104,
+        145
+      ],
+      "target": [
+        310,
+        0,
+        410
+      ],
+      "metrics": {
+        "camera": [
+          135.00000000000003,
+          104,
+          145
+        ],
+        "target": [
+          310,
+          0,
+          410.00000000000006
+        ],
+        "pixelRatio": 1.35,
+        "triangles": 85048,
+        "drawCalls": 42,
+        "geometries": 182,
+        "textures": 13,
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 14,
+        "mood": "day",
+        "solarDirection": [
+          0.3302303728895583,
+          0.9407126683998457,
+          0.07750855651645969
+        ],
+        "wing": null,
+        "geographicContext": true,
+        "imagery": true,
+        "gis": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "day",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 15,
+            "cachedTiles": 42,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 718,
+            "distantTiles": 9,
+            "residentBytes": 3236574,
+            "failures": 0
+          }
+        }
+      },
+      "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+      "viewport": [
+        390,
+        844
+      ],
+      "buffer": [
+        526,
+        1139
+      ],
+      "view": {
+        "enabled": true,
+        "fullWidth": 390,
+        "fullHeight": 844,
+        "offsetX": 0,
+        "offsetY": 109.72,
+        "width": 390,
+        "height": 844
+      },
+      "fov": 52
+    }
+  ]
+}

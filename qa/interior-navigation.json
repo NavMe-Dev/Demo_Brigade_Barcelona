@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "nodes": 29,
+  "directedRoutesIncludingIdentity": 841,
+  "capsuleRadiusMetres": 0.17,
+  "furnitureBoxes": 270,
+  "checks": [
+    "All authored points and each segment of every directed graph route are collision-free.",
+    "The partial sliding-glass panel blocks movement and its clear opening admits the camera.",
+    "The deck rail and a point outside the footprint block movement."
+  ]
+}

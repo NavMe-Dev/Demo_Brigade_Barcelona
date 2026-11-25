@@ -1,15 +1,113 @@
 // Plan-space navigation for this concept. Production scenes should use a reviewed navmesh.
-export function pointSegmentDistance(p,a,b){const dx=b[0]-a[0],dz=b[1]-a[1],l=dx*dx+dz*dz;const t=l?Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dz)/l)):0;return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dz);}
-export function insidePolygon(p,poly){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const a=poly[i],b=poly[j];if(((a[1]>p[1])!==(b[1]>p[1]))&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))inside=!inside;}return inside;}
-export function makeNavigator(geometry,colliderData=[]){
-  const radius=.17,boxes=Array.isArray(colliderData)?colliderData:(colliderData.boxes||[]);
-  const walls=geometry.walls.filter(w=>(w.base_y_m||0)<1.65&&w.height_m+(w.base_y_m||0)>.25);
-  const nodes=new Map(geometry.navigation_nodes.map(n=>[n.id,n]));
-  const adjacency=new Map([...nodes.keys()].map(k=>[k,[]]));
-  for(const e of geometry.navigation_edges){const a=nodes.get(e.a),b=nodes.get(e.b);if(!a||!b)continue;const cost=Math.hypot(a.position[0]-b.position[0],a.position[2]-b.position[2]);adjacency.get(e.a).push({id:e.b,cost});if(e.bidirectional!==false)adjacency.get(e.b).push({id:e.a,cost});}
-  function canStand(x,z,r=radius){if(!insidePolygon([x,z],geometry.outline))return false;for(const w of walls)if(pointSegmentDistance([x,z],w.a,w.b)<r+(w.thickness_m||.18)/2)return false;for(const b of boxes){if(b.min[1]>1.65||b.max[1]<.18)continue;if(x>b.min[0]-r&&x<b.max[0]+r&&z>b.min[2]-r&&z<b.max[2]+r)return false;}for(const rail of geometry.railings||[])if(pointSegmentDistance([x,z],rail.a,rail.b)<r+.05)return false;return true;}
-  function lineClear(a,b){const len=Math.hypot(a[0]-b[0],a[2]-b[2]),n=Math.max(2,Math.ceil(len/.08));for(let i=0;i<=n;i++){const t=i/n;if(!canStand(a[0]+(b[0]-a[0])*t,a[2]+(b[2]-a[2])*t))return false;}return true;}
-  function nearest(position,visible=true){let best=null,d=Infinity;for(const n of nodes.values()){const dist=Math.hypot(position[0]-n.position[0],position[2]-n.position[2]);if(dist<d&&(!visible||lineClear(position,n.position))){best=n;d=dist;}}return best;}
-  function route(position,targetId){const target=nodes.get(targetId);if(!target)return null;if(lineClear(position,target.position))return [position,target.position];const start=nearest(position);if(!start)return null;const dist=new Map([...nodes.keys()].map(x=>[x,Infinity])),prev=new Map(),open=new Set(nodes.keys());dist.set(start.id,0);while(open.size){let best=null,cost=Infinity;for(const k of open)if(dist.get(k)<cost){best=k;cost=dist.get(k);}if(best===null)break;open.delete(best);if(best===targetId)break;for(const e of adjacency.get(best)){const c=cost+e.cost;if(c<dist.get(e.id)){dist.set(e.id,c);prev.set(e.id,best);}}}if(!Number.isFinite(dist.get(targetId)))return null;const ids=[targetId];while(ids[0]!==start.id){const p=prev.get(ids[0]);if(!p)return null;ids.unshift(p);}return [position,...ids.map(k=>nodes.get(k).position)];}
-  return {nodes,canStand,lineClear,route,nearest,radius};
+export function pointSegmentDistance(p, a, b) {
+  const dx = b[0] - a[0],
+    dz = b[1] - a[1],
+    l = dx * dx + dz * dz;
+  const t = l ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dz) / l)) : 0;
+  return Math.hypot(p[0] - a[0] - t * dx, p[1] - a[1] - t * dz);
+}
+export function insidePolygon(p, poly) {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const a = poly[i],
+      b = poly[j];
+    if (a[1] > p[1] !== b[1] > p[1] && p[0] < ((b[0] - a[0]) * (p[1] - a[1])) / (b[1] - a[1]) + a[0])
+      inside = !inside;
+  }
+  return inside;
+}
+export function makeNavigator(geometry, colliderData = []) {
+  const radius = 0.17,
+    boxes = Array.isArray(colliderData) ? colliderData : colliderData.boxes || [];
+  const walls = geometry.walls.filter(
+    (w) => (w.base_y_m || 0) < 1.65 && w.height_m + (w.base_y_m || 0) > 0.25,
+  );
+  const barriers = [...(geometry.railings || [])];
+  for (const opening of geometry.openings || []) {
+    if (opening.type !== 'sliding_door') continue;
+    const { a, b } = opening;
+    barriers.push({ a, b: [a[0] + 0.2 * (b[0] - a[0]), a[1] + 0.2 * (b[1] - a[1])] });
+  }
+  const nodes = new Map(geometry.navigation_nodes.map((n) => [n.id, n]));
+  const adjacency = new Map([...nodes.keys()].map((k) => [k, []]));
+  for (const e of geometry.navigation_edges) {
+    const a = nodes.get(e.a),
+      b = nodes.get(e.b);
+    if (!a || !b) continue;
+    const cost = Math.hypot(a.position[0] - b.position[0], a.position[2] - b.position[2]);
+    adjacency.get(e.a).push({ id: e.b, cost });
+    if (e.bidirectional !== false) adjacency.get(e.b).push({ id: e.a, cost });
+  }
+  function canStand(x, z, r = radius) {
+    if (!insidePolygon([x, z], geometry.outline)) return false;
+    for (const w of walls)
+      if (pointSegmentDistance([x, z], w.a, w.b) < r + (w.thickness_m || 0.18) / 2) return false;
+    for (const b of boxes) {
+      if (b.min[1] > 1.65 || b.max[1] < 0.18) continue;
+      if (x > b.min[0] - r && x < b.max[0] + r && z > b.min[2] - r && z < b.max[2] + r) return false;
+    }
+    for (const rail of barriers)
+      if (pointSegmentDistance([x, z], rail.a, rail.b) < r + 0.05) return false;
+    return true;
+  }
+  function lineClear(a, b) {
+    const len = Math.hypot(a[0] - b[0], a[2] - b[2]),
+      n = Math.max(2, Math.ceil(len / 0.08));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      if (!canStand(a[0] + (b[0] - a[0]) * t, a[2] + (b[2] - a[2]) * t)) return false;
+    }
+    return true;
+  }
+  function nearest(position, visible = true) {
+    let best = null,
+      d = Infinity;
+    for (const n of nodes.values()) {
+      const dist = Math.hypot(position[0] - n.position[0], position[2] - n.position[2]);
+      if (dist < d && (!visible || lineClear(position, n.position))) {
+        best = n;
+        d = dist;
+      }
+    }
+    return best;
+  }
+  function route(position, targetId) {
+    const target = nodes.get(targetId);
+    if (!target) return null;
+    if (lineClear(position, target.position)) return [position, target.position];
+    const start = nearest(position);
+    if (!start) return null;
+    const dist = new Map([...nodes.keys()].map((x) => [x, Infinity])),
+      prev = new Map(),
+      open = new Set(nodes.keys());
+    dist.set(start.id, 0);
+    while (open.size) {
+      let best = null,
+        cost = Infinity;
+      for (const k of open)
+        if (dist.get(k) < cost) {
+          best = k;
+          cost = dist.get(k);
+        }
+      if (best === null) break;
+      open.delete(best);
+      if (best === targetId) break;
+      for (const e of adjacency.get(best)) {
+        const c = cost + e.cost;
+        if (c < dist.get(e.id)) {
+          dist.set(e.id, c);
+          prev.set(e.id, best);
+        }
+      }
+    }
+    if (!Number.isFinite(dist.get(targetId))) return null;
+    const ids = [targetId];
+    while (ids[0] !== start.id) {
+      const p = prev.get(ids[0]);
+      if (!p) return null;
+      ids.unshift(p);
+    }
+    return [position, ...ids.map((k) => nodes.get(k).position)];
+  }
+  return { nodes, canStand, lineClear, route, nearest, radius };
 }

@@ -1,0 +1,15 @@
+Contains modified Copernicus Sentinel data (2025).
+
+Sentinel‑2A L2A true-colour imagery, acquisition 15 March 2025, tile 44QKE, product S2A_44QKE_20250315_0_L2A. The registered 12.8 km project crop has 10 m sample spacing. Its progressive display assets are a 40 m overview and 25 original-resolution crops in sentinel/. Each 256 × 256 detail interior has one source-pixel gutter on each side. Beyond that crop the registered regional optical layer is sampled at 32 m through the edge of the local DEM. The wider location map uses the regional raster. Structures may have changed since acquisition.
+
+Optical product and access
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/44/Q/KE/2025/3/S2A_44QKE_20250315_0_L2A/TCI.tif
+https://registry.opendata.aws/sentinel-2-l2a-cogs/
+https://dataspace.copernicus.eu/terms-and-conditions
+
+Rebuild scripts in the source bundle
+scripts/prepare_satellite.py · registered native 10 m crop
+scripts/prepare_city.py · georeferenced regional crop
+scripts/prepare_imagery_tiles.py · progressive optical tiles and terrain horizon
+
+Optional online imagery is provided separately by Esri under the app operator’s commercial entitlement. Its contributor attribution is displayed in the scene. The included posters and published optical files are derived from the open imagery source. See CREDITS.txt.

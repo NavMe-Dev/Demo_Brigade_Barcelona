@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "checkedPolygons": 23520,
+  "courtyards": 28,
+  "invalid": 0,
+  "parcelIntersections": 0,
+  "constructionMasksIntersected": 0,
+  "geometryDuplicates": 0,
+  "nearDuplicates": 0,
+  "coverageSqKm": 3.7939,
+  "method": "Read shipped BBF1 rings. Reconstruct polygons, check topology, intersect parcel and lifecycle masks, compare normalized polygon hashes and scan spatially for overlaps of >84% of smaller plus >61% of larger footprint."
+}

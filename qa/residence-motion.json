@@ -1,0 +1,14 @@
+{
+  "browser": "158.0.8127.37",
+  "layout": "B10",
+  "sharedRoom": "bedroom-1",
+  "arrivalDurationMs": 7261,
+  "entryEyeLevelSamples": 342,
+  "reverseEyeLevelSamples": 116,
+  "collisionFree": true,
+  "clickToMove": true,
+  "completeReverse": true,
+  "skipToRequestedRoom": true,
+  "skipReverse": true,
+  "pageErrors": []
+}

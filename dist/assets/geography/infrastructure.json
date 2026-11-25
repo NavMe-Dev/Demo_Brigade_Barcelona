@@ -1,0 +1,45 @@
+{
+  "format": "BBI1",
+  "scaleM": 0.25,
+  "categories": [
+    "arterial",
+    "street",
+    "service",
+    "path",
+    "water",
+    "green",
+    "construction",
+    "tree"
+  ],
+  "radiusM": 5000,
+  "featureCounts": {
+    "tree": 74,
+    "water": 27,
+    "arterial": 523,
+    "service": 1140,
+    "street": 2268,
+    "path": 297,
+    "green": 86,
+    "construction": 89
+  },
+  "excluded": {
+    "gradeSeparatedOrPlanned": 112
+  },
+  "bytes": 96860,
+  "timestampUTC": "2026-11-25T15:28:07Z",
+  "source": "OpenStreetMap via Overpass; ODbL 1.0",
+  "query": "[out:json][timeout:100];(way[\"highway\"~\"^(motorway|trunk|primary|secondary|tertiary|residential|unclassified|service|footway|cycleway|path)$\"](17.354,78.262,17.451,78.364);way[\"natural\"~\"^(water|wood|wetland|scrub)$\"](17.354,78.262,17.451,78.364);way[\"landuse\"~\"^(forest|construction|grass|meadow|orchard)$\"](17.354,78.262,17.451,78.364);relation[\"natural\"=\"water\"](17.354,78.262,17.451,78.364);node[\"natural\"=\"tree\"](17.354,78.262,17.451,78.364););out geom;",
+  "streetCamera": {
+    "osmWay": 1183681598,
+    "roadClass": "tertiary",
+    "localXZ": [
+      -46.193393772110376,
+      76.53822446307262
+    ],
+    "lonLat": [
+      78.31148798083896,
+      17.40275667892719
+    ],
+    "distanceFromGateReferenceM": 15.330637154833923
+  }
+}

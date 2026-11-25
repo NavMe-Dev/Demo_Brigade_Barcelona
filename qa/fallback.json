@@ -1,0 +1,26 @@
+{
+  "captured": "2026-11-25T14:35:45.403Z",
+  "browser": "158.0.8127.37",
+  "viewport": [
+    390,
+    844
+  ],
+  "webgl2": false,
+  "mode": "Chrome --disable-webgl, local static files",
+  "design": "B10",
+  "deepLinkedRoom": "bedroom-3",
+  "bedroomImageWidth": 540,
+  "sourcePlan": "assets/plans/B10.webp",
+  "sourcePlanRoomRegions": 18,
+  "roomPickerFocus": true,
+  "positionAndDirectionOnSourcePlan": true,
+  "planSelection": "kitchen",
+  "kitchenImageWidth": 540,
+  "overviewImageWidth": 900,
+  "stillAndOverviewLabelsVerified": true,
+  "exitToBuilding": true,
+  "unknownRoomResolvedTo": "living",
+  "unknownLayout": "B13 returned to the 13-design collection",
+  "modelRequests": [],
+  "pageErrors": []
+}

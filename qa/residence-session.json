@@ -1,0 +1,113 @@
+{
+  "browser": "158.0.8127.37",
+  "documentReloadsAfterOpening": 0,
+  "apartmentModelRequests": [
+    "/assets/apartments/A1/apartment-a1.glb",
+    "/assets/apartments/A2/apartment-a2.glb",
+    "/assets/apartment-a3-web.glb",
+    "/assets/apartments/A4/apartment-a4.glb",
+    "/assets/apartments/A5/apartment-a5.glb",
+    "/assets/apartments/A6/apartment-a6.glb",
+    "/assets/apartments/A7/apartment-a7.glb",
+    "/assets/apartments/B8/apartment-b8.glb",
+    "/assets/apartments/B9/apartment-b9.glb",
+    "/assets/apartments/B10/apartment-b10.glb",
+    "/assets/apartments/B11/apartment-b11.glb",
+    "/assets/apartments/B12/apartment-b12.glb",
+    "/assets/apartments/B14/apartment-b14.glb"
+  ],
+  "results": [
+    {
+      "code": "A1",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 1,
+      "heapBytes": 36569643
+    },
+    {
+      "code": "A2",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 2,
+      "heapBytes": 37207073
+    },
+    {
+      "code": "A3",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 3,
+      "heapBytes": 53697997
+    },
+    {
+      "code": "A4",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 4,
+      "heapBytes": 45541745
+    },
+    {
+      "code": "A5",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 5,
+      "heapBytes": 59807139
+    },
+    {
+      "code": "A6",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 6,
+      "heapBytes": 66035616
+    },
+    {
+      "code": "A7",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 7,
+      "heapBytes": 50031621
+    },
+    {
+      "code": "B8",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 8,
+      "heapBytes": 45115473
+    },
+    {
+      "code": "B9",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 9,
+      "heapBytes": 48769984
+    },
+    {
+      "code": "B10",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 10,
+      "heapBytes": 49872598
+    },
+    {
+      "code": "B11",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 11,
+      "heapBytes": 63140069
+    },
+    {
+      "code": "B12",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 12,
+      "heapBytes": 50413697
+    },
+    {
+      "code": "B14",
+      "canvases": 1,
+      "activeInteriorContexts": 1,
+      "seenInteriorContexts": 13,
+      "heapBytes": 67074155
+    }
+  ],
+  "measurement": "Renderer contexts observed on actual model draws. The test retains references to retired contexts to verify context loss. Heap includes retained test objects, browser caches and UI. Reduced motion enabled."
+}

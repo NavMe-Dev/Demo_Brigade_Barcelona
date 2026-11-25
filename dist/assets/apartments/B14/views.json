@@ -1,0 +1,250 @@
+{
+ "layout_code": "B14",
+ "source_pdf_page": 23,
+ "views": [
+  {
+   "room_id": "bedroom-1",
+   "label": "Bedroom 1",
+   "node_id": "bedroom-1",
+   "file": "room-bedroom-1.webp",
+   "position": [
+    3.08,
+    1.6,
+    2.0747
+   ],
+   "look_at": [
+    1.17,
+    1.08,
+    2.0042
+   ],
+   "bytes": 7394
+  },
+  {
+   "room_id": "bedroom-2",
+   "label": "Bedroom 2",
+   "node_id": "bedroom-2",
+   "file": "room-bedroom-2.webp",
+   "position": [
+    11.18,
+    1.6,
+    2.3747
+   ],
+   "look_at": [
+    12.9353,
+    1.08,
+    2.1479
+   ],
+   "bytes": 8898
+  },
+  {
+   "room_id": "bathroom-2",
+   "label": "Washroom 2",
+   "node_id": "bathroom-2",
+   "file": "room-bathroom-2.webp",
+   "position": [
+    9.23,
+    1.6,
+    1.3247
+   ],
+   "look_at": [
+    9.1609,
+    1.08,
+    0.335
+   ],
+   "bytes": 4448
+  },
+  {
+   "room_id": "family-lounge",
+   "label": "Family lounge",
+   "node_id": "family-lounge",
+   "file": "room-family-lounge.webp",
+   "position": [
+    5.78,
+    1.6,
+    2.5247
+   ],
+   "look_at": [
+    7.7784,
+    1.08,
+    2.4408
+   ],
+   "bytes": 9112
+  },
+  {
+   "room_id": "living",
+   "label": "Living area",
+   "node_id": "living",
+   "file": "room-living.webp",
+   "position": [
+    12.08,
+    1.6,
+    5.6747
+   ],
+   "look_at": [
+    12.0523,
+    1.08,
+    7.6205
+   ],
+   "bytes": 7956
+  },
+  {
+   "room_id": "bathroom-1",
+   "label": "Washroom 1",
+   "node_id": "bathroom-1",
+   "file": "room-bathroom-1.webp",
+   "position": [
+    1.43,
+    1.6,
+    5.9747
+   ],
+   "look_at": [
+    1.3684,
+    1.08,
+    4.4666
+   ],
+   "bytes": 4826
+  },
+  {
+   "room_id": "closet-1",
+   "label": "Bedroom closet",
+   "node_id": "closet-1",
+   "file": "room-closet-1.webp",
+   "position": [
+    3.53,
+    1.6,
+    5.2247
+   ],
+   "look_at": [
+    3.5448,
+    1.08,
+    6.1172
+   ],
+   "bytes": 9964
+  },
+  {
+   "room_id": "primary-bedroom",
+   "label": "Primary bedroom",
+   "node_id": "primary-bedroom",
+   "file": "room-primary-bedroom.webp",
+   "position": [
+    3.08,
+    1.6,
+    9.7247
+   ],
+   "look_at": [
+    1.17,
+    1.08,
+    9.5638
+   ],
+   "bytes": 7482
+  },
+  {
+   "room_id": "closet",
+   "label": "Walk-in closet",
+   "node_id": "closet",
+   "file": "room-closet.webp",
+   "position": [
+    5.33,
+    1.6,
+    10.3247
+   ],
+   "look_at": [
+    5.3553,
+    1.08,
+    9.0455
+   ],
+   "bytes": 13728
+  },
+  {
+   "room_id": "primary-bathroom",
+   "label": "Primary washroom",
+   "node_id": "primary-bathroom",
+   "file": "room-primary-bathroom.webp",
+   "position": [
+    7.43,
+    1.6,
+    9.7247
+   ],
+   "look_at": [
+    7.3094,
+    1.08,
+    8.5455
+   ],
+   "bytes": 4716
+  },
+  {
+   "room_id": "utility",
+   "label": "Utility",
+   "node_id": "utility",
+   "file": "room-utility.webp",
+   "position": [
+    9.23,
+    1.6,
+    10.9247
+   ],
+   "look_at": [
+    9.2378,
+    1.08,
+    9.9666
+   ],
+   "bytes": 2528
+  },
+  {
+   "room_id": "kitchen",
+   "label": "Kitchen",
+   "node_id": "kitchen",
+   "file": "room-kitchen.webp",
+   "position": [
+    11.63,
+    1.6,
+    10.9247
+   ],
+   "look_at": [
+    13.6953,
+    1.08,
+    10.8758
+   ],
+   "bytes": 8268
+  },
+  {
+   "room_id": "deck",
+   "label": "Expansive deck",
+   "node_id": "deck",
+   "file": "room-deck.webp",
+   "position": [
+    8.78,
+    1.6,
+    -0.7753
+   ],
+   "look_at": [
+    10.7489,
+    1.08,
+    -0.8101
+   ],
+   "bytes": 5072
+  },
+  {
+   "room_id": "dining",
+   "label": "Dining",
+   "node_id": "dining",
+   "file": "room-dining.webp",
+   "position": [
+    6.68,
+    1.6,
+    7.6247
+   ],
+   "look_at": [
+    7.2799,
+    1.08,
+    6.0695
+   ],
+   "bytes": 11426
+  }
+ ],
+ "size": [
+  540,
+  352
+ ],
+ "source_model": "apartment-b14.glb",
+ "status": "Rendered from this layout’s furnished Blender master and registered camera viewpoints."
+}

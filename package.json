@@ -6,5 +6,9 @@
   "description": "Brochure-grounded immersive buyer experience concept",
   "dependencies": {
     "three": "0.180.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "start": "python3 scripts/serve.py"
   }
 }

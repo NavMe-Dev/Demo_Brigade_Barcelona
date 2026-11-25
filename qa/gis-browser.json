@@ -1,0 +1,175 @@
+{
+  "date": "2026-11-25T15:50:42.288Z",
+  "url": "http://127.0.0.1:5173/experience/",
+  "checks": [
+    "Rendered local terrain matches its DEM and adjacent mesh seams",
+    "Plot 20 sits at the local elevation origin and geographic coordinates round-trip within 1 cm",
+    "Open-imagery fixture contains no ArcGIS credential",
+    "Landing draws the building and local spatial datasets before geographic navigation",
+    "No-key imagery uses Sentinel without ArcGIS network calls",
+    "Bundled footprint tiles and native-scale terrain are present",
+    "Visible geographic attribution identifies imagery and footprint sources",
+    "Sunset visibly changes the local exterior framebuffer",
+    "Wing A highlights its selected floor 12",
+    "Floor 12 opens residence A3",
+    "Wing B highlights its selected floor 22",
+    "Floor 22 opens residence B10",
+    "B10 kitchen and interactive floor plan remain available",
+    "B10 dollhouse remains interactive",
+    "Return from B10 restores the selected wing and floor",
+    "No unexpected response errors during the offline-capable buyer flow",
+    "Location can display the mapped infrastructure layer",
+    "Location flight visits Hyderabad, Kokapet and Neopolis sequentially",
+    "Regional flight hands off to the live settled exterior",
+    "The journey deep link starts the manual tour and Skip returns to the building",
+    "City tour had no failed local assets",
+    "Deep-linked A3 deck outlook describes the selected floor and estimated orientation",
+    "Balcony displays its geographic sources",
+    "Returning from the deck restores the geographic exterior and Location controls",
+    "No local asset errors during balcony entry and return",
+    "Service denial preserves bundled imagery, terrain and selectable wings",
+    "After simulated service failure the user can still select Wing B",
+    "The fallback displays its active geographic source credit",
+    "Mock tile service requests metadata, availability and native 256 px tiles",
+    "Mock tiles actually reach the exterior framebuffer",
+    "Source credit changes with the displayed mock tile provider",
+    "The mock credential travels only through the Authorization request header"
+  ],
+  "errors": [],
+  "browser": "158.0.8127.37",
+  "terrain": {
+    "origin": [
+      78.312086932,
+      17.402192529
+    ],
+    "anchorElevationM": 596.286,
+    "stepM": 32,
+    "demErrorM": 0.000003662109378410605,
+    "seamErrorM": 0,
+    "samples": 211600,
+    "sharedEdgeVertices": 9999,
+    "roundTripM": 0.0000037319614377363115,
+    "maxParcelElevationRelativeM": 0
+  },
+  "noKey": {
+    "config": {
+      "enabled": false,
+      "hasKey": false
+    },
+    "credits": "Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+    "dayRGB": [
+      181.5,
+      155.5,
+      126.1
+    ],
+    "sunsetRGB": [
+      169.4,
+      119.7,
+      82.9
+    ],
+    "provider": "sentinel",
+    "anchorElevationM": 596.286,
+    "buildings": {
+      "ready": true,
+      "active": true,
+      "visibleTiles": 16,
+      "cachedTiles": 16,
+      "pending": 3,
+      "queued": 51,
+      "visibleBuildings": 885,
+      "distantTiles": 32,
+      "residentBytes": 958206,
+      "failures": 0
+    },
+    "arcgisRequests": 0
+  },
+  "city": {
+    "stages": [
+      {
+        "text": "Preparing Hyderabad",
+        "ms": 628
+      },
+      {
+        "text": "Hyderabad",
+        "ms": 720
+      },
+      {
+        "text": "Kokapet",
+        "ms": 4008
+      },
+      {
+        "text": "Kokapet Lake",
+        "ms": 5325
+      },
+      {
+        "text": "Neopolis · Plot 20",
+        "ms": 6625
+      }
+    ],
+    "overlay": {
+      "ready": true,
+      "visible": true,
+      "failures": 0,
+      "features": {
+        "tree": 74,
+        "water": 27,
+        "arterial": 523,
+        "service": 1140,
+        "street": 2268,
+        "path": 297,
+        "green": 86,
+        "construction": 89
+      },
+      "batches": 8
+    },
+    "finalCamera": [
+      183,
+      152,
+      298
+    ],
+    "finalTarget": [
+      0,
+      80,
+      0
+    ],
+    "arcgisRequests": 0
+  },
+  "balcony": {
+    "caption": "Simulated view · floor 20 · approximate elevation, orientation and neighboring heights. Contains modified Copernicus Sentinel data (2025) · © OpenStreetMap contributors · Overture & terrain sources",
+    "visibleFootprints": 5024,
+    "localImageryTiles": 10,
+    "backTo": "location",
+    "drawCallsAfterReturn": 189
+  },
+  "deniedService": {
+    "fixture": "Simulated HTTP 403; no real provider request",
+    "apiPathsWithoutQuery": [
+      "https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer"
+    ],
+    "source": {
+      "provider": "sentinel",
+      "mood": "day",
+      "attribution": "Contains modified Copernicus Sentinel data (2025)",
+      "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+      "visibleTiles": 0,
+      "maxZoom": null,
+      "reason": "ArcGIS authorization unavailable",
+      "loading": 2,
+      "highestVisibleZoom": 0,
+      "textures": 9,
+      "estimatedTextureBytes": 4101611,
+      "localImageryReady": true,
+      "localNativeTiles": 7
+    },
+    "failedLocalAssets": []
+  },
+  "tileProtocol": {
+    "fixture": "Local synthetic checkerboard; this test does not establish real service coverage",
+    "requests": 75,
+    "matchingPixelsIn96x60": 5048,
+    "visibleTiles": 63,
+    "highestVisibleZoom": 17,
+    "maxZoom": 19,
+    "estimatedTextureBytes": 27574465
+  }
+}

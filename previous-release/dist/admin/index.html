@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex"><title>Project studio · Brigade Barcelona</title><link rel="stylesheet" href="./studio.css"></head>
+<body><header><a class="brand" href="../">Brigade Barcelona</a><span>Project studio</span><a href="../">Buyer experience ↗</a></header>
+<main><p id="mode"></p><div class="title"><h1>Project studio</h1><button id="logout" hidden>Sign out</button></div>
+<p id="status" role="status" aria-live="polite"></p>
+<form id="login" hidden><h2>Team sign-in</h2><label>Email<input name="email" required type="email" autocomplete="username"></label><label>Password<input name="password" type="password" autocomplete="current-password" required></label><button>Sign in</button></form>
+<div id="app" hidden><nav aria-label="Studio sections"><button data-tab="content">Project content</button><button data-tab="release">Review &amp; publish</button><button data-tab="activity">Sales activity</button></nav>
+<section id="content"><div class="bar"><label>Collection<select id="collection"></select></label><button id="add">Add record</button></div>
+<div class="split"><div id="list" aria-label="Records"></div><div><form id="editor" hidden></form><div id="empty"></div></div></div></section>
+<section id="release" hidden><h2>Publication review</h2><p>Freeze the current draft to review the exact content a buyer will receive.</p>
+<button id="freeze">Create preview</button><div id="versions"></div></section>
+<section id="activity" hidden><h2>Sales activity</h2><div id="reports"></div></section></div></main>
+<script type="module" src="./studio.js"></script></body></html>

@@ -1,0 +1,128 @@
+[
+  {
+    "osmWay": 28130557,
+    "name": "Osman Sagar",
+    "point": [
+      870.9,
+      -52.4,
+      503.9
+    ]
+  },
+  {
+    "osmWay": 208408091,
+    "name": "Outer Ring Road",
+    "point": [
+      -1073.7,
+      -43.8,
+      36.5
+    ]
+  },
+  {
+    "osmWay": 208408097,
+    "name": "Outer Ring Road",
+    "point": [
+      -1098.2,
+      -44.7,
+      27.9
+    ]
+  },
+  {
+    "osmWay": 529461442,
+    "name": "Outer Ring Road",
+    "point": [
+      -1112.6,
+      -50.2,
+      -892.0
+    ]
+  },
+  {
+    "osmWay": 529461463,
+    "name": "Outer Ring Road",
+    "point": [
+      -1091.5,
+      -52.0,
+      -917.7
+    ]
+  },
+  {
+    "osmWay": 686325013,
+    "name": "Kokapet Lake",
+    "point": [
+      -283.4,
+      -60.8,
+      -1207.6
+    ]
+  },
+  {
+    "osmWay": 1206397797,
+    "name": "Outer Ring Road",
+    "point": [
+      -1096.1,
+      -51.7,
+      -512.4
+    ]
+  },
+  {
+    "osmWay": 1206397798,
+    "name": "Outer Ring Road",
+    "point": [
+      -1117.0,
+      -51.3,
+      -506.2
+    ]
+  },
+  {
+    "osmWay": 1206427333,
+    "name": "Outer Ring Road",
+    "point": [
+      -945.2,
+      -33.4,
+      1066.9
+    ]
+  },
+  {
+    "osmWay": 1349962875,
+    "name": "Brigade Gateway (u/c)",
+    "point": [
+      -466.9,
+      -24.6,
+      -118.8
+    ]
+  },
+  {
+    "osmWay": 1451316931,
+    "name": "Outer Ring Road",
+    "point": [
+      -987.7,
+      -36.3,
+      802.3
+    ]
+  },
+  {
+    "osmWay": 1451316932,
+    "name": "Outer Ring Road",
+    "point": [
+      -953.4,
+      -35.2,
+      1016.0
+    ]
+  },
+  {
+    "osmWay": 1451316933,
+    "name": "Outer Ring Road",
+    "point": [
+      -924.9,
+      -34.8,
+      1064.5
+    ]
+  },
+  {
+    "osmWay": 1451316934,
+    "name": "Outer Ring Road",
+    "point": [
+      -933.1,
+      -35.5,
+      1013.5
+    ]
+  }
+]

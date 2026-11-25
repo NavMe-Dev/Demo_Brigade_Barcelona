@@ -1,0 +1,36 @@
+{
+  "file": "elevation.i16",
+  "axisOrder": "row Z, column X",
+  "unitsPerCountM": 0.01,
+  "diagonal": "(x0,z0) to (x1,z1)",
+  "radius": 7168,
+  "step": 32,
+  "width": 449,
+  "geodeticOrigin": [
+    78.312086932,
+    17.402192529
+  ],
+  "eastXZ": [
+    -0.233699171,
+    -0.972308952
+  ],
+  "northXZ": [
+    -0.972308952,
+    0.233699171
+  ],
+  "anchorElevationM": 596.286,
+  "rawElevationRangeM": [
+    505.612,
+    631.33
+  ],
+  "sceneRangeM": [
+    -90.67,
+    35.04
+  ],
+  "reference": "SRTM/EGM96 orthometric metres relative to the interpolated origin. No surveyed finished floor level is available.",
+  "pad": {
+    "level": "Published parcel plus one grid diagonal; 60m smooth transition to DEM.",
+    "dataDatum": "native relative height at the registered origin"
+  },
+  "sha256": "8841039c6f638dbb2829e968c4eab477adb569488f807691558d28e7b0358a8d"
+}

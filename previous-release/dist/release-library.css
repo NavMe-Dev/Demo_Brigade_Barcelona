@@ -1,0 +1,13 @@
+.release-launch{margin:8px 0;padding:10px 15px;color:inherit;background:transparent;border:1px solid #a99b7a;border-radius:4px;cursor:pointer}
+#releaseCollection{width:min(640px,94vw);max-height:85dvh;border:1px solid #bbb59c;border-radius:8px;background:#f8f5ec;color:#282d26;padding:22px;overflow-y:auto;box-sizing:border-box;font:15px/1.5 system-ui,sans-serif}
+#releaseCollection::backdrop{background:rgb(15 20 17/.72)}
+#releaseCollection .release-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+#releaseCollection h2{font:32px Georgia,serif;margin:0 0 12px}
+#releaseCollection button,#releaseCollection select{font:inherit;min-height:42px;border:1px solid #897958;border-radius:4px;background:#fffdf8;color:#282d26;padding:7px 12px}
+#releaseCollection label{display:grid;gap:5px;margin:12px 0}
+#releaseCollection details{border-top:1px solid #cbc6b6;padding:12px 0}
+#releaseCollection summary{cursor:pointer;font-weight:600}
+#releaseCollection dl{display:grid;grid-template-columns:minmax(90px,1fr) 2fr;gap:6px 12px;overflow-wrap:anywhere}
+#releaseCollection dd{margin:0}#releaseCollection dt{color:#665f4d}
+#releaseCollection img{width:100%;max-height:45dvh;object-fit:contain}
+#releaseCollection .release-asset{width:100%;overflow:hidden}#releaseCollection canvas{position:static;width:auto;display:block}

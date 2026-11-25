@@ -1,0 +1,39 @@
+{
+  "browser": "158.0.8127.37",
+  "service": "browser-local IndexedDB studio",
+  "results": [
+    {
+      "viewport": [
+        390,
+        844
+      ],
+      "saveReloadPreview": true,
+      "reviewedSource": true,
+      "liveSalesInPreview": false,
+      "uploadedGlbRendered": "WebGL2",
+      "pageErrors": []
+    },
+    {
+      "viewport": [
+        360,
+        800
+      ],
+      "saveReloadPreview": true,
+      "reviewedSource": true,
+      "liveSalesInPreview": false,
+      "uploadedGlbRendered": "not exercised",
+      "pageErrors": []
+    },
+    {
+      "viewport": [
+        820,
+        1180
+      ],
+      "saveReloadPreview": true,
+      "reviewedSource": true,
+      "liveSalesInPreview": false,
+      "uploadedGlbRendered": "not exercised",
+      "pageErrors": []
+    }
+  ]
+}

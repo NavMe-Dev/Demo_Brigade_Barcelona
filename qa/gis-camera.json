@@ -1,0 +1,65 @@
+{
+  "status": "pass",
+  "utc": "2026-11-25T15:48:18.080Z",
+  "browser": "158.0.8127.37",
+  "webGL2": true,
+  "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+  "viewport": [
+    1200,
+    750
+  ],
+  "landmark": "Osman Sagar",
+  "landmarkTarget": [
+    870.8882236612138,
+    -52.399010699364524,
+    503.8931862474286
+  ],
+  "street": {
+    "osmWay": 1183681598,
+    "expectedEye": [
+      -46.19,
+      1.7,
+      76.54
+    ],
+    "actualEye": [
+      -46.15377475162731,
+      1.6969853157936576,
+      76.57159043991797
+    ],
+    "target": [
+      -9.963183312063165,
+      24.99676511335417,
+      2.0209766099166018
+    ],
+    "eyeAboveDEMMetres": 1.7
+  },
+  "orbit": {
+    "source": "Location → Osman Sagar → Orbit building 360°",
+    "target": [
+      0,
+      80,
+      0
+    ],
+    "observations": 25,
+    "netSweepDegrees": 360,
+    "horizontalRadiusRangeM": [
+      390,
+      390
+    ],
+    "frameSpan": [
+      288,
+      1010
+    ]
+  },
+  "regionalMap": {
+    "sampleIntervalMs": 900,
+    "hiddenExteriorFrames": [
+      1010,
+      1010
+    ],
+    "activeDuringMap": false,
+    "framesAfterReturn": 1011,
+    "restoredBuildingStreaming": true
+  },
+  "errors": []
+}
