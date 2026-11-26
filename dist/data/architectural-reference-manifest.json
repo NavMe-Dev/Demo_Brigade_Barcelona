@@ -1,0 +1,95 @@
+{
+  "brochure": {
+    "path": "sources/brigade-barcelona-brochure.pdf",
+    "sha256": "721c1b62b306f79d9ff2fa27a9052448ab016e6335d6acf46f743066a336682e",
+    "storeysDescribed": 52
+  },
+  "views": [
+    {
+      "id": "complete-exterior",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.56.48 PM.png",
+      "brochurePages": [
+        2,
+        7,
+        15,
+        23
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.10.39 AM.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "dfe613878b5834004bb423283c3a623259b9bae04471fd3b75134a7a4f4f5742"
+    },
+    {
+      "id": "facade-crown",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.57.06 PM.png",
+      "brochurePages": [
+        3,
+        4
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.10.54 AM.png",
+      "pixels": [
+        400,
+        787
+      ],
+      "sha256": "f4258fde114fca1aa1cd8e81349e774726cc0800b247af92fe8eb7b223ef7755"
+    },
+    {
+      "id": "clubhouse",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.57.50 PM.png",
+      "brochurePages": [
+        12,
+        13
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.11.03 AM.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "db23fdfbbc2fc597a46abd7bf20db4c883998a53243e31886d25d2605cc7070c"
+    },
+    {
+      "id": "sky-deck",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.57.57 PM.png",
+      "brochurePages": [
+        10,
+        11
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.11.12 AM.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "a795b6862e619809383764fba7ae6f4924ac9955d33f734e61356c4e2bb039bb"
+    },
+    {
+      "id": "eco-deck",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.58.04 PM.png",
+      "brochurePages": [
+        8,
+        9
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.11.20 AM.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "f45edba04a2b1b09e61d1c52548f04c647351f8f50f8dec64b764732014e65bc"
+    },
+    {
+      "id": "podium",
+      "requestedFilename": "Screenshot 2026-11-26 at 11.58.14 PM.png",
+      "brochurePages": [
+        5,
+        7
+      ],
+      "screenshot": "building/Screenshot 2026-11-27 at 12.11.29 AM.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "8cd18cdf09963e5c49fa2e00e5712f8df637d4e7cf3e77443c928efcbb177504"
+    }
+  ]
+}

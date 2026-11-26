@@ -1,0 +1,58 @@
+{
+  "tested": "2026-11-26T18:53:37.663Z",
+  "browser": "158.0.8127.37",
+  "profiles": [
+    {
+      "name": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "deviceScaleFactor": 1,
+      "touch": false,
+      "fits": true,
+      "canvasHeight": 1080,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "detail": "low"
+    },
+    {
+      "name": "tablet viewport",
+      "width": 820,
+      "height": 1180,
+      "deviceScaleFactor": 2,
+      "touch": true,
+      "fits": true,
+      "canvasHeight": 1180,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "detail": "low"
+    },
+    {
+      "name": "phone viewport",
+      "width": 390,
+      "height": 844,
+      "deviceScaleFactor": 2,
+      "touch": true,
+      "fits": true,
+      "canvasHeight": 844,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "detail": "low"
+    },
+    {
+      "name": "kiosk viewport",
+      "width": 2560,
+      "height": 1440,
+      "deviceScaleFactor": 1,
+      "touch": false,
+      "fits": true,
+      "canvasHeight": 1440,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "detail": "low"
+    }
+  ],
+  "checks": [
+    "Wing A refuge and typical plate, Wing B floor 22, B10 selection",
+    "Clubhouse pool, Sky Deck garden and Eco Deck fire garden camera presets",
+    "Evening lighting and live Performance/High quality switching",
+    "Shared A3 dollhouse and walkthrough entry",
+    "Geographic arrival asset lazy load and flight skip",
+    "Interrupted base imagery holds the still fallback and exposes Retry 3D"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "complete-exterior": {"camera":[174,92,292],"target":[0,89,9],"light":"sunset"},
+  "facade-crown": {"camera":[24,165,91],"target":[5,163,47],"light":"morning"},
+  "clubhouse": {"camera":[82,35,82],"target":[42,12,43],"light":"sunset"},
+  "sky-deck": {"camera":[8.4,180.1,35.3],"target":[9.6,179.05,39.5],"light":"evening"},
+  "eco-deck": {"camera":[-12.2,17.2,54.4],"target":[-6.8,16.3,56.3],"light":"morning"},
+  "podium": {"camera":[31,12,76],"target":[10,9.1,56],"light":"morning"}
+}

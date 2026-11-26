@@ -50,3 +50,15 @@ node scripts/verify_compatibility.mjs
 node scripts/measure_public.cjs
 python3 scripts/package_source.py
 ```
+
+## November 27 architectural refresh
+
+Hardware-backed Chrome on Apple M2 passed the 53-check [public buyer regression](../qa/buyer-browser.json) with zero recorded browser errors. The suite exercised both entry URLs, opening skip and replay, both wings, the refuge and typical floor plates, B10, comparison, GIS navigation, shared apartment links, four solar modes and touch interaction across six responsive viewports.
+
+The [refresh suite](../qa/architectural-refresh.json) passed the 1920 × 1080 desktop, 820 × 1180 touch tablet, 390 × 844 touch phone and 2560 × 1440 kiosk viewport checks. It also exercised the clubhouse pool, Sky Deck and Eco Deck presets, live quality switching, the A3 dollhouse and walk modes, the deep-linked Hyderabad arrival and skip, and missing terrain recovery with Retry 3D. The phone, tablet and kiosk viewport runs used the same Mac GPU. Physical-device testing remains outstanding.
+
+[Six architecture comparisons](VISUAL_COMPARISON_REPORT.md) · [Browser and offline rendering method](PHOTOREALISTIC_RENDERING.md) · [Measured performance](PERFORMANCE_REPORT.md)
+
+The [component harness](../qa/amenity-models.json) rendered each of the ten tested complete and component GLBs and selected every one of the 77 source-listed masterplan and amenity entries. Separate browser probes observed changing rooftop water-normal offsets on successive exterior frames and confirmed that the architectural flythrough could be stopped from its panel.
+
+The [13-residence regression](../qa/all-residences.json) also passed after the refresh. Every documented unit opened its own rendered model and completed the room-route checks.

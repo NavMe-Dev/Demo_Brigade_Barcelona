@@ -6,6 +6,7 @@ const stage=process.argv[2];
 assert.ok(['before','after'].includes(stage),'Pass before or after.');
 const url=process.env.BRIGADE_QA_URL||'http://127.0.0.1:5173/experience/';
 const qa=path.join(__dirname,'../qa');
+const reportPath=process.env.BRIGADE_PERFORMANCE_REPORT||path.join(qa,'gis-performance-'+stage+'.json');
 const profiles=[{name:'desktop',width:1920,height:1080,dpr:1},{name:'phone',width:390,height:844,dpr:2}];
 async function profile(browser,p){
  const mobile=p.name==='phone',ctx=await browser.newContext({viewport:{width:p.width,height:p.height},hasTouch:mobile,
@@ -93,7 +94,7 @@ async function main(){
  try{
   const report={stage,url,date:new Date().toISOString(),browser:b.version(),network:{downMbps:20,upMbps:5,latencyMs:40,cache:'disabled'},trials:[]};
   for(const p of profiles){const trial=await profile(b,p);report.trials.push(trial);console.log(p.name,trial.firstExteriorMs,trial.fps);}
-  fs.writeFileSync(path.join(qa,'gis-performance-'+stage+'.json'),JSON.stringify(report,null,2)+'\n');
+  fs.writeFileSync(reportPath,JSON.stringify(report,null,2)+'\n');
  }finally{await b.close();}
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

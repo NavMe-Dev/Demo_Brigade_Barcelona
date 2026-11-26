@@ -152,7 +152,7 @@ export function createImagery(
     if (preview || previewPending || stopped || !active || performance.now() < previewRetry) return;
     previewPending = true;
     const signal = controller.signal;
-    loadTexture(THREE, 'overview.webp', signal)
+    return loadTexture(THREE, 'overview.webp', signal)
       .then((texture) => {
         if (stopped) {
           texture.dispose();
@@ -173,7 +173,7 @@ export function createImagery(
     if (regionPreview || regionPending || stopped || !active || performance.now() < regionRetry) return;
     regionPending = true;
     const signal = controller.signal;
-    loadTexture(THREE, 'horizon.webp', signal)
+    return loadTexture(THREE, 'horizon.webp', signal)
       .then((texture) => {
         if (stopped) {
           texture.dispose();
@@ -313,5 +313,6 @@ export function createImagery(
     preview?.dispose();
     regionPreview?.dispose();
   }
-  return { root, tint, update, setActive, setMood, stats, dispose };
+  const baseReady = Promise.all([loadPreview(), loadRegion()]).then(() => Boolean(preview && regionPreview));
+  return { root, tint, baseReady, update, setActive, setMood, stats, dispose };
 }

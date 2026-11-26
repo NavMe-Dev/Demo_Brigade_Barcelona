@@ -1,0 +1,16 @@
+# Architectural visual comparisons
+
+Each plate shows the actual supplied reference alongside the interactive Chrome view and an offline Cycles render. The two generated views use the same local pose and a 43° vertical field of view. The reference perspectives were approximated from the visible geometry. The baseline folder separately records ten views of the original browser models.
+
+| View | Comparison and annotation | Observed match and remaining differences |
+| --- | --- | --- |
+| Complete development | [Comparison](../qa/evidence/architectural-comparison/complete-exterior-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/complete-exterior-annotated.jpg) | The connected silhouette, height step, ivory stacks and red crowns are visible. The real Kokapet terrain and off-site building layer have different land cover and a lower visual detail level than the marketing backdrop. |
+| Façade and crown | [Comparison](../qa/evidence/architectural-comparison/facade-crown-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/facade-crown-annotated.jpg) | Terracotta punched bays, projecting cornice and the blue and yellow sign read separately from the wider ivory balconies. The panel joints, curtain variation and stone texture are stylized at close range. |
+| Clubhouse | [Comparison](../qa/evidence/architectural-comparison/clubhouse-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/clubhouse-annotated.jpg) | The overlapping raked glazing assemblies and copper fascia reproduce the principal massing cues. The rooftop pool and clear edge are modeled. Terrace furniture, exact cladding and substructure remain approximations. |
+| Sky Deck | [Comparison](../qa/evidence/architectural-comparison/sky-deck-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/sky-deck-annotated.jpg) | The raised garden island, globe lights, colonnade and curved paved edge are identifiable. Plant density, night background and fine leaf shading differ from the reference. |
+| Eco Deck | [Comparison](../qa/evidence/architectural-comparison/eco-deck-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/eco-deck-annotated.jpg) | The ivory portal, fire feature, curved path inlay and beds reflect the principal cues. The scale and curvature follow the indicative plan, and material and planting detail are lower than the artwork. |
+| Podium and entrance | [Comparison](../qa/evidence/architectural-comparison/podium-comparison.jpg) · [Annotation](../qa/evidence/architectural-comparison/podium-annotated.jpg) | Clay screen geometry, recessed openings and upper planting are visible. Leaf density, screen gauge and the exact distribution of colonnades remain approximate. |
+
+[All comparison images](../qa/evidence/architectural-comparison/) · [Ten baseline browser views](../qa/evidence/architectural-baseline/) · [Desktop preview](../qa/evidence/architectural-comparison/desktop.jpg) · [Phone viewport preview](../qa/evidence/architectural-comparison/mobile.jpg)
+
+The browser remains a real-time architectural visualization. The comparison records visible similarities and differences so that the promotional reference is distinguishable from an approved elevation or a measured reconstruction.

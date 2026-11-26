@@ -14,6 +14,8 @@ const compactGPU = () =>
   mobile() || (navigator.maxTouchPoints > 0 && Math.min(innerWidth, innerHeight) <= 900);
 const clamp = THREE.MathUtils.clamp;
 const smooth = THREE.MathUtils.smootherstep;
+const poolCenter = vec([40,24,37]);
+const podiumCenter = vec([0,8,32]);
 const view = {
   overview: [[183, 152, 298], [0, 80, 0]],
   landing: [
@@ -36,6 +38,14 @@ const view = {
     [368, 358, 545],
     [0, 30, 0],
   ],
+  front: [[132,77,273],[2,86,6]],
+  rear: [[-118,89,-273],[0,85,0]],
+  crown: [[46,167,105],[10,164,47]],
+  balcony: [[-25,94,85],[-9,91,48]],
+  podium: [[57,12,78],[21,8,51]],
+  pool: [[57,28,48],[39,24,36]],
+  skyGarden: [[8.4,180.1,35.3],[9.6,179.05,39.5]],
+  ecoGarden: [[-12.2,17.2,54.4],[-6.8,16.3,56.3]],
   clubhouse: [
     [98, 48, 113],
     [39, 12, 38],
@@ -57,8 +67,9 @@ const camera = new THREE.PerspectiveCamera(43, 1, 0.6, 24000);
 const pointer = new THREE.Vector2();
 const ray = new THREE.Raycaster();
 let renderer, controls, environment, sky, sun, fill, exterior, geography, selection, outline;
-let skyLight, coarse, detailed, detailRequest;
-let loader;
+let skyLight, coarse, detailed, detailedScreens, geographicShell, waterNormal, gardenLights;
+let quality = 'auto';
+let loadDetailed, loadGeographicShell;
 let active = true,
   ready = false,
   mood = 'day',
@@ -125,7 +136,9 @@ function projection() {
     : 0;
   camera.setViewOffset(w, h, x, y, w, h);
   camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
+  if (renderer.domElement.style.width !== w+'px' || renderer.domElement.style.height !== h+'px') {
+    renderer.setSize(w, h);
+  }
   drawPending = true;
 }
 
@@ -166,7 +179,7 @@ function fly(pos, target, duration = 1250) {
   });
 }
 function updateFlight(now) {
-  if (!flight) return;
+  if (!flight || flight.waitingForReveal) return;
   const f = flight;
   // Start the clock on the first visible frame, including after a background-tab load.
   if(f.time === null) f.time = now;
@@ -212,6 +225,20 @@ export function playIntroduction() {
   callbacks.intro(true);
 }
 
+export function tourArchitecture() {
+  if (!ready || !active) return Promise.resolve();
+  const keys = ['aerial','front','podium','clubhouse','crown','overview'];
+  if (reduced()) return goView('front',0);
+  cancelFlight();
+  const poses = [[camera.position.toArray(),controls.target.toArray()],...keys.map(key => view[key])];
+  return new Promise(done => {
+    flight = {
+      time:null, duration:17000, done,
+      path:new THREE.CatmullRomCurve3(poses.map(([eye]) => vec(eye))),
+      look:new THREE.CatmullRomCurve3(poses.map(([,target]) => vec(target))),
+    };
+  });
+}
 export function stopIntroduction() {
   if (flight) cancelFlight();
 }
@@ -226,13 +253,13 @@ export function focusWing(id, duration) {
   const t = wingTargets[id] || wingTargets.A;
   return fly([t[0] + (id === 'A' ? -99 : 93), t[1] + 37, t[2] + (id === 'A' ? -138 : 138)], t, duration);
 }
-export function focusFloor(id, floor) {
+export function focusFloor(id, floor, duration = 830) {
   const t = wingTargets[id];
   const y = floorY(floor);
   return fly(
     [t[0] + (id === 'A' ? -99 : 93), y + 17, t[2] + (id === 'A' ? -105 : 105)],
     [t[0], y, t[2]],
-    830,
+    duration,
   );
 }
 function floorY(n) {
@@ -250,9 +277,9 @@ export function setMood(value){
  if(!renderer||!mapData)return;
  const mode=lightingAt(value,mapData);
  scene.fog.color.set(mode.sky);scene.backgroundIntensity=mode.background;
- sky.material.uniforms.horizon.value.set(mode.sky);sky.material.uniforms.top.value.set(value==='evening'?'#384358':'#6993aa');
+ sky.material.uniforms.horizon.value.set(mode.sky);sky.material.uniforms.top.value.set(value==='evening'?'#101d36':'#6993aa');
  sun.position.fromArray(mode.direction).multiplyScalar(220).add(sun.target.position);
- sky.material.uniforms.sunDirection.value.fromArray(mode.direction).normalize();sky.material.uniforms.sunColor.value.set(mode.sun);
+ sky.material.uniforms.sunDirection.value.fromArray(mode.direction).normalize();sky.material.uniforms.sunColor.value.set(mode.sun).multiplyScalar(value==='evening'?.12:1);
  const skyRotation=Math.atan2(mode.direction[0],mode.direction[2]);scene.environmentRotation.y=skyRotation;scene.backgroundRotation.y=skyRotation;
  sky.visible=true;scene.background=null;
  sun.color.set(mode.sun);sun.intensity=mode.intensity*.86;fill.intensity=mode.ambient*.8;
@@ -367,6 +394,7 @@ function updatePins() {
 }
 export function setSection(value, amenity = '') {
   section = value;activeDeck=amenity;
+  updateGardenLighting();
   if(controls)controls.minDistance=['amenities','masterplan'].includes(value)?.8:12;
   const host = document.querySelector('#scenePins');
   host.replaceChildren();
@@ -491,25 +519,19 @@ function guardCamera() {
 }
 function chooseDetail() {
   if (!coarse) return;
-  const close = !compactGPU() && camera.position.distanceTo(controls.target) < 535;
-  if (close && !detailRequest) {
-    detailRequest = loader
-      .loadAsync('assets/brigade-barcelona.glb')
-      .then((model) => {
-        detailed = model.scene;
-        detailed.traverse((o) => {
-          if (o.isMesh) {
-            o.castShadow = true;
-            o.receiveShadow = true;
-          }
-        });
-        setMood(mood);detailed.visible = false;
-        scene.add(detailed);
-        drawPending = true;
-      })
-      .catch(() => {});
+  const distance = camera.position.distanceTo(controls.target);
+  const close = distance < (exterior === detailed ? 550 : 495);
+  const high = quality !== 'performance' && (quality === 'high' || !compactGPU());
+  const next = flight?.city && geographicShell && distance > 2600
+    ? geographicShell
+    : high && detailed && (flight?.intro || close) ? detailed : coarse;
+  const showScreens = next === detailed && renderer.getPixelRatio() > .8 &&
+    camera.position.distanceToSquared(podiumCenter) < 135**2;
+  if (detailedScreens && detailedScreens.visible !== showScreens) {
+    detailedScreens.visible = showScreens;
+    renderer.shadowMap.needsUpdate = true;
+    drawPending = true;
   }
-  const next = close && detailed ? detailed : coarse;
   if (next !== exterior) {
     exterior.visible = false;
     exterior = next;
@@ -517,6 +539,76 @@ function chooseDetail() {
     renderer.shadowMap.needsUpdate = true;
     drawPending = true;
   }
+}
+function installDetail(model) {
+  detailed = model.scene;
+  detailedScreens = detailed.getObjectByName('Podium_clay_screens');
+  detailed.traverse(prepareExteriorMesh);
+  detailed.visible = false;
+  scene.add(detailed);
+  setMood(mood);
+}
+function rippleNormal() {
+  const size = 32;
+  const data = new Uint8Array(size*size*4);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const u = x/size*Math.PI*2;
+      const v = y/size*Math.PI*2;
+      const nx = .21*Math.cos(2*u+v)+.10*Math.cos(u-3*v);
+      const ny = .13*Math.cos(2*u+v)-.24*Math.cos(u-3*v);
+      const nz = Math.sqrt(1-nx*nx-ny*ny);
+      data.set([128+127*nx,128+127*ny,128+127*nz,255],4*(y*size+x));
+    }
+  }
+  const texture = new THREE.DataTexture(data,size,size);
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
+function updateGardenLighting() {
+  if (!gardenLights) return;
+  for (const light of gardenLights) {
+    light.intensity = section === 'amenities' && activeDeck === light.userData.deck && mood === 'evening' ? 10 : 0;
+  }
+}
+function prepareExteriorMesh(object) {
+  if (!object.isMesh) return;
+  object.castShadow = ![].concat(object.material).some(material => material.transparent);
+  object.receiveShadow = true;
+  for (const material of [].concat(object.material)) {
+    if (material.name.startsWith('Reflecting pools')) {
+      const geometry = object.geometry;
+      if (!geometry.getAttribute('uv')) {
+        const positions = geometry.getAttribute('position');
+        const coordinates = new Float32Array(positions.count*2);
+        for (let i=0; i<positions.count; i++) {
+          coordinates[i*2] = positions.getX(i)*.68;
+          coordinates[i*2+1] = positions.getZ(i)*.68;
+        }
+        geometry.setAttribute('uv',new THREE.BufferAttribute(coordinates,2));
+      }
+      waterNormal ??= rippleNormal();
+      material.normalMap = waterNormal;
+      material.normalScale.setScalar(.47);
+    }
+  }
+}
+export function setQuality(value) {
+  quality = value;
+  if (!ready) return;
+  if (quality === 'high' && !detailed) loadDetailed?.();
+  const performance = quality === 'performance' || (quality === 'auto' && compactGPU());
+  renderer.setPixelRatio(Math.min(devicePixelRatio, performance ? .95 : 1.65));
+  if (sun.shadow.mapSize.x !== (performance ? 1024 : 2048)) {
+    sun.shadow.mapSize.setScalar(performance ? 1024 : 2048);
+    sun.shadow.map?.dispose();
+    sun.shadow.map = null;
+  }
+  renderer.shadowMap.needsUpdate = true;
+  drawPending = true;
 }
 function draw(now) {
   if (!active) {
@@ -528,21 +620,20 @@ function draw(now) {
     lastDraw = 0;
     return;
   }
-  const animating = Boolean(flight);
+  const animating = Boolean(flight && !flight.waitingForReveal);
   updateFlight(now);
   controls.update();
   guardCamera();
   chooseDetail();
+  if (waterNormal && !reduced() && section === 'amenities' && activeDeck === 'clubhouse' &&
+      camera.position.distanceToSquared(poolCenter) < 85**2) {
+    waterNormal.offset.set(now*.000085,now*.00004);
+    drawPending = true;
+  }
   if (!drawPending) {
     lastDraw = 0;
     return;
   }
-  sky.position.copy(camera.position);
-  scene.fog.density=.000145/(1+Math.max(0,camera.position.y-1000)/1500);
-  geography?.update(camera,innerHeight*renderer.getPixelRatio());
-  updatePins();
-  renderer.render(scene, camera);renderedFrames++;
-  drawPending = false;
   if (animating && lastDraw) {
     lowSamples = now - lastDraw > 37 ? lowSamples + 1 : Math.max(0, lowSamples - 1);
     if (lowSamples > 18 && renderer.getPixelRatio() > 0.85) {
@@ -550,6 +641,26 @@ function draw(now) {
       lowSamples = 0;
     }
   }
+  sky.position.copy(camera.position);
+  scene.fog.density=.000145/(1+Math.max(0,camera.position.y-1000)/1500);
+  geography?.update(camera,innerHeight*renderer.getPixelRatio());
+  updatePins();
+  renderer.render(scene, camera);
+  if (++renderedFrames === 1) {
+    const canvas = renderer.domElement;
+    canvas.classList.add('estate-canvas-ready');
+    const opening = flight;
+    if (opening?.intro) {
+      opening.waitingForReveal = true;
+      const begin = () => {
+        canvas.onanimationend = canvas.onanimationcancel = null;
+        opening.waitingForReveal = false;
+        opening.time = null;
+      };
+      canvas.onanimationend = canvas.onanimationcancel = begin;
+    }
+  }
+  drawPending = false;
   lastDraw = now;
 }
 export function activate(value) {
@@ -577,6 +688,7 @@ function dispose() {
   for (const m of materials) m.dispose();
 
   skyLight?.dispose();
+  waterNormal?.dispose();
   environment?.dispose();
   renderer?.dispose();
 }
@@ -620,6 +732,16 @@ export async function initScene(handlers) {
     sun.target.position.y = 45;
     fill = new THREE.HemisphereLight(0xd5e7ef, 0xb8a085, 1.7);
     scene.add(sun, sun.target, fill);
+    gardenLights = [
+      [[9.6,179.18,39.3],'sky-deck'], [[-6.8,16.3,56.3],'eco-deck'],
+      [[40,24.6,37],'clubhouse'],
+    ].map(([position,deck]) => {
+      const light = new THREE.PointLight(deck === 'clubhouse' ? 0xaedbff : 0xffb467,0,9);
+      light.position.fromArray(position);
+      light.userData.deck = deck;
+      return light;
+    });
+    scene.add(...gardenLights);
     const gen = new THREE.PMREMGenerator(renderer),
       room = new RoomEnvironment();
     environment = gen.fromScene(room, 0.04);
@@ -629,22 +751,49 @@ export async function initScene(handlers) {
     
     projection();
     bindInteractions();
-    loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-    const [model, metadata] = await Promise.all([
+    const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+    const [model, metadata, world, hdModel, hdr] = await Promise.all([
       loader.loadAsync('assets/exterior-lod.glb'),
       fetch('assets/scene-map.json')
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
+      getGeography(),
+      compactGPU() ? null : loader.loadAsync('assets/brigade-barcelona.glb').catch(() => null),
+      new HDRLoader().loadAsync('assets/sky-light.hdr').catch(() => null),
     ]);
-    mapData = metadata;setMood(mood);
+    mapData = metadata;
     coarse = exterior = model.scene;
-    exterior.traverse((o) => {
-      if (o.isMesh) {
-        o.castShadow = true;
-        o.receiveShadow = true;
-      }
-    });
+    exterior.traverse(prepareExteriorMesh);
     scene.add(exterior);
+    if (hdModel) installDetail(hdModel);
+    let detailRequest;
+    loadDetailed = () => {
+      detailRequest ??= loader.loadAsync('assets/brigade-barcelona.glb')
+        .then(model => { if (ready) installDetail(model); })
+        .catch(() => { detailRequest = null; });
+      return detailRequest;
+    };
+    let shellRequest;
+    loadGeographicShell = () => {
+      shellRequest ??= loader.loadAsync('assets/exterior-geographic.glb').then(model => {
+        if (!ready) return;
+        geographicShell = model.scene;
+        geographicShell.visible = false;
+        scene.add(geographicShell);
+      }).catch(() => { shellRequest = null; });
+      return shellRequest;
+    };
+    geography = world;
+    scene.add(world.root);
+    world.setActive(active);
+    if (hdr) {
+      skyLight = hdr;
+      hdr.mapping = THREE.EquirectangularReflectionMapping;
+      scene.environment = hdr;
+      environment.dispose();
+      environment = null;
+    }
+    setMood(mood);
     for (const [id, data] of Object.entries(mapData?.wings || {})) {
       if (data.target) wingTargets[id] = data.target;
       const wingMesh = exterior.getObjectByName('Wing_' + id);
@@ -657,22 +806,6 @@ export async function initScene(handlers) {
         view[alias] = [vec(view[alias][0]).add(shift).toArray(), pos];
       }
     }
-    new HDRLoader().load(
-      'assets/sky-light.hdr',
-      (texture) => {
-        skyLight = texture;
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-
-        scene.environment = texture;
-        scene.environmentRotation.y = scene.backgroundRotation.y = 0.72;
-        setMood(mood);
-        environment?.dispose();
-        environment = null;
-        drawPending = true;
-      },
-      undefined,
-      () => {},
-    );
     ready = true;
     renderer.shadowMap.needsUpdate = true;
     document.querySelector('#estateCanvas').append(renderer.domElement);
@@ -694,11 +827,7 @@ export async function initScene(handlers) {
     addEventListener('pagehide', (event) => {
       if (!event.persisted) dispose();
     });
-    getGeography().then(world=>{
-      geography=world;geography.setMood(mood);
-      if(active){scene.add(world.root);world.setActive(true);}
-      renderer.shadowMap.needsUpdate=true;invalidateGeo();
-    }).catch(handlers.contextMissing);
+    invalidateGeo();
     function invalidateGeo(){
       if(!active||!ready)return;
       geoCredits(document.getElementById('geoCredits'),geography?.stats().imagery);
@@ -744,7 +873,8 @@ export function sceneMetrics() {
     drawCalls: renderer.info.render.calls,
     geometries: renderer.info.memory.geometries,
     textures: renderer.info.memory.textures,
-    detail: exterior === coarse ? 'low' : 'full',
+    quality,
+    detail: exterior === geographicShell ? 'geographic' : exterior === coarse ? 'low' : 'full',
     floor: level, renderedFrames, mood, solarDirection:sun.position.clone().sub(sun.target.position).normalize().toArray(),
     wing,
     geographicContext: Boolean(geography),
@@ -756,7 +886,7 @@ export async function playCityFlight(stillCurrent,onArrival){
   if(!ready)return;
   if(reduced()){goView('landing',0);onArrival();return;}
   const world=await getGeography();
-  await world.ensureRegion();
+  await Promise.all([world.ensureRegion(),loadGeographicShell?.()]);
   if(!stillCurrent() || !active)return;
   if(reduced()){goView('landing',0);onArrival();return;}
   cancelFlight();controls.maxDistance=65000;

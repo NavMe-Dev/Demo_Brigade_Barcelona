@@ -63,3 +63,16 @@ The pre-GIS build used a 743,332-byte detailed exterior, a 514,164-byte compact 
 A single browser session visited all thirteen designs and requested exactly thirteen corresponding GLBs. Each switch left one active interior WebGL context. The document remained loaded throughout. The geographic map disposes its independent context on exit. A3’s room navigation test measured frame intervals while turning the camera. B10’s internal arrival and panoramic reveal took 7.26 seconds after the exterior handoff. Additional model transfer and exterior approach time depend on cache, chosen floor and GPU. [Session test](../qa/residence-session.json) · [A3 viewport test](../qa/interior-browser.json) · [B10 animation](../qa/residence-motion.json)
 
 Reproduce with the local server running and a Playwright installation resolvable by Node. Set `PLAYWRIGHT_MODULE` to an absolute installation path if necessary. Run `node scripts/measure_public.cjs`.
+
+## November 27 architectural refresh
+
+Hardware-backed Chrome on Apple M2 tested the revised assets at 20 Mbps downstream, 5 Mbps upstream and 40 ms latency with the browser cache disabled. The camera sample measures completed WebGL renders during a 4.5-second move after the initial sequence settles.
+
+| Viewport and device scale | First usable control | First exterior draw | Mean camera FPS | p95 frame interval | Settled triangles |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Desktop, 1920 × 1080 at 1× | 1.41 s | 3.97 s | 59.9 | 17.7 ms | 1,709,127 |
+| Emulated phone, 390 × 844 at 2× | 1.40 s | 3.01 s | 59.9 | 18.0 ms | 254,839 |
+
+The desktop path reached the approximately 60 FPS target on this Mac. The emulated phone viewport used the low-detail model and the desktop GPU. The result leaves the physical mobile 30 FPS target unverified. The first live frame takes longer than the previous geographic release. The opening waits for the base terrain, lighting and selected initial assets before revealing the building.
+
+After return from the neighborhood route and garbage collection, Chrome reported JavaScript heap usage of 10.20 MiB on desktop and 8.68 MiB in the emulated phone viewport. Peak typed-array backing storage in the recorded snapshots was 44.02 MiB and 25.21 MiB respectively. These measurements exclude GPU driver memory. [Raw refresh benchmark](../qa/architectural-performance.json) · [Transfer sizes and profiles](ARCHITECTURAL_ASSET_MANIFEST.md)

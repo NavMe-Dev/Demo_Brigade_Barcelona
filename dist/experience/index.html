@@ -41,7 +41,7 @@
           <button data-section="tour"><img src="assets/room-living.webp" alt=""><span>Start guided tour</span></button>
         </div>
       </div>
-      <div class="view-readout"><span class="readout-dot"></span><span id="estateStatus" role="status">Preparing the 3D masterplan</span></div>
+      <div class="view-readout"><span class="readout-dot"></span><span id="estateStatus" role="status">Preparing the 3D masterplan</span><button type="button" id="estateRetry" hidden>Retry 3D</button></div>
       <div class="estate-orbit-tools" aria-label="Exterior camera controls">
         <button id="introControl" aria-label="Replay introduction" hidden><span data-icon="reset"></span><span class="intro-label">Replay intro</span></button>
         <button id="estateLight" aria-label="Choose time of day" title="Choose time of day"><span data-icon="sun"></span></button>
@@ -49,7 +49,7 @@
         <button id="estateZoomIn" aria-label="Zoom in" title="Zoom in"><span data-icon="plus"></span></button>
         <button id="estateZoomOut" aria-label="Zoom out" title="Zoom out"><span data-icon="minus"></span></button>
       </div>
-      <aside id="lightingSheet" class="lighting-sheet" hidden aria-label="Time of day"><strong>Time of day</strong><div id="estateMoods"></div><small>Simulated equinox lighting · Hyderabad</small></aside>
+      <aside id="lightingSheet" class="lighting-sheet" hidden aria-label="Time of day"><strong>Time of day</strong><div id="estateMoods"></div><small>Simulated equinox lighting · Hyderabad</small><label for="estateQuality">3D quality</label><select id="estateQuality"><option value="auto">Auto</option><option value="high">High</option><option value="performance">Performance</option></select></aside>
       <aside id="layoutInfo" class="estate-panel layout-info" hidden aria-label="Selected apartment"></aside>
       <button id="showLayout" class="estate-reopen details-reopen" hidden>Apartment details</button>
       <button id="skipApproach" class="estate-reopen skip-approach" hidden>Skip animation</button>

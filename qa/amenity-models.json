@@ -1,5 +1,5 @@
 {
-  "tested": "2026-11-25T14:27:34.737Z",
+  "tested": "2026-11-26T18:57:43.336Z",
   "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
   "models": {
     "brigade-barcelona": {
@@ -11,12 +11,12 @@
         ],
         [
           74.5039062,
-          181.5,
+          181.75,
           97.8476562
         ]
       ],
-      "draws": 191,
-      "triangles": 504685,
+      "draws": 255,
+      "triangles": 1464516,
       "amenityIds": [
         "clubhouse-15",
         "clubhouse-16",
@@ -82,7 +82,7 @@
         "sky-deck-14",
         "sky-deck-15"
       ],
-      "bytes": "743332"
+      "bytes": "2288944"
     },
     "exterior-lod": {
       "verticesBounds": [
@@ -93,24 +93,24 @@
         ],
         [
           74.5039062,
-          181.5,
+          181.75,
           97.8476562
         ]
       ],
-      "draws": 77,
-      "triangles": 101203,
+      "draws": 102,
+      "triangles": 149600,
       "amenityIds": [
         "clubhouse-15",
         "clubhouse-16"
       ],
-      "bytes": "514164"
+      "bytes": "1181564"
     },
     "wing-a": {
       "verticesBounds": [
         [
           -39.4257812,
           15,
-          -38.0351562
+          -37.7265625
         ],
         [
           41.1757812,
@@ -118,64 +118,64 @@
           -1.32501221
         ]
       ],
-      "draws": 28,
-      "triangles": 185202,
+      "draws": 39,
+      "triangles": 342036,
       "amenityIds": [],
-      "bytes": "154436"
+      "bytes": "420924"
     },
     "wing-b": {
       "verticesBounds": [
         [
-          -21.0351562,
+          -20.7255859,
           15,
           -12.5
         ],
         [
-          21.5351562,
+          21.2255859,
           177.976562,
-          50.7851562
+          50.4765625
         ]
       ],
-      "draws": 20,
-      "triangles": 211552,
+      "draws": 31,
+      "triangles": 403814,
       "amenityIds": [],
-      "bytes": "118960"
+      "bytes": "372268"
     },
     "podium": {
       "verticesBounds": [
         [
-          -46.5351562,
+          -46.67665393554723,
           0,
-          -39.5332031
+          -39.67623999618905
         ],
         [
-          44.2851562,
+          44.42665393554723,
           21.0996094,
-          64.7617188
+          64.89837292210609
         ]
       ],
-      "draws": 5,
-      "triangles": 15480,
+      "draws": 7,
+      "triangles": 492792,
       "amenityIds": [],
-      "bytes": "134236"
+      "bytes": "263708"
     },
     "landscape": {
       "verticesBounds": [
         [
-          -63.64241486293233,
+          -63.238753927941076,
           0,
-          -67.6061155567789
+          -67.51999642388645
         ],
         [
-          59.894060459631405,
+          60.028715554000215,
           18.958519957553406,
-          78.48864291178313
+          78.3164406592647
         ]
       ],
       "draws": 7,
-      "triangles": 66195,
+      "triangles": 65790,
       "amenityIds": [],
-      "bytes": "27468"
+      "bytes": "21284"
     },
     "eco-deck": {
       "verticesBounds": [
@@ -186,12 +186,12 @@
         ],
         [
           43.8925781,
-          18.1103516,
+          18.3603516,
           63.5878906
         ]
       ],
-      "draws": 43,
-      "triangles": 9336,
+      "draws": 56,
+      "triangles": 35742,
       "amenityIds": [
         "eco-deck-01",
         "eco-deck-02",
@@ -219,7 +219,7 @@
         "eco-deck-24",
         "eco-deck-25"
       ],
-      "bytes": "110408"
+      "bytes": "581812"
     },
     "sky-deck": {
       "verticesBounds": [
@@ -230,12 +230,12 @@
         ],
         [
           20.4941406,
-          181.5,
+          181.75,
           49.3789062
         ]
       ],
-      "draws": 26,
-      "triangles": 8732,
+      "draws": 37,
+      "triangles": 73803,
       "amenityIds": [
         "sky-deck-01",
         "sky-deck-02",
@@ -253,28 +253,28 @@
         "sky-deck-14",
         "sky-deck-15"
       ],
-      "bytes": "95088"
+      "bytes": "895068"
     },
     "clubhouse": {
       "verticesBounds": [
         [
-          33.6074219,
+          34.125,
           0,
-          25.5
+          23.9501953
         ],
         [
-          48.0449219,
+          47.875,
           27.1699219,
-          55.5390625
+          57.7207031
         ]
       ],
-      "draws": 15,
-      "triangles": 1876,
+      "draws": 19,
+      "triangles": 6376,
       "amenityIds": [
         "clubhouse-15",
         "clubhouse-16"
       ],
-      "bytes": "25008"
+      "bytes": "173404"
     },
     "clubhouse-studies": {
       "verticesBounds": [

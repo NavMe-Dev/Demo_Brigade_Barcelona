@@ -44,6 +44,11 @@ const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 let introPlaying=false,cityPlaying=false,featuresVisible=false;
 let project,section='overview',wing=null,floor=null,selected='A3',mood='day',amenity='eco-deck',cameraView='aerial';
 let queuedSection=null,live=false,regional=false,job=0,panelVersion=0,planWidget,detailOpen=false,returnSection='apartments',pendingNav=null,skip=false;
+const exteriorViews = [
+ ['aerial','Aerial masterplan'], ['front','Hero exterior'], ['rear','Rear façade'],
+ ['crown','Roofline and signage'], ['balcony','Balcony detail'], ['podium','Podium'],
+ ['street','Street level'], ['entrance','Main entrance'],
+];
 let saved=[],compared=[],filters=defaultFilters(),toastId=0,collectionMeta={},previewImages={};
 function loadIds(key){try{const v=JSON.parse(localStorage.getItem(key));return Array.isArray(v)?v:[];}catch{return [];}}
 function store(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{}}
@@ -219,19 +224,32 @@ function renderPanel(){
    mountCompare(content,{project,ids:compared,onToggle:compare,onOpen:openDesign,onPlan:a=>showSheet('Design '+a.code,a.plan),balconies:collectionMeta,previews:previewImages});
  }else if(section==='amenities'){
   $('estatePanelTitle').textContent=amenityNames[amenity];$('estatePanelKicker').textContent='Amenities';
+  const views=amenity==='clubhouse'?[['clubhouse','Clubhouse exterior'],['pool','Rooftop pool']]:
+    amenity==='sky-deck'?[['sky','Sky Deck overview'],['skyGarden','Sky Deck garden']]:
+    [['eco','Eco Deck overview'],['ecoGarden','Eco Deck fire garden']];
+  rows(views.map(([key,label])=>[label,()=>site.goView(key)]));
   panelPlan(amenity,token);
  }else if(section==='masterplan'){
-  choices('Viewpoint',[['aerial','Aerial'],['street','Street'],['entrance','Entrance']],cameraView,key=>{cameraView=key;site.goView(key);renderPanel();});
-  rows([['Select a wing',()=>navigate('towers')]]);panelPlan('masterplan',token);
+  choices('Viewpoint',exteriorViews,cameraView,key=>{cameraView=key;site.goView(key);renderPanel();});
+  rows([['Select a wing',()=>navigate('towers')]]);
+  let touring=false;
+  const tour=action('Architectural flythrough',async()=>{
+    if(touring){site.stopIntroduction();return;}
+    touring=true;tour.textContent='Stop flythrough';
+    await site.tourArchitecture();
+    touring=false;tour.textContent='Architectural flythrough';
+  },'estate-action');
+  content.append(tour);
+  panelPlan('masterplan',token);
  }else if(section==='location')locationPanel();
 }
 function askEnquiry(){
  const a=current();$('enquiryForm').dataset.layout=a?.code||'A3';document.querySelector('[data-enquiry-layout]').textContent=a?'Design '+a.code+' · Wing '+a.wing:'Brigade Barcelona';$('enquiryDialog').showModal();
 }
-function sectionCamera(){
- if(['towers','apartments'].includes(section)&&wing)return floor?site.focusFloor(wing,floor):site.focusWing(wing);
+function sectionCamera(duration){
+ if(['towers','apartments'].includes(section)&&wing)return floor?site.focusFloor(wing,floor,duration):site.focusWing(wing,duration);
  const key=section==='amenities'?({'eco-deck':'eco','sky-deck':'sky',clubhouse:'clubhouse'})[amenity]:({overview:'overview',masterplan:cameraView,location:'location'})[section]||'aerial';
- return site.goView(key);
+ return site.goView(key,duration);
 }
 function navigate(next,{push=true,motion=true,write=true}={}){
  if(!project){queuedSection=next;return;}if(!names[next])next='overview';$('estateNavDialog').close();$('lightingSheet').hidden=true;
@@ -284,7 +302,7 @@ async function route(q,initial=false){
  navigate(next,{push:false,motion:false});
  if((shared||view==='walk'||view==='dollhouse')&&!invalid){if(floor===12&&code==='A7'){notice('A7 is replaced by a refuge area on this floor.');return;}await openDesign(code,view==='dollhouse'?'dollhouse':'walk',room,{push:false});}
  else if(live){
-   if(section!=='overview')sectionCamera();
+   if(section!=='overview')sectionCamera(initial?0:undefined);
    else if(initial&&!reduced())site.playIntroduction();
    else site.goView(reduced()?'landing':'overview',0);
  }
@@ -302,6 +320,8 @@ $('panelClose').onclick=()=>{panelVisible(false);$('reopenPanel').focus();};$('r
 $('showLayout').onclick=()=>detailsVisible(true);
 $('estateLight').onclick=()=>{$('lightingSheet').hidden=!$('lightingSheet').hidden;};
 for(const v of lightingModes){const b=action(v==='day'?'Daylight':v[0].toUpperCase()+v.slice(1),()=>{setMood(v);$('lightingSheet').hidden=true;});b.dataset.mood=v;$('estateMoods').append(b);}
+$('estateQuality').onchange=event=>site.setQuality(event.target.value);
+$('estateRetry').onclick=()=>location.reload();
 $('estateReset').onclick=()=>sectionCamera();$('estateZoomIn').onclick=()=>site.zoom(.8);$('estateZoomOut').onclick=()=>site.zoom(1.25);
 $('skipApproach').onclick=()=>{skip=true;site.finishFlight();$('skipApproach').hidden=true;};
 $('homeButton').addEventListener('click',event=>{if(!isInside()){event.stopImmediatePropagation();navigate('overview');}},true);
@@ -325,9 +345,9 @@ async function run(){
  const initialJob=job;if(queuedSection){navigate(queuedSection);queuedSection=null;}
  live=await site.initScene({intro:setIntroPlaying,cityStage:stage=>{$('cityFlightStage').textContent=stage;},cityEnd:()=>{finishCity();query();},wing:pickWing,floor:pickFloor,design:pickDesign,
  amenity:id=>{amenity=amenityNames[id]?id:'eco-deck';navigate('amenities');},feature:id=>{selectedFeature=id;planWidget?.select(id,{focus:true});},
- unsupported:()=>notice('The floor-specific layout is awaiting confirmation.'),contextMissing:()=>notice('Neighborhood data could not be loaded.'),
- fallback:message=>{live=false;syncIntroControl();$('estateStatus').textContent=message;$('sceneQualification').textContent='Illustrative exterior rendering';for(const b of document.querySelectorAll('.estate-orbit-tools button'))b.disabled=true;}});
- if(job===initialJob)await route(firstQuery,true);else if(live&&!isInside())sectionCamera();
+ unsupported:()=>notice('The floor-specific layout is awaiting confirmation.'),
+ fallback:message=>{live=false;$('estateRetry').hidden=false;$('estateScene').classList.add('estate-rendering-fallback');syncIntroControl();$('estateStatus').textContent=message;$('sceneQualification').textContent='Illustrative exterior rendering';for(const b of document.querySelectorAll('.estate-orbit-tools button'))b.disabled=true;}});
+ if(job===initialJob)await route(firstQuery,true);else if(live&&!isInside())sectionCamera(0);
  addEventListener('popstate',async()=>{const q=new URLSearchParams(location.search);if(isInside())await leaveInterior();route(q);});
 }
 run().catch(e=>{console.error(e);$('estateStatus').textContent='Unable to load the project · reload to retry';});

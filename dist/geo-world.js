@@ -56,6 +56,13 @@ async function buildWorld() {
   const buildings = createBuildings(THREE, terrain, { quality, onChange: invalidate });
   const shadows = siteShadows(terrain);
   root.add(imagery.root, buildings.root, shadows);
+  if (!(await imagery.baseReady)) {
+    imagery.dispose();
+    buildings.dispose();
+    shadows.geometry.dispose();
+    shadows.material.dispose();
+    throw new Error('Base terrain imagery unavailable');
+  }
   let active = true,
     infrastructure,
     infrastructureRequest,
