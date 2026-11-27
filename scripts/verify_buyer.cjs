@@ -3,7 +3,8 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const {chromium} = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = process.env.BRIGADE_QA_URL || 'http://127.0.0.1:5173/experience/';
-const qa = path.join(__dirname,'../qa');
+const qa = process.env.BRIGADE_BUYER_QA_DIR || path.join(__dirname,'../qa');
+fs.mkdirSync(path.join(qa,'evidence'), { recursive: true });
 const report = {browser:'',date:new Date().toISOString(),arrival:{},checks:[],screens:[],devices:[],errors:[]};
 const metrics = page => page.evaluate(async()=> (await import(new URL('estate-scene.js',document.baseURI))).sceneMetrics());
 const source = (page,query='') => page.goto(base+query);
@@ -12,10 +13,9 @@ const check=(name,value)=>{assert.ok(value,name);report.checks.push(name);};
 const nav=(page,key)=>page.locator('.estate-nav [data-section='+key+']').click();
 const button=(page,name)=>(/^Wing [AB]$/.test(name)?page.locator('#estatePanelContent'):page).getByRole('button',{name,exact:true});
 const shot=async(p,name)=>{await p.screenshot({path:path.join(qa,'evidence',name+'.png')});report.screens.push(name);};
-const cityAsset = url => /(?:\/vendor\/maplibre\/|\/regional-map\.js$|\/hyderabad-region\.webp$|\/kokapet\.geojson$)/.test(new URL(url).pathname);
+const legacySatelliteAsset = url => /\/(?:sentinel\/|hyderabad-region\.webp|kokapet-color\.webp)/.test(new URL(url).pathname);
 const wide = [475,335,540], wideTarget = [0,20,0];
-const desktopOverview = {camera:[183,152,298],target:[0,80,0]};
-const phoneOverview = {camera:[218,165,345],target:[0,81,0]};
+const heroOverview = {camera:[-173,116,297],target:[0,85,8]};
 const distance = (a,b) => Math.hypot(...a.map((v,i)=>v-b[i]));
 const isPose = (scene,pose) => distance(scene.camera,pose.camera)<.01&&distance(scene.target,pose.target)<.01;
 const skipIntro = page => page.getByRole('button',{name:'Skip introduction',exact:true});
@@ -56,7 +56,7 @@ async function verifyDirectEntry(page,pathname,overview,label){
  await page.goto(new URL(pathname,base).href);
  await skipIntro(page).waitFor({timeout:10000});
  await ready(page);
- await replayIntro(page).waitFor({timeout:17000});
+ await replayIntro(page).waitFor({timeout:24000});
  await page.waitForTimeout(450);
  const scene=await metrics(page);
  const observed=await page.evaluate(()=>({
@@ -72,11 +72,11 @@ async function verifyDirectEntry(page,pathname,overview,label){
  const settled=frames[finalIndex];
  const duration=settled?settled.t-first.t:0;
  assert.ok(settled,`No settled frame rendered. Last frame: ${JSON.stringify(last)}`);
- assert.ok(duration>8500&&duration<10500,`Unexpected arrival duration: ${duration.toFixed(0)} ms. First and last frame times: ${first.t.toFixed(0)} and ${last.t.toFixed(0)}.`);
- report.checks.push(label+' completes the original 8.9-second approach');
+ assert.ok(duration>14000&&duration<17500,`Unexpected arrival duration: ${duration.toFixed(0)} ms. First and last frame times: ${first.t.toFixed(0)} and ${last.t.toFixed(0)}.`);
+ report.checks.push(label+' completes the 14.5-second architectural approach');
  const lateral=frames.reduce((max,f)=>Math.max(max,Math.abs((f.position[0]-wide[0])*(overview.camera[2]-wide[2])-(f.position[2]-wide[2])*(overview.camera[0]-wide[0]))/Math.hypot(overview.camera[0]-wide[0],overview.camera[2]-wide[2])),0);
  check(label+' follows a moving orbit between endpoints',frames.length>15&&lateral>10);
- const orbitKeys=[[265,208,380],[100,137,290],[-54,114,275],[36,118,263]];
+ const orbitKeys=[[330,240,434],[152,176,335],[-12,123,316],[-109,113,313]];
  let previous=-1;
  const waypointErrors=orbitKeys.map(key=>{
    let nearest=previous+1;
@@ -84,10 +84,10 @@ async function verifyDirectEntry(page,pathname,overview,label){
    previous=nearest;
    return frames[nearest]?distance(frames[nearest].position,key):Infinity;
  });
- check(label+' passes the four original orbit waypoints in sequence',waypointErrors.every(error=>error<12));
+ check(label+' passes the four revised orbit waypoints in sequence',waypointErrors.every(error=>error<12));
  check(label+' settles on the responsive overview',isPose(scene,overview)&&frames.slice(finalIndex).every(f=>distance(f.position,overview.camera)<.02));
  check(label+' shows Skip during motion and Replay after settling',skipSeen&&await replayIntro(page).isVisible());
- const regional=requests.filter(cityAsset).map(u=>new URL(u).pathname);
+ const regional=requests.filter(legacySatelliteAsset).map(u=>new URL(u).pathname);
  const apartments=requests.filter(u=>/\/apartment-[ab]\d+(?:-web)?\.glb$/.test(new URL(u).pathname));
  check(label+' never displays or downloads a regional map or apartment during arrival',!mapSeen&&regional.length===0&&apartments.length===0);
  const samples=[0,.25,.5,.75,1].map(fraction=>{
@@ -129,8 +129,8 @@ async function verifyReduced(browser){
   await source(page);
   await ready(page);await page.waitForTimeout(1100);
   const observed=await page.evaluate(()=>window.entryObservation),scene=await metrics(page);
-  check('Reduced motion holds the wide opening pose with the introduction controls hidden',isPose(scene,{camera:wide,target:wideTarget})&&observed.frames.every(f=>distance(f.position,wide)<.01)&&!observed.skipSeen&&!await page.locator('#introControl').isVisible());
-  check('Reduced-motion arrival uses no regional map',!observed.mapSeen&&!requests.some(cityAsset));
+  check('Reduced motion opens the hero directly with introduction controls hidden',isPose(scene,heroOverview)&&!observed.skipSeen&&!await page.locator('#introControl').isVisible());
+  check('Reduced-motion arrival uses no legacy satellite fallback',!observed.mapSeen&&!requests.some(legacySatelliteAsset));
   report.arrival.reducedMotion={viewport:'390×844',firstPosition:observed.frames[0].position,finalCamera:scene.camera,finalTarget:scene.target,skipSeen:observed.skipSeen,mapSeen:observed.mapSeen};
  }finally{await page.close();}
 }
@@ -141,7 +141,7 @@ async function verifyApartmentShare(browser) {
    await source(page,'?layout=B10&room=kitchen');
    await page.waitForFunction(()=>document.body.classList.contains('walking')&&document.querySelector('#sceneStatus')?.textContent.includes('Design B10')&&document.querySelector('#roomName')?.textContent.toLowerCase().includes('kitchen')&&!!document.querySelector('#scene canvas')?.getContext('webgl2'));
    const intro=await page.evaluate(()=>window.entryObservation);
-   check('Apartment share opens the live B10 kitchen and bypasses the building introduction',!intro.skipSeen&&!intro.mapSeen&&!requests.some(cityAsset));
+   check('Apartment share opens the live B10 kitchen and bypasses the building introduction',!intro.skipSeen&&!intro.mapSeen&&!requests.some(legacySatelliteAsset));
  }finally{await page.close();}
 }
 async function share(browser,query,title){
@@ -150,7 +150,7 @@ async function share(browser,query,title){
   const requests=await observeExterior(page);
   await source(page,query);await page.waitForFunction(t=>document.querySelector('#estatePanelTitle').textContent===t,title);
   const state=await page.evaluate(()=>({skip:window.entryObservation.skipSeen,map:window.entryObservation.mapSeen}));
-  check('Public link '+query+' bypasses the introduction',!state.skip&&!state.map&&!requests.some(cityAsset)&&!await page.locator('#introControl').isVisible());
+  check('Public link '+query+' bypasses the introduction',!state.skip&&!state.map&&!requests.some(legacySatelliteAsset)&&!await page.locator('#introControl').isVisible());
  }finally{await page.close();}
 }
 async function gestures(page){
@@ -169,17 +169,19 @@ async function gestures(page){
 }
 async function main(){
  const b=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'chrome'});
+ const originalNewPage=b.newPage.bind(b);
+ b.newPage=async options=>{const page=await originalNewPage(options);await page.route('**/data/arcgis-runtime.json',route=>route.fulfill({json:{arcgisImageryEnabled:false,arcgisApiKey:''}}));return page;};
  report.browser=b.version();
  try{
  const p=await b.newPage({viewport:{width:1920,height:1080}});
- p.on('response',r=>{if(r.status()>=400)report.errors.push(r.status()+' '+r.url());});
+ p.on('response',r=>{if(r.status()>=400){const u=new URL(r.url());report.errors.push(r.status()+' '+u.origin+u.pathname);}});
  const rootPage=await b.newPage({viewport:{width:1920,height:1080},reducedMotion:'no-preference'});
- try{await verifyDirectEntry(rootPage,'/',desktopOverview,'desktop /');}finally{await rootPage.close();}
- await verifyDirectEntry(p,'/experience/',desktopOverview,'desktop /experience/');
+ try{await verifyDirectEntry(rootPage,'/',heroOverview,'desktop /');}finally{await rootPage.close();}
+ await verifyDirectEntry(p,'/experience/',heroOverview,'desktop /experience/');
  await shot(p,'exterior-1920');
- await verifyReplay(p,desktopOverview);
+ await verifyReplay(p,heroOverview);
  const phone=await b.newPage({viewport:{width:390,height:844},hasTouch:true,isMobile:true,reducedMotion:'no-preference'});
- try{await verifyDirectEntry(phone,'/experience/',phoneOverview,'phone /experience/');}finally{await phone.close();}
+ try{await verifyDirectEntry(phone,'/experience/',heroOverview,'phone /experience/');}finally{await phone.close();}
  await verifyReduced(b);
  await p.emulateMedia({reducedMotion:'reduce'});
  await p.locator('.estate-hero [data-section=towers]').click();await button(p,'Wing A').click();await button(p,'Floor 12').click();
@@ -195,15 +197,14 @@ async function main(){
  await shot(p,'comparison-1920');check('Three saved comparison rows show plans, rendered previews and decks',await p.locator('.compare-design').count()===3&&await p.locator('#compareChoice').count()===0&&await p.locator('.comparison-previews img').count()===6&&/Expansive deck/i.test(await p.locator('#estatePanelContent').innerText()));
  await p.reload();await p.waitForSelector('.compare-design');check('Compare and saved apartment survive reload',await p.locator('.compare-design').count()===3&&await p.evaluate(()=>JSON.parse(localStorage.getItem('brigade-designs')).includes('B10')));
  await nav(p,'location');
- const mapAssets=[];p.on('request',req=>{if(cityAsset(req.url()))mapAssets.push(new URL(req.url()).pathname);});
- await button(p,'Regional map').click();await p.locator('#regionalMap.interactive canvas').waitFor();
- await p.waitForFunction(()=>performance.getEntriesByType('resource').some(e=>e.name.includes('hyderabad-region.webp')&&e.responseEnd>0));
- check('Manual Location opens the regional satellite map on demand',mapAssets.some(n=>n.endsWith('/hyderabad-region.webp'))&&Boolean(await p.locator('.plot-pin').count()));
- await shot(p,'regional-map-1920');await button(p,'Kokapet Lake').click();await nav(p,'amenities');
- check('Leaving Location closes the manual map',await p.locator('#regionalMap').isHidden()||!(await p.locator('#regionalMap').getAttribute('class')||'').includes('map-visible'));
-await p.goBack();await p.waitForFunction(()=>document.body.dataset.section==='location');check('Back restores the previous public scene',true);
- const sun=[];for(const mood of ['morning','day','sunset','evening']){await p.locator('#estateLight').click();await p.locator('[data-mood='+mood+']:is(#estateMoods button)').click();const m=await metrics(p);assert.equal(m.mood,mood);sun.push(m.solarDirection.map(a=>a.toFixed(3)).join(','));}
- check('Four geographic solar directions change the rendered scene',new Set(sun).size===4);
+ const info = p.locator('#estatePanelContent');
+ check('Property information shows the documented address', /Plot No 20.*Neopolis.*Kokapet/i.test(await info.innerText()));
+ const forbidden = await p.evaluate(()=>performance.getEntriesByType('resource').map(r=>r.name));
+ check('Property information retains the hybrid ground without low-resolution satellite fallback',!forbidden.some(legacySatelliteAsset)&&(await metrics(p)).landscape?.kind==='hybrid');
+ await shot(p,'property-info-1920');await nav(p,'amenities');
+ await p.goBack();await p.waitForFunction(()=>document.body.dataset.section==='location');check('Back restores the previous public scene',true);
+ const sun=[];for(const mood of ['morning','day','sunset','night']){await p.locator('#estateLight').click();await p.locator('[data-mood='+mood+']:is(#estateMoods button)').click();const m=await metrics(p);assert.equal(m.mood,mood);sun.push(m.solarDirection.map(a=>a.toFixed(3)).join(','));}
+ check('Four architectural sunlight directions change the rendered scene',new Set(sun).size===4);
  await p.close();
  for(const [q,t] of [['?wing=A','Wing A'],['?wing=B','Wing B'],['?amenity=sky-deck','Sky Deck'],['?amenity=eco-deck','Eco Deck'],['?amenity=clubhouse','Clubhouse'],['?layout=invalid','Apartments']])await share(b,q,t);
  await verifyApartmentShare(b);

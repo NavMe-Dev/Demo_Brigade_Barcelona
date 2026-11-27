@@ -8,9 +8,9 @@ export function readJSON(path) {
 }
 export async function getProject(){
  const index=await readJSON('data/project.json');
- const [catalog,scene,location,templates,landmarks]=await Promise.all(['catalog','scene','location','templates','landmarks'].map(k=>readJSON(index.resources[k])));
+ const [catalog,scene,location,templates]=await Promise.all(['catalog','scene','location','templates'].map(k=>readJSON(index.resources[k])));
  const layouts=catalog.layouts.map(a=>({...a,id:a.code,plan:'assets/plans/'+a.code+'.webp',configuration:a.bedrooms===4?'four':a.has_study?'study':'three'}));
- return {index,layouts,scene,location,templates,landmarks:[...new Map(landmarks.map(l=>[l.name,l])).values()]};
+ return {index,layouts,scene,location,templates};
 }
 export function designsOnFloor(project,floor){
  if(floor==null)return project.layouts;

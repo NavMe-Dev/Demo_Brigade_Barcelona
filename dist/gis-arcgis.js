@@ -1,9 +1,9 @@
 // ArcGIS REST imagery. Tile bytes live only in this session's bounded texture array.
 const SERVICE = 'https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer';
-const START = 12,
-  SIDE = 256,
+const SIDE = 256,
   TILE_BYTES = SIDE * SIDE * 4;
 const VERIFIED_ZOOM = 19; // Published at Plot 20; reevaluated against the current source and tilemap.
+const RETRY_DELAYS = [1500, 5000, 15000], REQUEST_TIMEOUT = 12000;
 const ITEM = 'https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9';
 export function mercatorTile(lon, lat, z) {
   const n = 2 ** z;
@@ -17,7 +17,8 @@ function tileId(z, x, y) {
   return z + '/' + y + '/' + x;
 }
 
-export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
+export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key, startLevel = 12 }) {
+  const START = startLevel;
   const capacity = mobile ? 32 : 64,
     concurr = mobile ? 2 : 4;
   const { radius } = terrain,
@@ -65,7 +66,10 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     fadeFrame = 0;
   let decodeContext,
     lastKey = '',
-    metaRetryAt = 0;
+    metaRetryAt = 0,
+    metaFailures = 0,
+    retryTimer = 0,
+    generation = 0;
   function decorate(material) {
     material.onBeforeCompile = (shader) => {
       Object.assign(shader.uniforms, {
@@ -109,22 +113,54 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     material.customProgramCacheKey = () => `registered-imagery-${capacity}`;
   }
   async function request(path, query, signal, json = true) {
-    const url = new URL(SERVICE + path);
+    const citation = path.startsWith('/4/');
+    const source = citation ? 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer' : SERVICE;
+    const url = new URL(source + path);
     if (query) url.search = new URLSearchParams(query);
-    const r = await fetch(url, {
-      signal,
-      cache: 'no-store',
-      credentials: 'omit',
-      redirect: 'error',
-      headers: { Authorization: 'Bearer ' + key },
-    });
-    if (!r.ok) throw Object.assign(Error('Imagery service unavailable'), { code: r.status });
-    if (!json && !r.headers.get('content-type')?.includes('json')) return r.blob();
-    const data = await r.json();
-    if (data.error)
-      throw Object.assign(Error('ArcGIS service rejected the request'), { code: data.error.code });
-    if (!json) throw Error('No image at this zoom');
-    return data;
+    // This raster service's CORS preflight rejects Authorization headers.
+    // ArcGIS supports the public, origin-restricted browser token parameter.
+    if (!citation) url.searchParams.set('token', key);
+    signal.throwIfAborted();
+    const pending = new AbortController(), cancel = () => pending.abort();
+    signal.addEventListener('abort', cancel, { once: true });
+    const deadline = setTimeout(cancel, REQUEST_TIMEOUT);
+    try {
+      const r = await fetch(url, {
+        signal: pending.signal,
+        cache: 'no-store',
+        credentials: 'omit',
+        redirect: 'error',
+      });
+      if (!r.ok) throw Object.assign(Error('Imagery service unavailable'), { code: r.status });
+      if (!json && !r.headers.get('content-type')?.includes('json')) return await r.blob();
+      const data = await r.json();
+      if (data.error)
+        throw Object.assign(Error('ArcGIS service rejected the request'), { code: data.error.code });
+      if (!json) throw Error('No image at this zoom');
+      return data;
+    } finally {
+      clearTimeout(deadline);
+      signal.removeEventListener('abort', cancel);
+    }
+  }
+  function scheduleRetry() {
+    clearTimeout(retryTimer);
+    retryTimer = 0;
+    if (!active || disposed || !enabled) return;
+    const deadlines = metadataReady
+      ? [...desired.values()].filter((t) => !activeTiles.has(t.id) && !inflight.has(t.id)
+        && (t.z === START || activeTiles.has(tileId(t.z - 1, t.x >> 1, t.y >> 1)))).map((t) => t.retry)
+      : [metaRetryAt];
+    const next = Math.min(...deadlines.filter((at) => at > 0 && Number.isFinite(at)));
+    if (!Number.isFinite(next)) return;
+    // The scene renders on demand: a clock gate alone never wakes an idle camera.
+    retryTimer = setTimeout(() => {
+      retryTimer = 0;
+      if (!active || disposed || !enabled) return;
+      if (metadataReady) pump();
+      else boot();
+      onChange();
+    }, Math.max(0, next - performance.now()));
   }
   function allocate() {
     const factor = 2 ** (maxZoom - START);
@@ -156,6 +192,9 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
   async function boot() {
     if (booting || metadataReady || !active || !enabled || performance.now() < metaRetryAt) return;
     booting = true;
+    metaRetryAt = 0;
+    reason = 'Checking imagery coverage';
+    const epoch = generation;
     const signal = ctrl.signal;
     try {
       const meta = await request('', { f: 'json' }, signal);
@@ -180,7 +219,7 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
         },
         signal,
       ).catch((error) => {
-        if (signal.aborted || [401, 498, 499].includes(error.code)) throw error;
+        if (signal.aborted) throw error;
         // Some entitlements expose tiled imagery without the optional citation operation.
         // The local published bound still requires a positive live per-tile cache check.
         return { features: [] };
@@ -202,30 +241,41 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
         }
       }
       if (!available) throw Error('No cached World Imagery at the plot');
-      if (!active || disposed || signal.aborted) return;
+      if (!active || disposed || signal.aborted || epoch !== generation) return;
       credit = String(meta.copyrightText || 'Esri, Vantor, Earthstar Geographics and the GIS User Community');
       const regionalCredits = [...new Set(records?.map((record) => record.NICE_DESC).filter(Boolean))];
       for (const source of regionalCredits)
         if (!credit.toLowerCase().includes(source.toLowerCase())) credit += ', ' + source;
       allocate();
       metadataReady = true;
+      metaFailures = 0;
       reason = 'Loading available World Imagery tiles';
       if (latestCamera) select();
     } catch (error) {
-      if (!signal.aborted) fail(error);
+      if (!signal.aborted && epoch === generation) fail(error);
     } finally {
-      booting = false;
-      if (!disposed) onChange();
+      if (epoch === generation) {
+        booting = false;
+        scheduleRetry();
+        if (!disposed) onChange();
+      }
     }
   }
   function fail(error) {
     const denied = [401, 403, 498, 499].includes(error.code);
-    reason = denied ? 'ArcGIS authorization unavailable' : 'ArcGIS unavailable; showing local imagery';
+    reason = denied ? 'ArcGIS authorization unavailable' : 'Geographic imagery unavailable; architectural ground';
     if (denied) {
       enabled = false;
       ctrl.abort();
+      for (const c of inflight.values()) c.abort();
+      clearTimeout(retryTimer);
+      retryTimer = 0;
       releaseAtlas();
-    } else metaRetryAt = performance.now() + 60000;
+      metadataReady = false;
+    } else {
+      const delay = RETRY_DELAYS[metaFailures++];
+      metaRetryAt = delay === undefined ? Infinity : performance.now() + delay;
+    }
   }
   async function availableTile(t, signal) {
     const x = t.x - (t.x % 8),
@@ -234,7 +284,7 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     if (!blocks.has(id)) {
       if (blocks.size > 192) blocks.delete(blocks.keys().next().value);
       const pending = request(`/tilemap/${t.z}/${y}/${x}/8/8`, { f: 'json' }, signal).catch((error) => {
-        blocks.delete(id);
+        if (blocks.get(id) === pending) blocks.delete(id);
         throw error;
       });
       blocks.set(id, pending);
@@ -275,7 +325,7 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     return t;
   }
   function select() {
-    if (!active || !enabled || !metadataReady || disposed) return;
+    if (!active || !enabled || !metadataReady || disposed || !latestCamera) return;
     const leaves = [],
       next = new Map();
     const focal = viewport / (2 * Math.tan((latestCamera.fov * Math.PI) / 360));
@@ -362,10 +412,13 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     activeTiles.delete(item.tile.id);
     return item.slot;
   }
-  async function fetchTile(t, signal) {
+  async function fetchTile(t, controller, epoch) {
+    const signal = controller.signal;
     let bitmap;
     try {
-      if (!(await availableTile(t, ctrl.signal))) {
+      const available = await availableTile(t, ctrl.signal);
+      signal.throwIfAborted();
+      if (!available) {
         unavailable.add(t.id);
         return;
       }
@@ -385,22 +438,28 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
       atlas.addLayerUpdate(slot);
       atlas.needsUpdate = true;
       activeTiles.set(t.id, { tile: t, slot, loaded: performance.now() });
+      t.failures = 0;
+      t.retry = 0;
       reason = 'World Imagery';
       rebuildTable();
       animateFade();
     } catch (error) {
-      if (!signal.aborted && !disposed) {
+      if (!signal.aborted && !disposed && epoch === generation) {
         if ([401, 403, 498, 499].includes(error.code)) fail(error);
         else {
-          t.retry = performance.now() + 60000;
-          if (!activeTiles.size) reason = 'ArcGIS unavailable; showing local imagery';
+          const delay = RETRY_DELAYS[t.failures || 0];
+          t.failures = (t.failures || 0) + 1;
+          t.retry = delay === undefined ? Infinity : performance.now() + delay;
+          if (!activeTiles.size) reason = 'Geographic imagery unavailable; architectural ground';
         }
       }
     } finally {
       bitmap?.close();
-      inflight.delete(t.id);
-      pump();
-      if (!disposed) onChange();
+      if (inflight.get(t.id) === controller) inflight.delete(t.id);
+      if (epoch === generation) {
+        pump();
+        if (!disposed) onChange();
+      }
     }
   }
   function pump() {
@@ -413,8 +472,10 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
       if (t.z > START && !activeTiles.has(tileId(t.z - 1, t.x >> 1, t.y >> 1))) continue;
       const abort = new AbortController();
       inflight.set(t.id, abort);
-      fetchTile(t, abort.signal);
+      t.retry = 0;
+      fetchTile(t, abort, generation);
     }
+    scheduleRetry();
   }
   function update(camera, eye, visible, height) {
     latestCamera = camera;
@@ -427,21 +488,54 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
   function setActive(value) {
     active = Boolean(value);
     if (!active) {
+      generation++;
+      booting = false;
       ctrl.abort();
       ctrl = new AbortController();
       blocks.clear();
       for (const c of inflight.values()) c.abort();
+      inflight.clear();
+      clearTimeout(retryTimer);
+      retryTimer = 0;
       cancelAnimationFrame(fadeFrame);
     } else if (metadataReady) {
       select();
       animateFade();
-    } else boot();
+    } else {
+      boot();
+      scheduleRetry();
+    }
+  }
+  function retry() {
+    if (disposed) return;
+    generation++;
+    ctrl.abort();
+    ctrl = new AbortController();
+    for (const c of inflight.values()) c.abort();
+    inflight.clear();
+    blocks.clear();
+    unavailable.clear();
+    enabled = true;
+    booting = false;
+    metaFailures = metaRetryAt = 0;
+    for (const t of new Set([...tiles.values(), ...desired.values()])) t.failures = t.retry = 0;
+    reason = metadataReady ? 'Loading available World Imagery tiles' : 'Checking imagery coverage';
+    if (metadataReady) select();
+    else boot();
+    scheduleRetry();
+    onChange();
   }
   function stats() {
     const count = [...activeTiles.keys()].filter((id) => desired.has(id)).length;
+    const failures = metaFailures > 0 || [...desired.values()].some((t) => t.failures > 0);
+    const noCoverage = metadataReady && !count && !inflight.size && unavailable.size > 0;
+    const state = count ? 'ready' : !enabled ? 'unauthorized' : booting || inflight.size ? 'loading'
+      : retryTimer ? 'retrying' : failures || noCoverage ? 'unavailable' : 'loading';
     return {
       ...(count ? { provider: 'arcgis', attribution: credit, attributionUrl: ITEM } : {}),
-      reason,
+      reason: noCoverage ? 'No cached World Imagery in this view' : reason,
+      state,
+      canRetry: !disposed && (!enabled || failures || noCoverage),
       loading: inflight.size + Number(booting),
       visibleTiles: count,
       maxZoom: maxZoom ?? null,
@@ -461,5 +555,5 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key }) {
     desired.clear();
     unavailable.clear();
   }
-  return { projection, decorate, update, setActive, stats, dispose };
+  return { projection, decorate, update, setActive, stats, retry, dispose };
 }

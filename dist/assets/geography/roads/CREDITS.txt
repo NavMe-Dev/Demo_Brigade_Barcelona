@@ -1,0 +1,10 @@
+Road centerlines, pedestrian paths and mapped tags derive from © OpenStreetMap contributors, ODbL 1.0.
+https://www.openstreetmap.org/copyright
+Source and build provenance are in index.json and scripts/geography/road_surfaces.py.
+
+Asphalt Floor and Brown Mud Dry scans from Poly Haven, CC0 1.0.
+https://polyhaven.com/a/asphalt_floor
+https://polyhaven.com/a/brown_mud_dry
+
+Fern 02 modeled by Rico Cilliers, scans by Rob Tuytel, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/fern_02

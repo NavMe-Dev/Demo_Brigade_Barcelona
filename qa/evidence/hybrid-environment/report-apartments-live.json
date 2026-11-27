@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-27T06:33:53.709Z",
+  "checks": [
+    "All 13 layouts retain window navigation, floor changes, balcony context and return",
+    "Apartment views make no Sentinel image requests",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [
+    "bedroom-window",
+    "balcony"
+  ],
+  "layouts": [
+    {
+      "code": "A1",
+      "upper": 25,
+      "lower": 17,
+      "window": "A1-opening-2-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A2",
+      "upper": 25,
+      "lower": 17,
+      "window": "A2-opening-2-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A3",
+      "upper": 25,
+      "lower": 17,
+      "window": "A3-deck-sliding-family-lounge",
+      "balcony": "deck"
+    },
+    {
+      "code": "A4",
+      "upper": 25,
+      "lower": 17,
+      "window": "A4-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A5",
+      "upper": 25,
+      "lower": 17,
+      "window": "A5-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A6",
+      "upper": 25,
+      "lower": 17,
+      "window": "A6-opening-1-living",
+      "balcony": "deck"
+    },
+    {
+      "code": "A7",
+      "upper": 25,
+      "lower": 17,
+      "window": "A7-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B8",
+      "upper": 25,
+      "lower": 17,
+      "window": "B8-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B9",
+      "upper": 25,
+      "lower": 17,
+      "window": "B9-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B10",
+      "upper": 25,
+      "lower": 17,
+      "window": "B10-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B11",
+      "upper": 25,
+      "lower": 17,
+      "window": "B11-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B12",
+      "upper": 25,
+      "lower": 17,
+      "window": "B12-opening-2-bathroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B14",
+      "upper": 25,
+      "lower": 17,
+      "window": "B14-opening-3-bedroom-1",
+      "balcony": "deck"
+    }
+  ],
+  "browser": "158.0.8127.37"
+}

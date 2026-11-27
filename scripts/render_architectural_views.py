@@ -26,7 +26,7 @@ def add_lamp(scene, name, kind):
 def render(output, keys):
     scene = bpy.context.scene
     scene.render.engine = 'CYCLES'
-    scene.cycles.samples = 10
+    scene.cycles.samples = 24
     scene.cycles.use_denoising = True
     scene.cycles.max_bounces = 4
     scene.render.resolution_x = 1920
@@ -43,17 +43,6 @@ def render(output, keys):
     hdri.image = bpy.data.images.load(str(ROOT / 'dist/assets/sky-light.hdr'))
     nodes, links = world.node_tree.nodes, world.node_tree.links
     links.new(hdri.outputs['Color'], shader.inputs['Color'])
-    sky = nodes.new('ShaderNodeBackground')
-    sky.inputs['Color'].default_value = (.015,.022,.055,1)
-    light_path = nodes.new('ShaderNodeLightPath')
-    camera_sky = nodes.new('ShaderNodeMath')
-    camera_sky.operation = 'MULTIPLY'
-    links.new(light_path.outputs['Is Camera Ray'],camera_sky.inputs[0])
-    mix = nodes.new('ShaderNodeMixShader')
-    links.new(camera_sky.outputs[0],mix.inputs[0])
-    links.new(shader.outputs[0],mix.inputs[1])
-    links.new(sky.outputs[0],mix.inputs[2])
-    links.new(mix.outputs[0],nodes['World Output'].inputs['Surface'])
     scene.world = world
 
     camera_data = bpy.data.cameras.new('Architectural comparison lens')
@@ -72,23 +61,24 @@ def render(output, keys):
     garden_glow.location = world_vector((9.7,179.18,39.5))
     garden_glow.data.color = (1,.55,.22)
     garden_glow.data.shadow_soft_size = .30
+    sky_files = {'sunset': 'sky-sunset.hdr', 'night': 'sky-night.hdr', 'evening': 'sky-evening.hdr'}
     for key in keys:
         view = VIEWS[key]
         camera.location = world_vector(view['camera'])
         camera.rotation_euler = (world_vector(view['target']) - camera.location).to_track_quat('-Z','Y').to_euler()
         mood = view['light']
+        hdri.image = bpy.data.images.load(str(ROOT / 'dist/assets' / sky_files.get(mood, 'sky-light.hdr')), check_existing=True)
         if mood == 'sunset':
-            direction, energy, color, ambient = (1,.34,-.5), 2.9, (1,.63,.37), .46
-        elif mood == 'evening':
-            direction, energy, color, ambient = (-1,.17,.3), .18, (.65,.75,1), .17
+            direction, energy, color, ambient = (-.28,.46,1), 2.9, (1,.63,.37), .46
+        elif mood in ('night', 'evening'):
+            direction, energy, color, ambient = (-1,.17,.3), .06, (.65,.75,1), .7
         else:
             direction, energy, color, ambient = (1,.61,1), 2.5, (1,.8,.65), .59
         sun.rotation_euler = (-world_vector(direction)).to_track_quat('-Z','Y').to_euler()
         sun.data.energy = energy
         sun.data.color = color
         shader.inputs['Strength'].default_value = ambient
-        camera_sky.inputs[1].default_value = float(mood == 'evening')
-        garden_glow.data.energy = 34 if mood == 'evening' else 0
+        garden_glow.data.energy = 34 if mood in ('night', 'evening') else 0
         scene.render.filepath = str(output / (key + '-cycles.jpg'))
         bpy.ops.render.render(write_still=True)
 

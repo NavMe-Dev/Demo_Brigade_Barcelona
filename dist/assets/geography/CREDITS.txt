@@ -32,3 +32,5 @@ Local terrain · elevation.json and elevation.i16
 PARCEL CONTROL
 Hyderabad Metropolitan Development Authority. Neopolis Phase III, Plot Coordinates, PDF page 22. Plot 20 vertices A–P are supplied in plot-20.geojson. Tower placement within the parcel is registered to a hand-traced marketing plan. The parcel source is independent of the optical and elevation sources.
 https://www.hmda.gov.in/wp-content/uploads/2020/07/HMDA_Neopolis_Phase-III.pdf
+
+The public road surfaces use the same OpenStreetMap ODbL data. See roads/CREDITS.txt for material and plant credits.

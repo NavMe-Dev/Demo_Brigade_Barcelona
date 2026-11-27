@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-27T06:40:21.209Z",
+  "checks": [
+    "Stationary window view repaints as delayed geographic tiles arrive",
+    "Geographic updates keep the window camera fixed",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [
+    "hero",
+    "golden-hour",
+    "rear-surroundings",
+    "geographic-arrival",
+    "bedroom-window",
+    "balcony"
+  ],
+  "layouts": [],
+  "browser": "158.0.8127.37",
+  "staticWindow": {
+    "initialFrames": 63,
+    "finalFrames": 154,
+    "arrivingTiles": 24,
+    "camera": [
+      2.1,
+      1.57,
+      3.3132
+    ]
+  }
+}

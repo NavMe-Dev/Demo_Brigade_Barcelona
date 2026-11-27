@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-27T07:18:16.623Z",
+  "checks": [
+    "exterior: no source strip on the scene",
+    "exterior: compact control stays within bounds",
+    "exterior: source details open in the dialog",
+    "apartment: no source strip on the scene",
+    "apartment: compact control stays within bounds",
+    "apartment: source details open in the dialog",
+    "apartment: credits remain accessible with interface hidden",
+    "mobile: no source strip on the scene",
+    "mobile: compact control stays within bounds",
+    "mobile: source details open in the dialog",
+    "mobile: credits remain accessible with interface hidden",
+    "No uncaught browser errors"
+  ],
+  "errors": []
+}

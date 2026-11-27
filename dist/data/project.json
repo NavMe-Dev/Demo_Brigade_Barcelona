@@ -11,9 +11,8 @@
   "resources": {
     "catalog": "data/unit-layouts.json",
     "scene": "assets/scene-map.json",
-    "location": "data/location.json",
+    "location": "data/property.json",
     "templates": "data/floor-templates.json",
-    "landmarks": "assets/geography/landmarks.json",
     "amenities": "assets/amenity-plans.json"
   }
 }

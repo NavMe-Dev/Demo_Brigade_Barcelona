@@ -140,7 +140,7 @@ try {
     await page.locator('#furnishedMode').check();
     await page.locator('#dollhouseAngle').selectOption('isometric');
     const lighting = [];
-    for (const key of ['morning', 'day', 'sunset', 'evening']) {
+    for (const key of ['morning', 'day', 'sunset', 'night']) {
       await page.locator('#lightingModes [data-light="' + key + '"]').click();
       lighting.push(await page.evaluate(() => window.residenceFrame.r.toneMappingExposure));
     }

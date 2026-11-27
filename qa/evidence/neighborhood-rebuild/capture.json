@@ -1,0 +1,205 @@
+{
+  "browser": "158.0.8127.37",
+  "showcase": {
+    "camera": [
+      -172.99999999999991,
+      123,
+      298.9999999999999
+    ],
+    "target": [
+      0,
+      83,
+      10
+    ],
+    "pixelRatio": 1,
+    "triangles": 3317943,
+    "drawCalls": 436,
+    "geometries": 504,
+    "textures": 76,
+    "quality": "auto",
+    "presentation": "showcase",
+    "detail": "full",
+    "floor": null,
+    "renderedFrames": 11,
+    "mood": "day",
+    "solarDirection": [
+      -0.23346307108777453,
+      0.5002780094738025,
+      0.8337966824563375
+    ],
+    "wing": null,
+    "geographicContext": true,
+    "imagery": true,
+    "gis": {
+      "anchorElevationM": 596.286,
+      "radius": 7168,
+      "step": 32,
+      "imagery": {
+        "provider": "sentinel",
+        "mood": "day",
+        "attribution": "Contains modified Copernicus Sentinel data (2025)",
+        "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+        "visibleTiles": 0,
+        "maxZoom": null,
+        "reason": "Local imagery",
+        "localImageryReady": true,
+        "localNativeTiles": 10,
+        "loading": 0,
+        "textures": 12,
+        "estimatedTextureBytes": 5166635
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 26,
+        "cachedTiles": 26,
+        "pending": 3,
+        "queued": 41,
+        "visibleBuildings": 3011,
+        "distantTiles": 23,
+        "residentBytes": 4387374,
+        "failures": 0
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 59,
+        "visibleTiles": 59
+      }
+    }
+  },
+  "orbitDegreesObserved": 360,
+  "location": {
+    "camera": [
+      368,
+      358,
+      545
+    ],
+    "target": [
+      0,
+      30,
+      0
+    ],
+    "pixelRatio": 1,
+    "triangles": 310444,
+    "drawCalls": 197,
+    "geometries": 715,
+    "textures": 81,
+    "quality": "auto",
+    "presentation": "location",
+    "detail": "low",
+    "floor": null,
+    "renderedFrames": 823,
+    "mood": "day",
+    "solarDirection": [
+      0.3302303728895583,
+      0.9407126683998458,
+      0.0775085565164597
+    ],
+    "wing": null,
+    "geographicContext": true,
+    "imagery": true,
+    "gis": {
+      "anchorElevationM": 596.286,
+      "radius": 7168,
+      "step": 32,
+      "imagery": {
+        "provider": "sentinel",
+        "mood": "day",
+        "attribution": "Contains modified Copernicus Sentinel data (2025)",
+        "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+        "visibleTiles": 0,
+        "maxZoom": null,
+        "reason": "Local imagery",
+        "localImageryReady": true,
+        "localNativeTiles": 9,
+        "loading": 0,
+        "textures": 11,
+        "estimatedTextureBytes": 4811627
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 70,
+        "cachedTiles": 92,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 7768,
+        "distantTiles": 28,
+        "residentBytes": 14667786,
+        "failures": 0
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 94,
+        "visibleTiles": 64
+      }
+    }
+  },
+  "mobile": {
+    "camera": [
+      -172.99999999999991,
+      123,
+      298.9999999999999
+    ],
+    "target": [
+      0,
+      83,
+      10
+    ],
+    "pixelRatio": 0.95,
+    "triangles": 302673,
+    "drawCalls": 218,
+    "geometries": 199,
+    "textures": 43,
+    "quality": "auto",
+    "presentation": "showcase",
+    "detail": "low",
+    "floor": null,
+    "renderedFrames": 8,
+    "mood": "day",
+    "solarDirection": [
+      -0.23346307108777453,
+      0.5002780094738025,
+      0.8337966824563375
+    ],
+    "wing": null,
+    "geographicContext": true,
+    "imagery": true,
+    "gis": {
+      "anchorElevationM": 596.286,
+      "radius": 7168,
+      "step": 32,
+      "imagery": {
+        "provider": "sentinel",
+        "mood": "day",
+        "attribution": "Contains modified Copernicus Sentinel data (2025)",
+        "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+        "visibleTiles": 0,
+        "maxZoom": null,
+        "reason": "Local imagery",
+        "localImageryReady": true,
+        "localNativeTiles": 6,
+        "loading": 0,
+        "textures": 8,
+        "estimatedTextureBytes": 3746603
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 29,
+        "cachedTiles": 29,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 3151,
+        "distantTiles": 13,
+        "residentBytes": 5574528,
+        "failures": 0
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 15,
+        "visibleTiles": 15
+      }
+    }
+  }
+}

@@ -55,14 +55,15 @@ def material(name, hexcolor, roughness=.73, metallic=0):
 
 stone = material('Honed ivory limestone', 'd5bfa0', .82)
 light = material('Pale travertine', 'e3d2b8', .80)
-sand = material('Sandstone pilasters', 'a38972', .78)
+sand = material('Warm brown lower façade masonry', '89654e', .83)
+reveal = material('Shadowed bronze window reveals', '3d3027', .68)
 rust = material('Fired terracotta', '87452f', .81)
 brick = material('Warm clay brick', 'a75942', .85)
 copper = material('Patinated clubhouse copper', '925436', .47, .48)
 bronze = material('Clubhouse fascia bronze', 'a16c48', .38, .52)
 stone_joint = material('Recessed masonry joints', '695043', .94)
 walnut = material('Bronze anodised frame', '594333', .42, .35)
-glass = material('Recessed neutral glazing', '313d40', .26, .20)
+glass = material('Recessed neutral glazing', '363431', .20, .14)
 curtain = material('Linen behind smoked glass', '7b6d58', .59, .03)
 reflection = material('Warm reflected glass', '625d56', .32, .24)
 glint = material('Sky tinted guard glass', 'aab8af', .21, .03)
@@ -95,6 +96,9 @@ lines = material('Court striping', 'e9e3ce')
 clay = material('Court clay', 'bc8062')
 court = material('Court blue', '65888b')
 
+gltf_settings = bpy.data.node_groups.new('glTF Material Output', 'ShaderNodeTree')
+gltf_settings.interface.new_socket(name='Occlusion', in_out='INPUT', socket_type='NodeSocketFloat')
+
 def surface_maps(mat, name):
     nodes, links = mat.node_tree.nodes, mat.node_tree.links
     bsdf = nodes['Principled BSDF']
@@ -118,8 +122,12 @@ def surface_maps(mat, name):
     links.new(orm.outputs['Color'], channels.inputs['Color'])
     links.new(channels.outputs['Green'], bsdf.inputs['Roughness'])
     links.new(channels.outputs['Blue'], bsdf.inputs['Metallic'])
+    occlusion = nodes.new('ShaderNodeGroup')
+    occlusion.node_tree = gltf_settings
+    links.new(channels.outputs['Red'], occlusion.inputs['Occlusion'])
 
-textured = {stone:'ivory', rust:'terracotta', copper:'copper', path:'paving'}
+textured = {stone:'ivory', light:'ivory', rust:'terracotta', sand:'brown', copper:'copper',
+            path:'paving', garden:'grass', wood:'wood'}
 for surface, name in textured.items():
     surface_maps(surface, name)
 
@@ -235,9 +243,49 @@ def facade_finish(idx, zone):
 
 exterior=group('Barcelona_concept_masterplan', status='illustrative')
 site=group('Podium_and_landscape',exterior)
+
+def refuge_bay(b, x, z, w, d, detail=True):
+    """Covered refuge, with illustrative supports rather than an empty storey.
+
+    Page 15 identifies a refuge in A7 on floor 12 and shows perimeter/internal
+    returns. It does not establish an unsupported, fully open terrace. Keep the
+    refuge use; these facade details are conceptual, not a structural design.
+    """
+    b.box(x, .21, z, w, .42, d, sand)
+    b.box(x, 2.94, z, w, .22, d, light)
+    for side in range(4):
+        horizontal = side < 2
+        span = w if horizontal else d
+        normal = 1 if side in (0, 2) else -1
+
+        def bar(t, y, length, height, depth, mat):
+            if horizontal:
+                b.box(x+t, y, z+normal*(d/2-.15), length, height, depth, mat)
+            else:
+                b.box(x+normal*(w/2-.15), y, z+t, depth, height, length, mat)
+
+        bar(0, .92, span, 1.0, .30, sand)
+        bar(0, 2.78, span, .54, .60, sand)
+        count = max(3, round((span-1.12)/3.5))
+        for i in range(count+1):
+            t = -.5*(span-.56) + (span-.56)*i/count
+            bar(t, 1.73, .56, 2.64, .74, sand)
+        if detail:
+            bar(0, 1.445, span, .05, .38, stone)
+
+    # Recessed service wall, in front of the existing solid core massing.
+    # The closed door panel is illustrative; no walkable corridor is asserted.
+    rear, door_x, door_w = z-d/2+1.70, x-w*.25, 1.8
+    for lo, hi in ((x-w/2+.6, door_x-door_w/2), (door_x+door_w/2, x+w/2-.6)):
+        b.box((lo+hi)/2, 1.72, rear, hi-lo, 2.60, .24, light)
+    b.box(door_x, 2.75, rear, door_w, .54, .24, light)
+    b.box(door_x, 1.45, rear-.04, door_w, 2.06, .10, walnut)
+    for xx in (x-w*.25, x+w*.25):
+        b.box(xx, 1.73, z, .48, 2.64, .48, light)
+
 # Modular floor bays sit on the T-shaped massing depicted on brochure pages 7 and 15.
 # Grouping whole wing floors into one shared mesh allows GPU instancing by finish zone.
-def floor_mesh(wing,zone,refuge=False):
+def floor_mesh(wing,zone,refuge=False,variation=0):
     b=Batch()
     for code,(x0,z0,x1,z1) in DESIGNS.items():
         if code[0]!=wing:
@@ -245,11 +293,7 @@ def floor_mesh(wing,zone,refuge=False):
         x,z=(x0+x1)/2,(z0+z1)/2
         w,d=x1-x0,z1-z0
         if refuge and code=='A7':
-            # The 12th-floor plan shows an open refuge terrace in the A7 position.
-            b.box(x,.2,z,w,.4,d,stone)
-            for sign in [-1,1]:
-                b.box(x,.8,z+sign*(d/2-.12),w,1.08,.24,stone)
-                b.box(x+sign*(w/2-.12),.8,z,.24,1.08,d,stone)
+            refuge_bay(b, x, z, w, d)
             continue
         idx=int(code[1:])
         finish = facade_finish(idx, zone)
@@ -266,51 +310,71 @@ def floor_mesh(wing,zone,refuge=False):
                 else:
                     b.box(x+normal*(w/2+offset),y,z+t,thickness,height,length,mat)
 
-            terrace_side = (wing=='A' and side==1) or (wing=='B' and (side==0 or side==(2 if x>0 else 3)))
-            open_bays = terrace_side and finish != rust
-            bays = max(3, round(span / (4.55 if open_bays else 3.8)))
-            bay_width = span / bays
-            facebar(0,-.12,2.83,span,.44,.55,finish)
-            facebar(0,-.12,.42,span,.21,.53,finish)
-            if not open_bays:
-                facebar(0,-.12,.63,span,.22,.55,finish)
-            for i in range(bays + 1):
-                t = -span/2 + i*bay_width
-                width = .65 if open_bays else bay_width * (.64 if finish == rust else .53)
-                if i in (0,bays):
-                    t += width*.25 if i == 0 else -width*.25
-                    width *= .5
-                facebar(t,-.17,1.64,width,2.58,.61,finish)
-                if not open_bays and finish == rust and i not in (0,bays):
-                    facebar(t,.145,1.58,.055,1.76,.022,stone_joint)
-            for i in range(bays):
-                t = -span/2 + (i+.5)*bay_width
-                opening = bay_width - (.65 if open_bays else bay_width * (.64 if finish == rust else .53))
-                sill = .44 if open_bays else .77
-                head = 2.61
-                pane = reflection if (i+side+idx)%5==0 else glass
-                facebar(t,-.64,(sill+head)/2,opening,head-sill,.105,pane)
-                facebar(t,-.55,(sill+head)/2,.055,head-sill,.09,walnut)
-                facebar(t,-.42,sill,opening+.13,.078,.32,walnut)
-                if (i+side+idx)%4 == 0:
-                    facebar(t-opening*.27,-.58,(sill+head)/2,opening*.37,head-sill-.1,.035,curtain)
-                if open_bays:
-                    facebar(t,.18,.24,opening,.32,1.04,finish)
-                    facebar(t,.65,.68,opening-.13,.67,.055,glint)
-                    facebar(t,.68,1.01,opening-.09,.064,.092,walnut)
+            terrace_side = (wing == 'A' and side == 1) or (
+                wing == 'B' and (side == 0 or side == (2 if x > 0 else 3))
+            )
+            punched = finish == rust or (idx in (2, 6, 10, 12) and not terrace_side)
+            balcony = terrace_side and not punched
+            corner = .42 if balcony else .56
+            span_inside = span - 2 * corner
+            count = max(2, round(span_inside / (5.4 if balcony else 3.5)))
+            pitch = span_inside / count
+            facebar(0, -.12, 2.84, span, .42, .58, finish)
+            facebar(0, .04 if balcony else -.16, .29, span, .29, .88 if balcony else .49, finish)
+            if balcony:
+                facebar(0, .46, .40, span, .09, .18, finish)
+            for edge in (-1, 1):
+                facebar(edge * (span / 2 - corner / 2), -.05, 1.53, corner, 3.06, .84, finish)
+            for i in range(count):
+                t = (i + .5) * pitch - span_inside / 2
+                narrow_slot = punched and count >= 3 and i % 3 == 1
+                opening = pitch * (.82 if balcony else .23 if narrow_slot else .49 if punched else .61)
+                sill, head = (.44, 2.61) if balcony else (.82, 2.52) if punched else (.72, 2.57)
+                width = (pitch - opening) / 2
+                for sidewall in (-1, 1):
+                    edge = t + sidewall * (opening + width) / 2
+                    facebar(edge, -.22, (sill + head) / 2, width, head - sill, .65, finish)
+                    jamb_depth = .82 if balcony else .42
+                    facebar(t + sidewall * (opening / 2 - .035), -.43, (sill + head) / 2,
+                            .07, head - sill, jamb_depth, finish if balcony else reveal)
+                facebar(t, -.20, (sill + .42) / 2, pitch, sill - .42, .60, finish)
+                facebar(t, -.22, (head + 2.64) / 2, pitch, 2.64 - head, .62, finish)
+                facebar(t, -.12, sill, opening + .10, .084, .49, finish)
+                if punched:
+                    facebar(t, .091, head + .11, pitch - .12, .022, .021, stone_joint)
+                seed = (i * 7 + side * 13 + idx * 3 + variation * 11) % 19
+                inset = -.69 if balcony else -.57
+                pane = reflection if seed < 4 else glass
+                facebar(t, inset, (sill + head) / 2, opening - .10, head - sill - .12, .045, pane)
+                for rail in (sill + .061, head - .061):
+                    facebar(t, inset + .032, rail, opening - .08, .067, .07, walnut)
+                for fraction in ((-.46, 0, .46) if opening > 1 else (-.41, .41)):
+                    facebar(t + opening * fraction, inset + .032, (sill + head) / 2,
+                            .047, head - sill - .10, .07, walnut)
+                if seed % 4 == 0 and opening > .9:
+                    drift = -1 if seed % 3 == 0 else 1
+                    facebar(t + drift * opening * .29, inset + .026, (sill + head) / 2,
+                            opening * .29, head - sill - .16, .024, curtain)
+                if balcony:
+                    facebar(t, -.29, .26, opening + .12, .25, 1.68, finish)
+                    facebar(t, .48, .83, opening - .13, .76, .048, glint)
+                    for rail in (.47, 1.22):
+                        facebar(t, .51, rail, opening - .09, .05, .075, walnut)
+                    for fraction in (-.45, .45):
+                        facebar(t + opening * fraction, .51, .83, .044, .75, .058, walnut)
     # Connecting service spine; only broad massing is inferred for unscheduled floors.
     for x0,z0,x1,z1 in SCENE['wings'][wing]['footprints'][sum(1 for c in DESIGNS if c[0]==wing):]:
         b.box((x0+x1)/2,1.5,(z0+z1)/2,x1-x0,3.04,z1-z0,sand)
-    return b.mesh('Wing_%s_finish_zone_%d'%(wing,zone))
+    return b.mesh(f'Wing_{wing}_finish_zone_{zone}_variation_{variation}')
 
 for wing,count in [('A',46),('B',52)]:
     g=group('Wing_'+wing,exterior,wing=wing)
-    segments=[floor_mesh(wing,i) for i in range(3)]
+    segments = [[floor_mesh(wing, zone, variation=v) for v in range(3)] for zone in range(3)]
     refuge=floor_mesh(wing,0,True) if wing=='A' else None
     caps, crown_sign = Batch(), Batch()
     for i in range(2,count):
         zone=0 if i<13 else 1 if i<count-9 else 2
-        linked(refuge if i==11 and refuge else segments[zone],f'{wing}_storey_{i+1:02d}',g,y=15+i*3.05)
+        linked(refuge if i==11 and refuge else segments[zone][i % 3],f'{wing}_storey_{i+1:02d}',g,y=15+i*3.05)
     for code,(x0,z0,x1,z1) in DESIGNS.items():
         if code[0]!=wing:
             continue
@@ -342,7 +406,7 @@ for wing,count in [('A',46),('B',52)]:
         # Layered entablature and piers around the uppermost windows in the references.
         caps.box(x,y+4.27,z,w+1.35,.21,d+1.35,m)
         if code == 'B10':
-            panel_w, panel_h = 5.15, 2.72
+            panel_w, panel_h = min(w - 1.5, 8.4), 2.72
             bottom, front = y+.67, z1+.14
             caps.box(x,bottom+panel_h/2,z1-.15,panel_w+.34,panel_h+.26,.55,rust)
             crown_sign.quad([(x-panel_w/2,bottom,front),(x+panel_w/2,bottom,front),
@@ -454,9 +518,14 @@ def club_sections():
         for side in (-1,1):
             x = 41+side*(half-.28)
             face(x-.28,x+.28,.16,.81,bronze)
-            b.section([(41+side*(half-.02),lower,toe),(41+side*(half-.02),lower,50),
-                       (41+side*(half-.02),upper,50),(41+side*(half-.02),upper,head)],
+            outer = 41 + side * (half + .23)
+            # Folded bronze cheeks tie each sloping glazed volume into the side wall.
+            b.section([(outer,lower,toe),(outer-side*.14,lower,46.0),
+                       (outer-side*.30,upper,43.5),(outer,upper,head)],
                       [(0,1,2,3),(3,2,1,0)],copper)
+            b.section([(outer,lower,toe),(outer,upper,head),
+                       (outer-side*.45,upper,head-.16),(outer-side*.45,lower,toe-.16)],
+                      [(0,1,2,3),(3,2,1,0)],bronze)
         count = 7
         start = 41-half+.53
         width = (half*2-1.06)/count
@@ -513,16 +582,27 @@ for x,z in [(-43,-37),(-43,-10),(-42,43),(-18,54),(7,58),(22,54),(42,-31),(42,-1
 plant_rng = random.Random(9104)
 for (x,z),(u,v) in zip(podium,podium[1:]+podium[:1]):
     length = math.hypot(u-x,v-z)
+    angle = math.atan2(v-z, u-x)
+    nx, nz = math.sin(angle), -math.cos(angle)
     for i in range(max(1,int(length/2.5))):
-        if plant_rng.random() < .27:
+        if plant_rng.random() < .18:
             continue
         t = (i+.35)/max(1,int(length/2.5))
         px,pz = x+(u-x)*t,z+(v-z)*t
-        depth = plant_rng.uniform(.4,1.9)
-        for j in range(3):
-            dx,dz = plant_rng.uniform(-.52,.52),plant_rng.uniform(-.36,.36)
-            b.blob(px+dx,14.65-depth*.37,pz+dz,.47,depth*.69,.42,[leaf,leaf2,leaf3][j],7)
-        b.blob(px,15.02,pz,.72,.35,.62,leaf2,8)
+        for j in range(4):
+            depth = plant_rng.uniform(.58, 2.35)
+            across = (j - 1.5) * .24
+            startx, startz = px + across * math.cos(angle), pz + across * math.sin(angle)
+            for k in range(12):
+                t = k / 11
+                offset = .21 + math.sin(t * math.pi) * .19
+                x, z = startx + nx * offset, startz + nz * offset
+                y = 15.05 - t * depth
+                phi = angle + k * 2.4
+                dx, dz = math.cos(phi) * .20, math.sin(phi) * .20
+                points = [(x-dx, y+.10, z-dz), (x-dz*.4, y+.08, z+dx*.4),
+                          (x+dx, y-.13, z+dz), (x+dz*.4, y-.04, z-dx*.4)]
+                b.section(points, [(0,1,2,3),(3,2,1,0)], (leaf,leaf2,leaf3)[(j+k)%3])
 # Approach road in the brochure foreground, with paving, gate piers and bays.
 street=planpx([(49,637),(108,674),(172,704),(253,737),(354,762),(467,780),(584,793),(642,795)])
 b.line(street,13.2,-.23,.22,path)
@@ -555,11 +635,44 @@ def tree_mesh(palm=False):
             # Two-sided fronds, geometry also visible in the street-level camera.
             b.section(pts,fs+[tuple(reversed(f)) for f in fs],leaf if i%2 else leaf2)
     else:
-        b.box(0,1.8,0,.36,3.6,.36,trunk)
-        for i in range(7):
-            a=i*math.tau/7
-            b.blob(1.04*math.cos(a),3.5+rng.uniform(-.25,1.0),1.04*math.sin(a),1.38,1.4,1.42,[leaf,leaf2,leaf3][i%3],8)
-        b.blob(.18,4.65,.12,1.62,1.44,1.55,leaf)
+        def branch(start, end, r0, r1):
+            ax, ay, az = start
+            bx, by, bz = end
+            angle = math.atan2(bz - az, bx - ax) + math.pi / 2
+            points = []
+            for (x, y, z), radius in ((start, r0), (end, r1)):
+                for i in range(5):
+                    theta = i * math.tau / 5
+                    across = math.cos(theta) * radius
+                    points.append((x + across * math.cos(angle), y + math.sin(theta) * radius,
+                                   z + across * math.sin(angle)))
+            b.section(points, [(i, (i + 1) % 5, (i + 1) % 5 + 5, i + 5) for i in range(5)], trunk)
+
+        b.box(0, 1.15, 0, .23, 2.3, .24, trunk)
+        for i in range(9):
+            angle = i * 2.4
+            radius = 1.5 + .6 * math.sin(i * 1.7)
+            end = (radius * math.cos(angle), 2.9 + i * .24, radius * math.sin(angle))
+            branch((0, 1.9 + .12 * i, 0), end, .095, .019)
+            for j in range(7):
+                phi = j * 2.4 + angle
+                tip = (end[0] + .62 * math.cos(phi), end[1] + .32 + .14 * math.sin(j),
+                       end[2] + .62 * math.sin(phi))
+                branch(end, tip, .025, .006)
+                for k in range(8):
+                    theta = phi + k * 2.4
+                    dx, dz = math.cos(theta), math.sin(theta)
+                    spread = rng.uniform(.12, .49)
+                    x = tip[0] + dx * spread
+                    z = tip[2] + dz * spread
+                    y = tip[1] + rng.uniform(-.42, .36)
+                    length = rng.uniform(.19, .39)
+                    width = length * rng.uniform(.20, .43)
+                    points = [(x - dx * length, y - .04, z - dz * length),
+                              (x - dz * width, y, z + dx * width),
+                              (x + dx * length, y + rng.uniform(-.12, .10), z + dz * length),
+                              (x + dz * width, y + .07, z - dx * width)]
+                    b.section(points, [(0, 1, 2, 3), (3, 2, 1, 0)], (leaf2, leaf, leaf, leaf3)[k % 4])
     return b.mesh('Date_palm' if palm else 'Shaded_canopy')
 
 broadleaf,palm=tree_mesh(),tree_mesh(True)
@@ -586,6 +699,33 @@ api=SimpleNamespace(**{key:globals()[key] for key in ('Batch','group','stone','l
 decks={}
 for section,y in zip(catalog['sections'][:3],[.25,15.06,178.45]):
     decks[section['id']]=make_level(api,section,exterior,y)
+def furnish_deck_planting():
+    """Place linked, licensed fern scans in the close-view planted islands."""
+    bpy.ops.import_scene.gltf(filepath=str(ROOT / 'models/vegetation/fern-02.glb'))
+    originals = [obj for obj in bpy.context.selected_objects if obj.type == 'MESH']
+    meshes = [obj.data for obj in sorted(originals, key=lambda obj: obj.name)]
+    bpy.ops.file.pack_all()
+    for obj in originals:
+        bpy.data.objects.remove(obj, do_unlink=True)
+    zones = {'eco-deck': {14, 16, 21, 24}, 'sky-deck': {6, 7, 8, 10}}
+    for section in catalog['sections']:
+        key = section['id']
+        if key not in zones:
+            continue
+        for feature in section['features']:
+            if feature['number'] not in zones[key]:
+                continue
+            for index, location in enumerate(feature['locations']):
+                x, y, z = location['world']
+                for i in range(5):
+                    angle = (i * 2.4 + index) % math.tau
+                    radius = .54 if key == 'sky-deck' else .78
+                    mesh = meshes[(i + index) % len(meshes)]
+                    linked(mesh, 'Fern_02', decks[key], x + radius*math.cos(angle), y + .32,
+                           z + radius*math.sin(angle), .73 + .13*((i + index) % 3), angle)
+
+furnish_deck_planting()
+
 def select_hierarchy(root):
     bpy.ops.object.select_all(action='DESELECT')
     for obj in [root]+list(root.children_recursive):
@@ -643,7 +783,10 @@ def export_model(root,filename):
     if pack:
         with tempfile.TemporaryDirectory() as temp:
             packed=Path(temp)/filename
-            subprocess.run([pack,'-i',str(OUTPUT/filename),'-o',str(packed),'-cc','-ce','ext','-kn','-ke','-vpf','-vtf','-v'],check=True)
+            options = []
+            if os.getenv('BRIGADE_KTX2') == '1' and filename in ('brigade-barcelona.glb', 'exterior-lod.glb'):
+                options = ['-tc', '-tu', 'normal']
+            subprocess.run([pack,'-i',str(OUTPUT/filename),'-o',str(packed),'-cc','-ce','ext','-kn','-ke','-vpf','-vtf',*options,'-v'],check=True)
             (OUTPUT/filename).write_bytes(packed.read_bytes())
 def save_editable(root,name):
     scene=bpy.data.scenes.new(name)
@@ -653,6 +796,55 @@ def save_editable(root,name):
     dest.mkdir(parents=True,exist_ok=True)
     bpy.data.libraries.write(str(dest/(name+'.blend')),{scene},compress=True)
     bpy.data.scenes.remove(scene)
+
+def bake_podium_occlusion(obj):
+    """Bake Cycles occlusion onto a second, non-overlapping UV set."""
+    scene = bpy.context.scene
+    scene.render.engine = 'CYCLES'
+    scene.cycles.samples = 16
+    scene.cycles.use_denoising = False
+    bpy.ops.object.select_all(action='DESELECT')
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    mesh = obj.data
+    primary_name = mesh.uv_layers.active.name
+    atlas_name = 'PodiumOcclusion'
+    mesh.uv_layers.new(name=atlas_name)
+    mesh.uv_layers.active = mesh.uv_layers[atlas_name]
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.uv.smart_project(island_margin=.012)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    atlas = bpy.data.images.new('Podium baked ambient occlusion', 1024, 1024, alpha=False)
+    atlas.colorspace_settings.name = 'Non-Color'
+    for index, material in enumerate(tuple(mesh.materials)):
+        material = material.copy()
+        mesh.materials[index] = material
+        nodes, links = material.node_tree.nodes, material.node_tree.links
+        uv = nodes.new('ShaderNodeUVMap')
+        uv.uv_map = atlas_name
+        surface_uv = nodes.new('ShaderNodeUVMap')
+        surface_uv.uv_map = primary_name
+        for texture in (node for node in nodes if node.type == 'TEX_IMAGE'):
+            if not texture.inputs['Vector'].is_linked:
+                links.new(surface_uv.outputs['UV'], texture.inputs['Vector'])
+        image = nodes.new('ShaderNodeTexImage')
+        image.image = atlas
+        links.new(uv.outputs['UV'], image.inputs['Vector'])
+        occlusion = next((node for node in nodes if node.type == 'GROUP' and node.node_tree == gltf_settings), None)
+        if occlusion is None:
+            occlusion = nodes.new('ShaderNodeGroup')
+            occlusion.node_tree = gltf_settings
+        links.new(image.outputs['Color'], occlusion.inputs['Occlusion'])
+        nodes.active = image
+    bpy.ops.object.bake(type='AO', uv_layer=atlas_name, margin=4)
+    atlas.pack()
+    mesh.uv_layers.active = mesh.uv_layers[primary_name]
+    mesh.uv_layers[primary_name].active_render = True
+    scene.cycles.use_denoising = True
+
+if os.getenv('BRIGADE_BAKE_AO') == '1':
+    bake_podium_occlusion(podium_object)
 
 export_model(exterior,'brigade-barcelona.glb')
 # Export exact subtrees of the complete model, retaining the same coordinate frame.
@@ -679,7 +871,7 @@ def low_storey(wing,zone,refuge=False):
         x,z=(x0+x1)/2,(z0+z1)/2
         w,d=x1-x0,z1-z0
         if refuge and code=='A7':
-            mesh.box(x,.49,z,w,.98,d,stone)
+            refuge_bay(mesh, x, z, w, d, detail=False)
             continue
         idx=int(code[1:])
         facade=facade_finish(idx,zone)

@@ -1,0 +1,790 @@
+{
+  "browser": "158.0.8127.37",
+  "date": "2026-11-27T05:44:59.994Z",
+  "arrival": {
+    "desktop /": {
+      "pathname": "/",
+      "firstExteriorFrameMs": 418,
+      "firstPosition": [
+        474.99999999999994,
+        334.99999999999994,
+        540
+      ],
+      "firstDirection": [
+        -0.6049851034726372,
+        -0.4012006475660646,
+        -0.6877725386846824
+      ],
+      "approachMs": 15185,
+      "frames": 890,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3801,
+          "camera": [
+            437.45,
+            309.1,
+            511.78
+          ]
+        },
+        {
+          "ms": 7585,
+          "camera": [
+            215.4,
+            196.52,
+            362.99
+          ]
+        },
+        {
+          "ms": 11384,
+          "camera": [
+            -88.05,
+            113.79,
+            314.75
+          ]
+        },
+        {
+          "ms": 15185,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.12,
+        0.75,
+        0.14,
+        0.25
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 3391255,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "desktop /experience/": {
+      "pathname": "/experience/",
+      "firstExteriorFrameMs": 372,
+      "firstPosition": [
+        474.99999999999994,
+        334.99999999999994,
+        540
+      ],
+      "firstDirection": [
+        -0.6049851034726372,
+        -0.4012006475660646,
+        -0.6877725386846824
+      ],
+      "approachMs": 15171,
+      "frames": 890,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3787,
+          "camera": [
+            437.45,
+            309.1,
+            511.78
+          ]
+        },
+        {
+          "ms": 7588,
+          "camera": [
+            214.02,
+            196.08,
+            362.25
+          ]
+        },
+        {
+          "ms": 11370,
+          "camera": [
+            -88.05,
+            113.79,
+            314.75
+          ]
+        },
+        {
+          "ms": 15171,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.12,
+        0.76,
+        0.14,
+        0.25
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 3391255,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "phone /experience/": {
+      "pathname": "/experience/",
+      "firstExteriorFrameMs": 1358,
+      "firstPosition": [
+        474.99999999999994,
+        334.99999999999994,
+        540
+      ],
+      "firstDirection": [
+        -0.6049851034726372,
+        -0.4012006475660646,
+        -0.6877725386846824
+      ],
+      "approachMs": 15320,
+      "frames": 878,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3837,
+          "camera": [
+            440.48,
+            311.25,
+            514.09
+          ]
+        },
+        {
+          "ms": 7653,
+          "camera": [
+            220.86,
+            198.27,
+            365.96
+          ]
+        },
+        {
+          "ms": 11486,
+          "camera": [
+            -86.11,
+            113.88,
+            314.81
+          ]
+        },
+        {
+          "ms": 15320,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.11,
+        0.76,
+        0.14,
+        0.24
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 273779,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "reducedMotion": {
+      "viewport": "390×844",
+      "firstPosition": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "skipSeen": false,
+      "mapSeen": false
+    }
+  },
+  "checks": [
+    "desktop / first exterior frame uses the wide approach pose and points at the original target",
+    "desktop / automatically draws the local exterior with no interaction",
+    "desktop / completes the 14.5-second architectural approach",
+    "desktop / follows a moving orbit between endpoints",
+    "desktop / passes the four revised orbit waypoints in sequence",
+    "desktop / settles on the responsive overview",
+    "desktop / shows Skip during motion and Replay after settling",
+    "desktop / never displays or downloads a regional map or apartment during arrival",
+    "desktop /experience/ first exterior frame uses the wide approach pose and points at the original target",
+    "desktop /experience/ automatically draws the local exterior with no interaction",
+    "desktop /experience/ completes the 14.5-second architectural approach",
+    "desktop /experience/ follows a moving orbit between endpoints",
+    "desktop /experience/ passes the four revised orbit waypoints in sequence",
+    "desktop /experience/ settles on the responsive overview",
+    "desktop /experience/ shows Skip during motion and Replay after settling",
+    "desktop /experience/ never displays or downloads a regional map or apartment during arrival",
+    "Replay returns to the wide end of the approach",
+    "Replayed approach advances before Skip",
+    "Skip lands on the settled overview",
+    "Keyboard orbit immediately takes control of the introduction",
+    "Selecting a wing during the approach takes control immediately",
+    "phone /experience/ first exterior frame uses the wide approach pose and points at the original target",
+    "phone /experience/ automatically draws the local exterior with no interaction",
+    "phone /experience/ completes the 14.5-second architectural approach",
+    "phone /experience/ follows a moving orbit between endpoints",
+    "phone /experience/ passes the four revised orbit waypoints in sequence",
+    "phone /experience/ settles on the responsive overview",
+    "phone /experience/ shows Skip during motion and Replay after settling",
+    "phone /experience/ never displays or downloads a regional map or apartment during arrival",
+    "Reduced motion opens the hero directly with introduction controls hidden",
+    "Reduced-motion arrival uses no regional map",
+    "Wing A refuge has six residential choices, with A7 removed",
+    "Selected refuge geometry is active",
+    "Typical Wing A has all seven designs",
+    "Wing B floor selects six numbered brochure bays",
+    "Floor-plate hotspot opens B10 in the apartment panel",
+    "OR across study and four-bedroom configurations",
+    "AND with wing B returns only B10 and B11",
+    "Area filter updates to empty state",
+    "Three saved comparison rows show plans, rendered previews and decks",
+    "Compare and saved apartment survive reload",
+    "Property information shows the documented address",
+    "Property information retains the mapped exterior without opening a separate map",
+    "Back restores the previous public scene",
+    "Four architectural sunlight directions change the rendered scene",
+    "Public link ?wing=A bypasses the introduction",
+    "Public link ?wing=B bypasses the introduction",
+    "Public link ?amenity=sky-deck bypasses the introduction",
+    "Public link ?amenity=eco-deck bypasses the introduction",
+    "Public link ?amenity=clubhouse bypasses the introduction",
+    "Public link ?layout=invalid bypasses the introduction",
+    "Apartment share opens the live B10 kitchen and bypasses the building introduction",
+    "Six responsive viewports, collapsible panels and real touch input"
+  ],
+  "screens": [
+    "exterior-1920",
+    "wing-b-floor-22",
+    "comparison-1920",
+    "property-info-1920",
+    "exterior-360",
+    "refuge-390",
+    "exterior-820"
+  ],
+  "devices": [
+    {
+      "width": 360,
+      "height": 800,
+      "viewport": {
+        "body": 360,
+        "visible": 360,
+        "canvas": 800,
+        "viewport": 800
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 221753,
+        "drawCalls": 177,
+        "geometries": 192,
+        "textures": 41,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 6,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 17,
+            "cachedTiles": 17,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 830,
+            "distantTiles": 8,
+            "residentBytes": 1268190,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 10,
+            "visibleTiles": 10
+          }
+        },
+        "geographicContext": true
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "viewport": {
+        "body": 390,
+        "visible": 390,
+        "canvas": 844,
+        "viewport": 844
+      },
+      "touch": {
+        "pinchRadiusDelta": -51,
+        "dragMetres": 27
+      },
+      "renderer": {
+        "camera": [
+          -42.45402836779638,
+          66.91725444242975,
+          -105.47204279682762
+        ],
+        "target": [
+          0,
+          50.074999999999996,
+          -22.999999999999993
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 191449,
+        "drawCalls": 147,
+        "geometries": 196,
+        "textures": 40,
+        "quality": "auto",
+        "detail": "low",
+        "floor": 12,
+        "renderedFrames": 43,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 19,
+            "cachedTiles": 21,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 969,
+            "distantTiles": 10,
+            "residentBytes": 1577874,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 12,
+            "visibleTiles": 12
+          }
+        },
+        "geographicContext": true
+      }
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "viewport": {
+        "body": 430,
+        "visible": 430,
+        "canvas": 932,
+        "viewport": 932
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 221661,
+        "drawCalls": 175,
+        "geometries": 190,
+        "textures": 41,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 6,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 17,
+            "cachedTiles": 17,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 830,
+            "distantTiles": 8,
+            "residentBytes": 1268190,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 10,
+            "visibleTiles": 10
+          }
+        },
+        "geographicContext": true
+      }
+    },
+    {
+      "width": 820,
+      "height": 1180,
+      "viewport": {
+        "body": 820,
+        "visible": 820,
+        "canvas": 1180,
+        "viewport": 1180
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 395491,
+        "drawCalls": 197,
+        "geometries": 209,
+        "textures": 45,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 8,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 6,
+            "loading": 0,
+            "textures": 8,
+            "estimatedTextureBytes": 3746603
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 18,
+            "cachedTiles": 18,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 917,
+            "distantTiles": 6,
+            "residentBytes": 1357818,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 20,
+            "visibleTiles": 20
+          }
+        },
+        "geographicContext": true
+      }
+    },
+    {
+      "width": 1180,
+      "height": 820,
+      "viewport": {
+        "body": 1180,
+        "visible": 1180,
+        "canvas": 820,
+        "viewport": 820
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 427303,
+        "drawCalls": 235,
+        "geometries": 224,
+        "textures": 44,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 7,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 5,
+            "loading": 1,
+            "textures": 7,
+            "estimatedTextureBytes": 3391595
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 15,
+            "cachedTiles": 15,
+            "pending": 2,
+            "queued": 8,
+            "visibleBuildings": 952,
+            "distantTiles": 14,
+            "residentBytes": 1452072,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 32,
+            "visibleTiles": 32
+          }
+        },
+        "geographicContext": true
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "viewport": {
+        "body": 1920,
+        "visible": 1920,
+        "canvas": 1080,
+        "viewport": 1080
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 1,
+        "triangles": 445900,
+        "drawCalls": 246,
+        "geometries": 239,
+        "textures": 48,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 10,
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "anchorElevationM": 596.286,
+          "radius": 7168,
+          "step": 32,
+          "imagery": {
+            "provider": "sentinel",
+            "mood": "sunset",
+            "attribution": "Contains modified Copernicus Sentinel data (2025)",
+            "attributionUrl": "https://dataspace.copernicus.eu/terms-and-conditions",
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "reason": "Local imagery",
+            "localImageryReady": true,
+            "localNativeTiles": 9,
+            "loading": 0,
+            "textures": 11,
+            "estimatedTextureBytes": 4811627
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 19,
+            "cachedTiles": 19,
+            "pending": 3,
+            "queued": 22,
+            "visibleBuildings": 1360,
+            "distantTiles": 21,
+            "residentBytes": 1855284,
+            "failures": 0
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 37,
+            "visibleTiles": 37
+          }
+        },
+        "geographicContext": true
+      }
+    }
+  ],
+  "errors": []
+}

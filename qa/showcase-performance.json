@@ -1,0 +1,248 @@
+{
+  "stage": "after",
+  "url": "http://127.0.0.1:5173/experience/",
+  "date": "2026-11-27T05:20:10.194Z",
+  "browser": "158.0.8127.37",
+  "network": {
+    "downMbps": 20,
+    "upMbps": 5,
+    "latencyMs": 40,
+    "cache": "disabled"
+  },
+  "trials": [
+    {
+      "name": "desktop",
+      "width": 1920,
+      "height": 1080,
+      "dpr": 1,
+      "firstUIReadyMs": 1434,
+      "firstExteriorMs": 6502,
+      "sampleMs": 4533,
+      "frames": 228,
+      "fps": 50.3,
+      "medianIntervalMs": 20.1,
+      "p95IntervalMs": 21.9,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "pixelRatio": 1,
+      "memory": [
+        {
+          "label": "first exterior draw",
+          "jsUsedBytes": 12034468,
+          "jsAllocatedBytes": 30457856,
+          "embedderUsedBytes": 2623968,
+          "backingStorageBytes": 58094474,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 767074,
+          "drawCalls": 703,
+          "gis": null
+        },
+        {
+          "label": "settled overview",
+          "jsUsedBytes": 20697128,
+          "jsAllocatedBytes": 50708480,
+          "embedderUsedBytes": 3901744,
+          "backingStorageBytes": 66092397,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 4439503,
+          "drawCalls": 747,
+          "gis": null
+        },
+        {
+          "label": "aerial approach",
+          "jsUsedBytes": 19072780,
+          "jsAllocatedBytes": 50708480,
+          "embedderUsedBytes": 4148296,
+          "backingStorageBytes": 66092542,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 4043385,
+          "drawCalls": 394,
+          "gis": null
+        },
+        {
+          "label": "return from neighborhood after collection",
+          "jsUsedBytes": 15079744,
+          "jsAllocatedBytes": 16367616,
+          "embedderUsedBytes": 2526024,
+          "backingStorageBytes": 66092774,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 4266733,
+          "drawCalls": 706,
+          "gis": null
+        }
+      ],
+      "neighborhoodStops": [
+        {
+          "camera": [
+            135.00000000000003,
+            104,
+            145
+          ],
+          "gis": null,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 549660
+        },
+        {
+          "camera": [
+            1369.9999999999998,
+            219.99999999999997,
+            650
+          ],
+          "gis": null,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 117140
+        },
+        {
+          "camera": [
+            -1730,
+            245.00000000000009,
+            -1220
+          ],
+          "gis": null,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 117140
+        },
+        {
+          "camera": [
+            183,
+            152,
+            298
+          ],
+          "gis": null,
+          "geometries": 396,
+          "textures": 75,
+          "triangles": 4266733
+        }
+      ],
+      "resourceCount": 54,
+      "totalResourceTransferBytes": 22205558,
+      "gisResourceCount": 0,
+      "gisTransferBytes": 0,
+      "gisResourceFiles": [],
+      "requestedApartmentModels": 0
+    },
+    {
+      "name": "phone",
+      "width": 390,
+      "height": 844,
+      "dpr": 2,
+      "firstUIReadyMs": 1440,
+      "firstExteriorMs": 6498,
+      "sampleMs": 4527,
+      "frames": 271,
+      "fps": 59.9,
+      "medianIntervalMs": 16.6,
+      "p95IntervalMs": 20.1,
+      "gpu": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+      "pixelRatio": 0.95,
+      "memory": [
+        {
+          "label": "first exterior draw",
+          "jsUsedBytes": 17613644,
+          "jsAllocatedBytes": 39895040,
+          "embedderUsedBytes": 2450704,
+          "backingStorageBytes": 57713979,
+          "geometries": 127,
+          "textures": 37,
+          "triangles": 462406,
+          "drawCalls": 303,
+          "gis": null
+        },
+        {
+          "label": "settled overview",
+          "jsUsedBytes": 15167380,
+          "jsAllocatedBytes": 45203456,
+          "embedderUsedBytes": 4437720,
+          "backingStorageBytes": 38147064,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 411498,
+          "drawCalls": 281,
+          "gis": null
+        },
+        {
+          "label": "aerial approach",
+          "jsUsedBytes": 14438612,
+          "jsAllocatedBytes": 45203456,
+          "embedderUsedBytes": 4767904,
+          "backingStorageBytes": 38147249,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 325614,
+          "drawCalls": 176,
+          "gis": null
+        },
+        {
+          "label": "return from neighborhood after collection",
+          "jsUsedBytes": 12683548,
+          "jsAllocatedBytes": 14270464,
+          "embedderUsedBytes": 2238456,
+          "backingStorageBytes": 38147416,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 403110,
+          "drawCalls": 273,
+          "gis": null
+        }
+      ],
+      "neighborhoodStops": [
+        {
+          "camera": [
+            135.00000000000003,
+            104,
+            145
+          ],
+          "gis": null,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 202480
+        },
+        {
+          "camera": [
+            1369.9999999999998,
+            219.99999999999997,
+            650
+          ],
+          "gis": null,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 117140
+        },
+        {
+          "camera": [
+            -1730,
+            245.00000000000009,
+            -1220
+          ],
+          "gis": null,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 117140
+        },
+        {
+          "camera": [
+            183,
+            152,
+            298
+          ],
+          "gis": null,
+          "geometries": 128,
+          "textures": 37,
+          "triangles": 403110
+        }
+      ],
+      "resourceCount": 51,
+      "totalResourceTransferBytes": 14742362,
+      "gisResourceCount": 0,
+      "gisTransferBytes": 0,
+      "gisResourceFiles": [],
+      "requestedApartmentModels": 0
+    }
+  ]
+}

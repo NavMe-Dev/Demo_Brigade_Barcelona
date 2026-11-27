@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-27T07:09:36.687Z",
+  "checks": [
+    "Selected room exposes accessible state",
+    "Floor selector updates the apartment",
+    "Comparison displays both floor views",
+    "Room thumbnails still navigate",
+    "Details expand with matching accessibility state",
+    "Expanded details do not collide with walking pad",
+    "Guided tour opens",
+    "Guided tour pauses",
+    "Dollhouse mode works",
+    "Floor plan opens",
+    "Hide interface hides the header and walk pad",
+    "Map attribution remains available",
+    "Interface restores",
+    "Small screen view options expand",
+    "Small screen home details restore",
+    "Return to building still works",
+    "No uncaught browser errors"
+  ],
+  "errors": []
+}

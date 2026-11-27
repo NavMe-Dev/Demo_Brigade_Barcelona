@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-27T06:41:47.413Z",
+  "checks": [
+    "Licensed attribution is visible from the apartment window",
+    "Hiding the interface retains geographic attribution",
+    "Mobile exterior retains geographic attribution",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [
+    "bedroom-window",
+    "balcony",
+    "mobile"
+  ],
+  "layouts": [],
+  "browser": "158.0.8127.37"
+}

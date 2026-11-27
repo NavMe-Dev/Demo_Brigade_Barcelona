@@ -1,0 +1,426 @@
+{
+  "date": "2026-11-27T06:15:36.645Z",
+  "checks": [
+    "Published geographic anchor round trips within 1 cm",
+    "Published parcel has 16 vertices and lies on the level project datum",
+    "Full 360-degree orbit completes in the hybrid environment",
+    "Orbit target stays fixed",
+    "Automatic orbit uses one architecture LOD",
+    "Fallback makes no Esri or Sentinel requests",
+    "Fallback loads local assets without HTTP failures",
+    "All 13 layouts retain window navigation, floor changes, balcony context and return",
+    "Interior fallback also avoids Sentinel imagery",
+    "Intercepted ArcGIS protocol loads authenticated tiles through the renderer",
+    "Tile protocol produces no shader compilation errors",
+    "Denied Esri service preserves a rendered architectural environment",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [
+    "Hyderabad aerial and geographic arrival imagery screenshots require an entitled ArcGIS key. The no-key run captures the architectural terrain fallback."
+  ],
+  "errors": [],
+  "captures": [
+    "hero",
+    "aerial-masterplan",
+    "main-entrance",
+    "front-road",
+    "rear-surroundings",
+    "street-level",
+    "clubhouse",
+    "eco-deck",
+    "sky-deck",
+    "golden-hour",
+    "night",
+    "mobile",
+    "bedroom-window",
+    "balcony"
+  ],
+  "layouts": [
+    {
+      "code": "A1",
+      "upper": 25,
+      "lower": 17,
+      "window": "A1-opening-2-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A2",
+      "upper": 25,
+      "lower": 17,
+      "window": "A2-opening-2-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A3",
+      "upper": 25,
+      "lower": 17,
+      "window": "A3-deck-sliding-family-lounge",
+      "balcony": "deck"
+    },
+    {
+      "code": "A4",
+      "upper": 25,
+      "lower": 17,
+      "window": "A4-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A5",
+      "upper": 25,
+      "lower": 17,
+      "window": "A5-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "A6",
+      "upper": 25,
+      "lower": 17,
+      "window": "A6-opening-1-living",
+      "balcony": "deck"
+    },
+    {
+      "code": "A7",
+      "upper": 25,
+      "lower": 17,
+      "window": "A7-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B8",
+      "upper": 25,
+      "lower": 17,
+      "window": "B8-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B9",
+      "upper": 25,
+      "lower": 17,
+      "window": "B9-opening-1-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B10",
+      "upper": 25,
+      "lower": 17,
+      "window": "B10-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B11",
+      "upper": 25,
+      "lower": 17,
+      "window": "B11-opening-3-bedroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B12",
+      "upper": 25,
+      "lower": 17,
+      "window": "B12-opening-2-bathroom-1",
+      "balcony": "deck"
+    },
+    {
+      "code": "B14",
+      "upper": 25,
+      "lower": 17,
+      "window": "B14-opening-3-bedroom-1",
+      "balcony": "deck"
+    }
+  ],
+  "browser": "158.0.8127.37",
+  "firstReadyMs": 1643,
+  "terrain": {
+    "anchor": [
+      78.312086932,
+      17.402192529
+    ],
+    "anchorElevationM": 596.286,
+    "roundTripErrorM": 0.000006259274223666099,
+    "parcelVertices": 16,
+    "maximumParcelHeightM": 0
+  },
+  "desktop": {
+    "camera": [
+      -172.99999999999997,
+      116.00000000000003,
+      296.99999999999994
+    ],
+    "target": [
+      0,
+      85,
+      8
+    ],
+    "pixelRatio": 1,
+    "triangles": 3642193,
+    "drawCalls": 499,
+    "geometries": 721,
+    "textures": 77,
+    "quality": "auto",
+    "detail": "full",
+    "floor": null,
+    "renderedFrames": 67,
+    "cameraUpdates": 10,
+    "motion": "manual",
+    "mood": "sunset",
+    "solarDirection": [
+      -0.5401133910772828,
+      0.19640486948264826,
+      0.818353622844368
+    ],
+    "wing": null,
+    "landscape": {
+      "kind": "hybrid",
+      "anchor": [
+        78.312086932,
+        17.402192529
+      ],
+      "anchorElevationM": 596.286,
+      "imagery": {
+        "provider": "architectural",
+        "reason": "Geographic imagery unavailable · architectural ground"
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 94,
+        "visibleTiles": 62
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 70,
+        "cachedTiles": 92,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 6283,
+        "distantTiles": 36,
+        "residentBytes": 12247926,
+        "failures": 0,
+        "heightMethods": {
+          "supplied": 20,
+          "floorCount": 47,
+          "estimated": 8140
+        }
+      },
+      "zones": {
+        "blendStartM": 170,
+        "blendEndM": 320
+      }
+    }
+  },
+  "orbit": {
+    "renderedFrames": 1441,
+    "meanFPS": 60.00225008437816,
+    "p95Ms": 16.700000000004366,
+    "p99Ms": 16.80000000000109,
+    "intervalsOver25Ms": 0,
+    "degrees": 359.99999366087104,
+    "heap": 138240131,
+    "final": {
+      "camera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "target": [
+        0,
+        85,
+        8
+      ],
+      "pixelRatio": 1,
+      "triangles": 3642811,
+      "drawCalls": 501,
+      "geometries": 768,
+      "textures": 77,
+      "quality": "auto",
+      "detail": "full",
+      "floor": null,
+      "renderedFrames": 1552,
+      "cameraUpdates": 1495,
+      "motion": "manual",
+      "mood": "sunset",
+      "solarDirection": [
+        -0.5401133910772828,
+        0.19640486948264826,
+        0.818353622844368
+      ],
+      "wing": null,
+      "landscape": {
+        "kind": "hybrid",
+        "anchor": [
+          78.312086932,
+          17.402192529
+        ],
+        "anchorElevationM": 596.286,
+        "imagery": {
+          "provider": "architectural",
+          "reason": "Geographic imagery unavailable · architectural ground"
+        },
+        "roads": {
+          "ready": true,
+          "tiles": 94,
+          "visibleTiles": 64
+        },
+        "buildings": {
+          "ready": true,
+          "active": true,
+          "visibleTiles": 70,
+          "cachedTiles": 92,
+          "pending": 0,
+          "queued": 0,
+          "visibleBuildings": 6283,
+          "distantTiles": 36,
+          "residentBytes": 13534872,
+          "failures": 0,
+          "heightMethods": {
+            "supplied": 20,
+            "floorCount": 47,
+            "estimated": 9037
+          }
+        },
+        "zones": {
+          "blendStartM": 170,
+          "blendEndM": 320
+        }
+      }
+    }
+  },
+  "noKey": {
+    "sentinel": [],
+    "arcgis": [],
+    "errors": [],
+    "failedLocal": []
+  },
+  "mobile": {
+    "camera": [
+      -172.99999999999997,
+      116.00000000000003,
+      296.99999999999994
+    ],
+    "target": [
+      0,
+      85,
+      8
+    ],
+    "pixelRatio": 0.95,
+    "triangles": 524489,
+    "drawCalls": 200,
+    "geometries": 181,
+    "textures": 45,
+    "quality": "auto",
+    "detail": "low",
+    "floor": null,
+    "renderedFrames": 8,
+    "cameraUpdates": 1,
+    "motion": "manual",
+    "mood": "sunset",
+    "solarDirection": [
+      -0.5401133910772828,
+      0.19640486948264826,
+      0.818353622844368
+    ],
+    "wing": null,
+    "landscape": {
+      "kind": "hybrid",
+      "anchor": [
+        78.312086932,
+        17.402192529
+      ],
+      "anchorElevationM": 596.286,
+      "imagery": {
+        "provider": "architectural",
+        "reason": "Geographic imagery unavailable · architectural ground"
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 12,
+        "visibleTiles": 12
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 25,
+        "cachedTiles": 25,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 3048,
+        "distantTiles": 14,
+        "residentBytes": 5555310,
+        "failures": 0,
+        "heightMethods": {
+          "supplied": 1,
+          "floorCount": 32,
+          "estimated": 3726
+        }
+      },
+      "zones": {
+        "blendStartM": 170,
+        "blendEndM": 320
+      }
+    }
+  },
+  "protocol": {
+    "fixture": "Synthetic local tiles. No coverage or appearance claim.",
+    "requests": 9,
+    "imagery": {
+      "provider": "arcgis",
+      "attribution": "Local protocol fixture",
+      "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+      "reason": "World Imagery",
+      "loading": 4,
+      "visibleTiles": 4,
+      "maxZoom": 19,
+      "highestVisibleZoom": 12,
+      "textures": 2,
+      "estimatedTextureBytes": 22762838
+    }
+  },
+  "denial": {
+    "fixture": true,
+    "requests": 1,
+    "landscape": {
+      "kind": "hybrid",
+      "anchor": [
+        78.312086932,
+        17.402192529
+      ],
+      "anchorElevationM": 596.286,
+      "imagery": {
+        "reason": "ArcGIS authorization unavailable",
+        "loading": 0,
+        "visibleTiles": 0,
+        "maxZoom": null,
+        "highestVisibleZoom": 0,
+        "textures": 0,
+        "estimatedTextureBytes": 0
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 29,
+        "visibleTiles": 29
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 9,
+        "cachedTiles": 9,
+        "pending": 3,
+        "queued": 58,
+        "visibleBuildings": 424,
+        "distantTiles": 43,
+        "residentBytes": 591486,
+        "failures": 0,
+        "heightMethods": {
+          "supplied": 0,
+          "floorCount": 0,
+          "estimated": 424
+        }
+      },
+      "zones": {
+        "blendStartM": 170,
+        "blendEndM": 320
+      }
+    }
+  }
+}

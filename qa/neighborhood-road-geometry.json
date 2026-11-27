@@ -1,0 +1,21 @@
+{
+  "tiles": 879,
+  "binaryBytes": {
+    "frontage": 10312,
+    "neighborhood": 55246,
+    "region": 1274674
+  },
+  "frontage": {
+    "213838287": {
+      "lengthM": 757.73,
+      "uncoveredCenterlineM": 0.0
+    },
+    "1183681598": {
+      "lengthM": 726.19,
+      "uncoveredCenterlineM": 0.0
+    }
+  },
+  "publicSurfaceWithinParcelSqM": 0.0,
+  "roadOverlapWithNearbyBuildingFootprintsSqM": 0.0,
+  "showcaseDrivewayGapToPublicSurfaceM": 0.0
+}

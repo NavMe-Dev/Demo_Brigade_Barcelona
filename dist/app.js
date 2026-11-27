@@ -6,6 +6,7 @@ import { makeNavigator, insidePolygon } from './navigation.js';
 import { installInteractivePlan } from './interior-plan.js';
 import { layoutPackage } from './interior-layout.js';
 import { configureEnquiry } from './interior-enquiry.js';
+import {getApartmentPlacement, apartmentTransform, createApartmentContext, anchorRoute} from './apartment-spatial.js';
 
 const $ = (id) => document.getElementById(id),
   mobile = () => window.innerWidth <= 800;
@@ -20,7 +21,7 @@ let mode = 'dollhouse',
 let renderer, scene, camera, controls, model, geometry, navigator3d, hemi, sun, ambient, ground;
 let updatePlan, sweep, eveningLights, environmentTarget, balconyContext;
 let roomViews = new Map();
-let outlookWorld,outlookFloor,exteriorMap;
+let outlookWorld, outlookFloor, placement, spatialContext, exteriorModule, lightingEpoch=0;
 let skyTexture,
   sceneDirty = true,
   slowFrames = 0;
@@ -160,6 +161,9 @@ function finishExit() {
   stopTour();
   hideOutlook();
   entered = false;
+  $('experience').classList.remove('interior-interface-hidden');
+  toggleInterface.textContent='Hide interface';
+  toggleInterface.setAttribute('aria-pressed','false');
   sweep = null;
   keys.clear();
   padMove = null;
@@ -173,7 +177,16 @@ function finishExit() {
   url.searchParams.delete('view');
   url.searchParams.delete('room');
   history.replaceState(null, '', url);
-  window.dispatchEvent(new CustomEvent('brigade:interior-exit', { detail: { design } }));
+  window.dispatchEvent(new CustomEvent('brigade:interior-exit', { detail: { design, floor:outlookFloor } }));
+}
+export function getSpatialViewState(){
+  const floor=floorContext();
+  if(!entered||!floor||!camera||!renderer)return null;
+  const worldEye=camera.position.clone().applyMatrix4(apartmentTransform(placement,floor));
+  return {code:design,wing:placement.wing,floor:floor.floor,sample:outlookFloor===null,
+    room:activeRoom,mode,context:Boolean(balconyContext?.visible),light:lightMode,
+    camera:camera.position.toArray(),worldEye:worldEye.toArray(),yaw:placement.yaw,
+    triangles:renderer.info.render.triangles,drawCalls:renderer.info.render.calls,pixelRatio:renderer.getPixelRatio()};
 }
 export function leaveInterior({ cinematic = false } = {}) {
   if (!entered) return Promise.resolve();
@@ -351,6 +364,7 @@ function applyMetadata(pkg) {
   drawDistance = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...zs) - Math.min(...zs)) * 1.82;
   const item = pkg.source,
     card = $('propertyCard');
+  $('interiorResidence').textContent = 'Wing ' + item.wing + ' / Design ' + item.code;
   const wingLabel = document.createElement('span');
   wingLabel.textContent = 'Wing ' + item.wing;
   card
@@ -387,6 +401,9 @@ function syncPlan() {
 }
 function disposeScene() {
   hideOutlook();
+  spatialContext?.dispose();
+  spatialContext=null;
+  placement=null;
   finishFilm();
   inputAbort?.abort();
   cancelAnimationFrame(renderFrame);
@@ -469,7 +486,13 @@ export async function enterInterior({ design: code, room, cinematic = false, lig
     throw error;
   }
   if (epoch !== interiorEpoch || desiredDesign !== code || design !== code) return;
-  outlookFloor=Number(floor||query.get('floor'))||null;
+  try {
+    placement=await getApartmentPlacement(code);
+  } catch(error){ console.warn('Spatial placement unavailable',error); }
+  if (epoch!==interiorEpoch || desiredDesign!==code) return;
+  const selectedFloor=Number(floor||query.get('floor'));
+  outlookFloor=placement?.floors.some(item=>item.floor===selectedFloor)?selectedFloor:null;
+  updateFloorChoices();
   entered = true;
   $('arrival').classList.add('hidden');
   $('experience').classList.remove('hidden');
@@ -498,6 +521,7 @@ export async function enterInterior({ design: code, room, cinematic = false, lig
       playFilm('enter', roomViews.has(target) ? target : firstRoom);
     } else if (cinematic) goToRoom(roomViews.has(target) ? target : firstRoom, true);
   }
+  if(!fallbackMode)prepareSharedView(epoch);
 }
 async function init() {
   const pkg = selectedPackage;
@@ -534,7 +558,7 @@ async function init() {
       stopTour();
       initRenderedFallback();
     });
-    camera = new THREE.PerspectiveCamera(mobile() ? 48 : 42, innerWidth / innerHeight, 0.05, 1800);
+    camera = new THREE.PerspectiveCamera(mobile() ? 48 : 42, innerWidth / innerHeight, 0.1, 1800);
     camera.position.set(26, 26, 30);
     controls = new OrbitControls(camera, renderer.domElement);
     controls.target.copy(homeTarget);
@@ -620,6 +644,13 @@ async function init() {
         o.receiveShadow = true;
         if (o.material) {
           o.material.envMapIntensity = 0.55;
+          if (/glazing|window glass/i.test(o.material.name)) {
+            o.material.transparent=true;
+            o.material.opacity=.16;
+            o.material.depthWrite=false;
+            o.material.roughness=.16;
+            o.castShadow=false;
+          }
           if (o.material.name.includes(' GI') && o.material.aoMap) {
             o.material.lightMap = o.material.aoMap;
             o.material.lightMapIntensity = 0.38;
@@ -674,72 +705,260 @@ filmstrip.id = 'interiorFilmstrip';
 filmstrip.hidden = true;
 filmstrip.setAttribute('aria-label', 'Room thumbnails');
 $('experience').append(filmstrip);
-const balconyButton = document.createElement('button');
-balconyButton.id = 'balconyView';
-balconyButton.textContent = 'Look out from the deck';
-balconyButton.hidden = true;
-const viewSource = document.createElement('p');
-viewSource.className = 'view-source';
-viewSource.hidden = true;
-const outlookCaption=document.createElement('span');
-const outlookCredits=document.createElement('span');outlookCredits.id='balconyCredits';
-viewSource.append(outlookCaption,' ',outlookCredits);
-$('roomCaption').append(balconyButton, viewSource);
-function isBalcony(id) {
-  return /deck|balcony/i.test(shortNames[id] || id);
+const modeOptions=document.createElement('div');
+modeOptions.className='spatial-options';
+const floorLabel=document.createElement('label');
+floorLabel.textContent='Floor';
+const floorSelect=document.createElement('select');
+floorSelect.id='apartmentFloor';
+floorSelect.setAttribute('aria-label','Change apartment floor');
+floorLabel.append(floorSelect);
+const spatialStatus=document.createElement('p');
+spatialStatus.className='view-source';
+modeOptions.append(floorLabel,spatialStatus);
+$('cardToggle').after(modeOptions);
+
+const windowSelect=document.createElement('select');
+windowSelect.id='windowAnchor';
+windowSelect.setAttribute('aria-label','Window or balcony viewpoint');
+const windowButton=document.createElement('button');
+windowButton.id='windowView';
+windowButton.textContent='Window view';
+const balconyButton=document.createElement('button');
+balconyButton.id='balconyView';
+balconyButton.textContent='Balcony view';
+const compareButton=document.createElement('button');
+compareButton.id='compareFloorViews';
+compareButton.textContent='Compare views';
+const viewSource=document.createElement('p');
+viewSource.className='view-source';
+viewSource.textContent='Simulated architectural view · Artist’s impression';
+const viewpointActions=document.createElement('div');
+viewpointActions.id='viewpointActions';
+viewpointActions.className='viewpoint-actions';
+viewpointActions.append(windowSelect,windowButton,balconyButton,compareButton);
+const roomOptionsToggle=document.createElement('button');
+roomOptionsToggle.id='roomOptionsToggle';
+roomOptionsToggle.textContent='View options';
+roomOptionsToggle.setAttribute('aria-controls','viewpointActions');
+roomOptionsToggle.setAttribute('aria-expanded','false');
+roomOptionsToggle.onclick=()=>{
+  const open=$('roomCaption').classList.toggle('view-options-open');
+  roomOptionsToggle.setAttribute('aria-expanded',String(open));
+  roomOptionsToggle.textContent=open?'Close view options':'View options';
+};
+$('roomCaption').append(roomOptionsToggle,viewpointActions,viewSource);
+
+const compareDialog=document.createElement('dialog');
+compareDialog.className='text-dialog floor-view-compare';
+compareDialog.setAttribute('aria-label','Compare floor views');
+const comparisonClose=document.createElement('button');
+comparisonClose.textContent='Close';
+comparisonClose.className='comparison-close';
+comparisonClose.onclick=()=>compareDialog.close();
+const compareLabel=document.createElement('label');
+compareLabel.textContent='Compare with ';
+const compareFloor=document.createElement('select');
+compareFloor.setAttribute('aria-label','Floor to compare');
+compareLabel.append(compareFloor);
+const comparisonImages=document.createElement('div');
+comparisonImages.className='floor-view-images';
+const comparisonHeading=document.createElement('h2');
+comparisonHeading.textContent='Compare your outlook';
+compareDialog.append(comparisonClose,comparisonHeading,compareLabel,comparisonImages);
+document.body.append(compareDialog);
+const toggleInterface=document.createElement('button');
+toggleInterface.id='apartmentInterface';
+toggleInterface.textContent='Hide interface';
+toggleInterface.setAttribute('aria-pressed','false');
+toggleInterface.onclick=()=>{
+  const hidden=$('experience').classList.toggle('interior-interface-hidden');
+  toggleInterface.textContent=hidden?'Show interface':'Hide interface';
+  toggleInterface.setAttribute('aria-pressed',String(hidden));
+};
+$('experience').append(toggleInterface);
+
+
+function floorContext(){
+  return placement?.floors.find(item=>item.floor===(outlookFloor??17));
 }
+function updateFloorChoices(){
+  floorSelect.replaceChildren(new Option('Sample floor 17',''));
+  for(const item of placement?.floors??[]) floorSelect.add(new Option('Floor '+item.floor,item.floor));
+  floorSelect.value=outlookFloor??'';
+  floorSelect.disabled=!placement||fallbackMode;
+  spatialStatus.textContent=placement
+    ? 'Conceptual placement'
+    : 'Spatial placement unavailable';
+}
+floorSelect.onchange=()=>{
+  outlookFloor=floorSelect.value?Number(floorSelect.value):null;
+  const url=new URL(location.href);
+  if(outlookFloor)url.searchParams.set('floor',outlookFloor);else url.searchParams.delete('floor');
+  history.replaceState(null,'',url);
+  updateFloorChoices();
+  syncExteriorLayer();
+};
+
+function activeAnchors(){
+  return placement?.anchors.filter(item=>item.eye&&item.room===activeRoom)??[];
+}
+function updateOpeningControls(){
+  const ready=entered&&!fallbackMode&&mode==='walk'&&Boolean(spatialContext);
+  const anchors=ready?activeAnchors():[];
+  const previous=windowSelect.value;
+  windowSelect.replaceChildren(...anchors.map((anchor,index)=>
+    new Option((anchor.kind==='balcony'?'Railing viewpoint ':'Window ')+(index+1),anchor.id)));
+  if(anchors.some(anchor=>anchor.id===previous))windowSelect.value=previous;
+  windowSelect.hidden=anchors.length<2;
+  windowButton.hidden=!anchors.some(anchor=>anchor.kind==='window');
+  balconyButton.hidden=!ready||!placement.anchors.some(anchor=>anchor.kind==='balcony'&&anchor.eye);
+  compareButton.hidden=!anchors.length;
+  viewSource.hidden=!ready;
+}
+function chosenAnchor(kind){
+  const anchors=activeAnchors();
+  return anchors.find(anchor=>anchor.kind===kind&&anchor.id===windowSelect.value)
+    || anchors.find(anchor=>anchor.kind===kind)
+    || (kind==='balcony'?placement?.anchors.find(anchor=>anchor.kind===kind&&anchor.eye):null);
+}
+function anchorLook(anchor, eye){
+  return [anchor.target[0],eye[1]-.22,anchor.target[2]];
+}
+function visitAnchor(anchor){
+  if(!anchor||!entered||mode!=='walk'||!spatialContext)return;
+  const start=camera.position.toArray();
+  const route=anchorRoute(navigator3d,start,anchor);
+  if(!route){toast('This viewpoint is obstructed. Try another opening.');return;}
+  stopTour();
+  const end=route.at(-1);
+  const finalLook=anchorLook(anchor,end);
+  if(reducedMotion){
+    camera.position.fromArray(end);
+    activeRoom=anchor.room;
+    updateRoomCaption();
+    updateModeUI();
+    lookAt(finalLook);
+  }else{
+    walkPath={points:route.map(p=>new THREE.Vector3(...p)),finalRoom:anchor.room,finalLook};
+    walkIndex=1;
+  }
+  sceneDirty=true;
+}
+windowButton.onclick=()=>visitAnchor(chosenAnchor('window'));
+balconyButton.onclick=()=>visitAnchor(chosenAnchor('balcony'));
+
+function renderComparison(){
+  const anchor=activeAnchors().find(a=>a.id===windowSelect.value)||activeAnchors()[0];
+  const selected=floorContext(), other=placement?.floors.find(f=>f.floor===Number(compareFloor.value));
+  if(!anchor||!selected||!other||!balconyContext?.visible)return;
+  const eye=anchor.candidates.find(p=>navigator3d.canStand(p[0],p[2]));
+  if(!eye)return;
+  const preview=camera.clone();
+  preview.position.fromArray(eye);
+  preview.lookAt(new THREE.Vector3(...anchorLook(anchor,eye)));
+  preview.updateMatrixWorld();
+  const images=[];
+  try{
+    for(const floor of [selected,other]){
+      placeExterior(floor,false);
+      outlookWorld.update(preview);
+      renderer.render(scene,preview);
+      const thumbnail=document.createElement('canvas');
+      thumbnail.width=430;
+      thumbnail.height=Math.round(thumbnail.width/preview.aspect);
+      thumbnail.getContext('2d').drawImage(renderer.domElement,0,0,thumbnail.width,thumbnail.height);
+      const figure=document.createElement('figure'), image=document.createElement('img'), caption=document.createElement('figcaption');
+      image.src=thumbnail.toDataURL('image/jpeg',.83);
+      image.alt='Simulated view, floor '+floor.floor;
+      caption.textContent='Floor '+floor.floor+' · simulated';
+      figure.append(image,caption);
+      images.push(figure);
+    }
+    comparisonImages.replaceChildren(...images);
+  }finally{
+    placeExterior(selected,false);
+    outlookWorld.update(camera);
+    renderer.render(scene,camera);
+    sceneDirty=true;
+  }
+}
+compareButton.onclick=()=>{
+  compareFloor.replaceChildren(...placement.floors.filter(floor=>floor.floor!==floorContext().floor)
+    .map(floor=>new Option('Floor '+floor.floor,floor.floor)));
+  compareDialog.showModal();
+  renderComparison();
+};
+compareFloor.onchange=renderComparison;
+
 function hideOutlook(){
   if(!balconyContext?.visible)return;
   outlookWorld?.setActive(false);
   if(outlookWorld?.root.parent===balconyContext)outlookWorld.root.removeFromParent();
-  balconyContext.visible=false;viewSource.hidden=true;sceneDirty=true;
+  balconyContext.removeFromParent();
+  if(spatialContext)spatialContext.root.visible=false;
+  balconyContext.visible=false;
+  ++lightingEpoch;
+  if(scene){
+    scene.environment=skyTexture||environmentTarget?.texture||null;
+    scene.environmentRotation.y=0;
+    scene.backgroundRotation.y=0;
+    scene.fog.near=60;scene.fog.far=150;
+  }
   if(camera){camera.far=1800;camera.updateProjectionMatrix();}
-  if(scene?.fog){scene.fog.near=60;scene.fog.far=150;setLighting(lightMode);}
+  sceneDirty=true;
 }
-async function showOutlook() {
-  if (!entered || fallbackMode || mode !== 'walk' || !isBalcony(activeRoom)) return;
-  const currentScene=scene,epoch=interiorEpoch;
-  stopTour();balconyButton.disabled=true;balconyButton.textContent='Preparing outlook…';
+window.addEventListener('brigade:landscape-change', () => {
+  if (entered && balconyContext?.visible) sceneDirty = true;
+});
+function placeExterior(floor, cutaway){
+  spatialContext.update(floor,cutaway);
+  balconyContext.matrixAutoUpdate=false;
+  balconyContext.matrix.copy(apartmentTransform(placement,floor)).invert();
+  balconyContext.matrixWorldNeedsUpdate=true;
+  balconyContext.updateMatrixWorld(true);
+  spatialContext.root.updateMatrixWorld(true);
+}
+function syncExteriorLayer(){
+  if(!spatialContext||!entered)return;
+  const cutaway=mode==='dollhouse'&&$('dollhouseAngle').value==='building';
+  if(mode!=='walk'&&!cutaway){
+    hideOutlook();
+    updateOpeningControls();
+    return;
+  }
+  const floor=floorContext();
+  if(!floor)return;
+  scene.add(spatialContext.root,balconyContext);
+  balconyContext.add(outlookWorld.root);
+  spatialContext.root.visible=true;
+  balconyContext.visible=true;
+  outlookWorld.setActive(true);
+  placeExterior(floor,cutaway);
+  camera.far=6200;camera.updateProjectionMatrix();
+  scene.fog.near=190;scene.fog.far=2800;
+  setLighting(lightMode);
+  updateOpeningControls();
+}
+async function prepareSharedView(epoch){
+  if(!placement||!entered||fallbackMode)return;
   try{
-    const {getGeography,geoCredits}=await import('./geo-world.js');
-    exteriorMap??=fetch('assets/scene-map.json').then(r=>{if(!r.ok)throw Error();return r.json();}).catch(e=>{exteriorMap=null;throw e;});
-    const [world,map]=await Promise.all([getGeography(),exteriorMap]);
-    if(epoch!==interiorEpoch || !entered || currentScene!==scene || mode!=='walk' || !isBalcony(activeRoom))return;
-    const [x0,z0,x1,z1]=map.designFootprints[design];
-    const directions={A1:[-1,0],A2:[-1,0],A3:[0,-1],A4:[0,-1],A5:[0,-1],A6:[1,0],A7:[1,0],
-      B8:[1,0],B9:[1,0],B10:[0,1],B11:[0,1],B12:[-1,0],B14:[-1,0]};
-    const [dx,dz]=directions[design];
-    const level=outlookFloor?map.floorBase+(outlookFloor-1)*map.floorHeight:70;
-    const sitePoint=new THREE.Vector3((x0+x1+dx*(x1-x0))/2,level,(z0+z1+dz*(z1-z0))/2);
-    const railLength=r=>Math.hypot(r.a[0]-r.b[0],r.a[1]-r.b[1]);
-    const rail=geometry.railings.reduce((longest,r)=>railLength(r)>railLength(longest)?r:longest);
-    const deckEdge=new THREE.Vector3((rail.a[0]+rail.b[0])/2,0,(rail.a[1]+rail.b[1])/2);
-    // The individual plan diagrams and the tower's floor-plate trace are a quarter-turn apart.
-    balconyContext??=new THREE.Group();
-    balconyContext.rotation.y=-Math.PI/2;
-    balconyContext.position.copy(deckEdge).sub(sitePoint.applyQuaternion(balconyContext.quaternion));
-    outlookWorld=world;world.shadows.visible=false;world.setMood(lightMode);balconyContext.add(world.root);scene.add(balconyContext);
-    balconyContext.visible=true;world.setActive(true);
-    camera.far=18000;camera.updateProjectionMatrix();
-    scene.fog.near=550;scene.fog.far=6900;scene.background=scene.fog.color.clone();
-    const n=navigator3d.nodes.get(roomTargets[activeRoom]);
-    camera.position.fromArray(n.position);
-    const forward=new THREE.Vector3(dx,0,dz).applyQuaternion(balconyContext.quaternion);
-    smoothLook(camera.position.clone().addScaledVector(forward,20).add(new THREE.Vector3(0,-4,0)).toArray(),1.2);
-    outlookCaption.textContent='Simulated view · '+(outlookFloor?'floor '+outlookFloor:'illustrative 70 m level')+' · approximate elevation, orientation and neighboring heights.';
-    const refresh=()=>{
-      if(!balconyContext?.visible||world.root.parent!==balconyContext)return;
-      geoCredits(outlookCredits,world.stats().imagery);sceneDirty=true;
-    };
-    if(!balconyContext.userData.credits){
-      window.addEventListener('brigade:geo-change',refresh,{signal:inputAbort.signal});
-      balconyContext.userData.credits=true;
+    const exterior=await import('./estate-scene.js');
+    if(epoch!==interiorEpoch||!entered||!exterior.getExteriorContext())return;
+    exteriorModule=exterior;
+    if(!spatialContext){
+      outlookWorld=exterior.getExteriorLandscape();
+      balconyContext=new THREE.Group();
+      balconyContext.visible=false;
+      spatialContext=createApartmentContext(exterior.getExteriorContext(),placement);
+      spatialContext.root.visible=false;
+      scene.add(spatialContext.root);
+      renderer.localClippingEnabled=true;
     }
-    refresh();viewSource.hidden=false;sceneDirty=true;
-  }catch{toast('The surrounding map could not load. Select the deck outlook to retry.');}
-  finally{balconyButton.disabled=false;balconyButton.textContent='Look out from the deck';}
+    syncExteriorLayer();
+  }catch(error){console.warn('Spatial context unavailable',error);}
 }
-balconyButton.onclick = showOutlook;
+
 function buildRooms() {
   $('roomList').replaceChildren();
   $('hotspots').replaceChildren();
@@ -761,6 +980,7 @@ function buildRooms() {
     const thumb = document.createElement('button');
     thumb.dataset.room = id;
     thumb.setAttribute('aria-label', 'Take me to ' + room.label);
+    thumb.title = room.label;
     const image = new Image();
     image.loading = 'lazy';
     image.src = selectedPackage.base + roomViews.get(id).file;
@@ -808,15 +1028,8 @@ function setModelMode(m) {
 }
 function updateModeUI() {
   filmstrip.hidden = mode !== 'walk';
-  balconyButton.hidden = fallbackMode || mode !== 'walk' || !isBalcony(activeRoom);
-  if (balconyButton.hidden) {
-    viewSource.hidden = true;
-    hideOutlook();
-    if (scene?.fog) {
-      scene.fog.near = 60;
-      scene.fog.far = 150;
-    }
-  }
+  syncExteriorLayer();
+  updateOpeningControls();
   document.body.classList.toggle('walking', mode === 'walk');
   $('dollhouseButton').classList.toggle('active', mode === 'dollhouse');
   $('dollhouseButton').setAttribute('aria-pressed', String(mode === 'dollhouse'));
@@ -831,7 +1044,18 @@ function updateModeUI() {
   $('hotspots').classList.toggle('hidden', mode === 'walk' || !entered);
   document
     .querySelectorAll('[data-room]')
-    .forEach((b) => b.classList.toggle('active', mode === 'walk' && b.dataset.room === activeRoom));
+    .forEach((b) => {
+      const selected = mode === 'walk' && b.dataset.room === activeRoom;
+      b.classList.toggle('active', selected);
+      b.setAttribute('aria-pressed', String(selected));
+    });
+  if (mode === 'walk') requestAnimationFrame(() => {
+    const selected = filmstrip.querySelector('.active');
+    if (selected && filmstrip.clientWidth) filmstrip.scrollTo({
+      left: selected.offsetLeft - (filmstrip.clientWidth - selected.clientWidth) / 2,
+      behavior: reducedMotion ? 'instant' : 'smooth',
+    });
+  });
 }
 function switchMode(next, room) {
   finishFilm();
@@ -870,7 +1094,7 @@ function switchMode(next, room) {
 }
 function resetDollhouse(animate = true) {
   if (!camera) return;
-  const distance = drawDistance * (mobile() ? 1.16 : 1);
+  const distance = drawDistance * (mobile() ? 1.16 : 1) * ($('dollhouseAngle').value==='building'?1.38:1);
   const target = homeTarget.clone();
   const direction =
     $('dollhouseAngle').value === 'top'
@@ -1005,7 +1229,7 @@ const lighting = {
     exposure: 1.07,
     lamps: [8, 6],
   },
-  evening: {
+  night: {
     sky: '#544853',
     hemi: '#a2acd4',
     base: 0.36,
@@ -1019,18 +1243,36 @@ const lighting = {
 };
 function setLighting(value) {
   if (value === 'daylight') value = 'day';
+  if(value==='evening')value='night';
   if (!lighting[value]) value = 'day';
   if (fallbackMode) {
     toast('Lighting controls are available in the live 3D view on supported devices.');
     return;
   }
   lightMode = value;
+  if(entered)window.dispatchEvent(new CustomEvent('brigade:interior-light',{detail:value}));
   document
     .querySelectorAll('[data-light]')
     .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.light === value)));
   if (!scene) return;
   const profile = lighting[value];
-  if(balconyContext?.visible)outlookWorld.setMood(value);
+  const lightEpoch=++lightingEpoch;
+  if(balconyContext?.visible&&exteriorModule){
+    exteriorModule.getExteriorLighting(value).then(shared=>{
+      if(lightEpoch!==lightingEpoch||!balconyContext?.visible)return;
+      scene.background=shared.background;
+      scene.environment=shared.environment;
+      scene.backgroundRotation.y=scene.environmentRotation.y=shared.rotation-placement.yaw;
+      const local=shared.direction.applyAxisAngle(new THREE.Vector3(0,1,0),-placement.yaw);
+      sun.position.copy(homeTarget).addScaledVector(local,24);
+      sceneDirty=true;
+      renderer.shadowMap.needsUpdate=true;
+    }).catch(error=>console.warn('Shared lighting unavailable',error));
+  }
+  if(entered&&new URL(location.href).searchParams.has('layout')){
+    const url=new URL(location.href);
+    if(url.searchParams.get('light')!==value){url.searchParams.set('light',value);history.replaceState(null,'',url);}
+  }
   sceneDirty = true;
   renderer.shadowMap.needsUpdate = true;
   scene.background =
@@ -1040,7 +1282,7 @@ function setLighting(value) {
   scene.fog.color.set(profile.sky);
   hemi.intensity = profile.base;
   hemi.color.set(profile.hemi);
-  ambient.intensity = value === 'evening' ? 0.1 : 0.13;
+  ambient.intensity = value === 'night' ? 0.1 : 0.13;
   sun.intensity = profile.direct;
   sun.color.set(profile.sun);
   sun.position.copy(homeTarget).add(new THREE.Vector3(...profile.at));
@@ -1050,7 +1292,7 @@ function setLighting(value) {
   eveningLights?.forEach((light, i) => (light.intensity = profile.lamps[i]));
   ground?.material.color.set(profile.sky);
   model?.traverse((o) => {
-    if (o.isLight) o.intensity = value === 'evening' ? o.userData.originalIntensity || 12 : 0;
+    if (o.isLight) o.intensity = value === 'night' ? o.userData.originalIntensity || 12 : 0;
   });
 }
 function stopTour() {

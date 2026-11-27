@@ -1,0 +1,18 @@
+{
+  "desktopWingMarkers": [
+    "Wing A",
+    "Wing B"
+  ],
+  "secondaryUvOcclusion": [
+    "Warm clay brick.001",
+    "Honed ivory limestone.001",
+    "Manicured terrace lawn.001",
+    "Fired terracotta.001",
+    "Shadowed colonnade.001"
+  ],
+  "locationImageryProvider": "sentinel",
+  "mobileWingMarkers": [
+    "Wing A",
+    "Wing B"
+  ]
+}

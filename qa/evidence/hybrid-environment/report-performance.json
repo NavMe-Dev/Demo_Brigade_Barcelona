@@ -1,0 +1,176 @@
+{
+  "date": "2026-11-27T06:21:49.060Z",
+  "checks": [
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [],
+  "layouts": [],
+  "browser": "158.0.8127.37",
+  "performance": [
+    {
+      "width": 1440,
+      "height": 900,
+      "emulatedTouch": false,
+      "renderedFrames": 1441,
+      "meanFPS": 60.002500104171006,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 16.800000000000182,
+      "intervalsOver25Ms": 0,
+      "heap": 116794151,
+      "final": {
+        "camera": [
+          -172.99999999999997,
+          116.00000000000003,
+          296.99999999999994
+        ],
+        "target": [
+          0,
+          85,
+          8
+        ],
+        "pixelRatio": 1,
+        "triangles": 3971228,
+        "drawCalls": 450,
+        "geometries": 718,
+        "textures": 74,
+        "quality": "auto",
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 1501,
+        "cameraUpdates": 1487,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": null,
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 96,
+            "visibleTiles": 68
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 16,
+            "cachedTiles": 38,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 592,
+            "distantTiles": 9,
+            "residentBytes": 4274724,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 1,
+              "floorCount": 17,
+              "estimated": 2986
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "emulatedTouch": true,
+      "renderedFrames": 1441,
+      "meanFPS": 60.002500104171006,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 16.800000000000182,
+      "intervalsOver25Ms": 0,
+      "heap": 101895560,
+      "final": {
+        "camera": [
+          -172.99999999999997,
+          116.00000000000003,
+          296.99999999999994
+        ],
+        "target": [
+          0,
+          85,
+          8
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 914300,
+        "drawCalls": 186,
+        "geometries": 355,
+        "textures": 45,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 1491,
+        "cameraUpdates": 1487,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": null,
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 28,
+            "visibleTiles": 12
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 33,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 388,
+            "distantTiles": 7,
+            "residentBytes": 3579420,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 1,
+              "floorCount": 17,
+              "estimated": 2485
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    }
+  ]
+}

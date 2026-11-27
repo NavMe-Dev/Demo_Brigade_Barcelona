@@ -62,3 +62,41 @@ The [refresh suite](../qa/architectural-refresh.json) passed the 1920 × 1080 de
 The [component harness](../qa/amenity-models.json) rendered each of the ten tested complete and component GLBs and selected every one of the 77 source-listed masterplan and amenity entries. Separate browser probes observed changing rooftop water-normal offsets on successive exterior frames and confirmed that the architectural flythrough could be stopped from its panel.
 
 The [13-residence regression](../qa/all-residences.json) also passed after the refresh. Every documented unit opened its own rendered model and completed the room-route checks.
+
+## November 27 exterior rebuild
+
+The live Chrome capture checks confirmed both wing labels, the exterior presentation switch, desktop and touch-emulated mobile framing, and all six architectural viewpoints. The buyer suite passed 53 checks, and the residence suite loaded all 13 layouts in WebGL2. [Buyer run](../qa/exterior-rebuild-buyer.json) · [All residence results](../qa/all-residences.json)
+
+See the [visual review](EXTERIOR_VISUAL_REVIEW.md) for the Cycles and browser comparison plates, the archived baseline and the remaining visual gaps.
+
+## November 27 neighborhood rebuild
+
+Chrome captured the hero, road, entrance, rear, street, golden-hour, night, Location and touch-emulated mobile views. The live camera completed a measured 360° orbit. The buyer suite passed 53 checks, including wing and floor selection, the regional map, saved comparisons, a live apartment share link and touch controls. The frontage geometry audit found full centerline coverage for both carriageways, zero public surface inside Plot 20 and zero measured gap between the illustrative drives and the carriageway. [Browser evidence](NEIGHBORHOOD_REBUILD.md#browser-review) · [Capture data](../qa/evidence/neighborhood-rebuild/capture.json) · [Geometry audit](../qa/neighborhood-road-geometry.json) · [Buyer regression](../qa/neighborhood-buyer.json)
+
+## November 27 standalone architectural showcase
+
+The updated buyer smoke suite passed all 53 checks, including the cinematic approach, reduced-motion hero, wing and refuge selection, property information, shared routes, comparisons and six viewport sizes. The residence suite passed all 13 layouts, including 182 room selections and their linked plans. The final browser capture exercised the designed landscape, lighting, exterior viewpoints, legacy routes and A3 balcony outlook and return. It recorded a 360° orbit with zero GIS requests. [Buyer run](../qa/showcase-buyer.json) · [Residence run](../qa/all-residences.json) · [Visual review](SHOWCASE_ONLY.md)
+
+## November 27 map terrain restored
+
+The default exterior again shows registered satellite terrain, mapped roads and nearby building footprints. The local Chrome morning view used Sentinel imagery. The browser verified the geographic A3 balcony outlook and return, the illustrative fallback with geographic assets blocked, and all 53 buyer regression checks. [Morning browser capture](../qa/evidence/map-restored/morning.jpg) · [Buyer run](../qa/map-restored-buyer.json)
+
+## November 27 apartment and exterior integration
+
+The spatial suite covers all 13 layouts in Chrome. For each layout it opens floor 25, follows a traced window viewpoint, switches to a documented lower floor, checks that the local camera remains fixed while the world elevation changes, follows the default balcony viewpoint and returns to the building. B14 also exercises floors 12, 20 and 25, same-eye comparison, the isolated dollhouse, the tower section, golden hour, night and a 390 × 844 touch-emulated viewport. The spatial suite recorded zero uncaught page errors and zero GIS requests. [Spatial run and captures](SPATIAL_ALIGNMENT.md#browser-evidence) · [Raw spatial run](../qa/evidence/spatial-views/report.json)
+
+The 13-layout residence suite exercised the documented room routes, collision checks and room-to-plan links. The buyer suite passed 53 checks with zero uncaught page errors. The correspondence between individual apartment and exterior façade openings remains unverified because the exterior uses repeating proxy modules. [Residence run](../qa/all-residences.json) · [Buyer run](../qa/spatial-buyer.json) · [Architectural limitations](SPATIAL_ALIGNMENT.md#architectural-limitations)
+
+## November 27 Esri and architectural terrain integration
+
+The hybrid browser suite checks the registered origin, active DEM sampling, common patch edges, connected roads, architectural and geographic views, and all 13 apartment window and balcony routes. It includes live licensed imagery and elevation acceptance, synthetic protocol coverage, and service denial. The existing buyer suite passed 53 checks and the residence suite passed all thirteen layouts. The buyer suite explicitly validates the architectural fallback arrival, while the hybrid suite validates the licensed regional approach. [Current browser evidence and limitations](HYBRID_QA.md) · [Implementation and source qualifications](HYBRID_ENVIRONMENT.md)
+
+## Residence interface refinement — November 27
+
+The apartment interface now uses a consistent header, home summary, floor selector, viewpoint actions, room thumbnail strip and view-mode dock. Walking controls sit opposite the room card and hide while expanded home details are open. The selected thumbnail stays in view and exposes its pressed state. Compact portrait screens use a view-options disclosure. Geographic attribution remains visible when the interface is hidden.
+
+Chrome captures were reviewed at 1600×950, 1366×768, 390×844, 320×568 and 844×390. These are desktop browser viewports, including phone emulation. The targeted interaction flow passed 17 checks with zero uncaught browser errors: floor selection, room navigation, two-floor comparison, expanded details, guided tour and pause, dollhouse, floor plan, interface visibility, compact view options and return to building. JavaScript syntax and the static build passed.
+
+[Desktop](../qa/evidence/interior-ui/desktop.jpg) · [Phone](../qa/evidence/interior-ui/mobile.jpg) · [Compact phone](../qa/evidence/interior-ui/small-phone.jpg) · [Compact view options](../qa/evidence/interior-ui/small-phone-options.jpg) · [View comparison](../qa/evidence/interior-ui/compare.jpg) · [Dollhouse](../qa/evidence/interior-ui/dollhouse.jpg) · [Interaction results](../qa/evidence/interior-ui/interactions.json)
+
+The subsequent footer cleanup replaces the full-width source strip with compact Esri attribution and a Map credits dialog. Twelve browser checks passed across the exterior, apartment and mobile `/experience/` route, including access while the interface is hidden, with no uncaught errors. [Updated desktop](../qa/evidence/interior-ui/no-strip-apartment.jpg) · [Updated phone](../qa/evidence/interior-ui/no-strip-mobile.jpg) · [Checks](../qa/evidence/interior-ui/credits-ui.json)

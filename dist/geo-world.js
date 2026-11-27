@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { loadTerrain } from './geo-terrain.js';
 import { createBuildings } from './geo-buildings.js';
+import { createArrival } from './geo-arrival.js';
+import { createRoads } from './geo-roads.js';
 import { createImagery } from './gis-imagery.js';
 
 // A small receiver drapes cast shadows over the terrain at the development and gate.
@@ -55,10 +57,15 @@ async function buildWorld() {
   const imagery = createImagery(THREE, terrain, { settings, quality, onChange: invalidate });
   const buildings = createBuildings(THREE, terrain, { quality, onChange: invalidate });
   const shadows = siteShadows(terrain);
-  root.add(imagery.root, buildings.root, shadows);
-  if (!(await imagery.baseReady)) {
+  const roads = createRoads(THREE, terrain, invalidate);
+  const arrival = createArrival(THREE, terrain, invalidate);
+  root.add(imagery.root, buildings.root, roads.root, arrival.root, shadows);
+  const [baseReady] = await Promise.all([imagery.baseReady, roads.startup]);
+  if (!baseReady) {
     imagery.dispose();
     buildings.dispose();
+    roads.dispose();
+    arrival.dispose();
     shadows.geometry.dispose();
     shadows.material.dispose();
     throw new Error('Base terrain imagery unavailable');
@@ -75,6 +82,7 @@ async function buildWorld() {
     root.visible = value;
     imagery.setActive(value);
     buildings.setActive(value);
+    roads.setActive(value);
   }
   async function setFeatures(value) {
     showInfrastructure = value;
@@ -103,6 +111,7 @@ async function buildWorld() {
     localCamera.projectionMatrix.copy(camera.projectionMatrix);
     localCamera.updateMatrixWorld();
     buildings.update(localCamera);
+    roads.update(localCamera);
   }
   function ensureRegion() {
     regionRequest ??= import('./regional-terrain.js')
@@ -123,6 +132,7 @@ async function buildWorld() {
   function setMood(value) {
     mood = value;
     imagery.setMood(value);
+    arrival.setMood(value);
     shadows.material.opacity = value === 'evening' ? 0.13 : 0.27;
   }
   return {
@@ -133,6 +143,16 @@ async function buildWorld() {
     setFeatures,
     ensureRegion,
     setMood,
+    setQuality(value) {
+      roads.setQuality(value);
+      arrival.setQuality(value);
+    },
+    setTerrainPresentation: imagery.setPresentation,
+    setPresentation(value) {
+      imagery.setPresentation(value);
+      roads.setPresentation(value);
+      arrival.setPresentation(value);
+    },
     shadows,
     stats: () => ({
       anchorElevationM: terrain.anchorElevationM,
@@ -140,6 +160,7 @@ async function buildWorld() {
       step: terrain.step,
       imagery: imagery.stats(),
       buildings: buildings.stats(),
+      roads: roads.stats(),
       infrastructure: infrastructure?.stats(),
     }),
     dispose() {
@@ -147,6 +168,8 @@ async function buildWorld() {
       shadows.material.dispose();
       imagery.dispose();
       buildings.dispose();
+      roads.dispose();
+      arrival.dispose();
       infrastructure?.dispose();
       regionRequest
         ?.then((mesh) => {

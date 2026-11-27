@@ -1,0 +1,250 @@
+{
+  "date": "2026-11-27T06:38:47.374Z",
+  "checks": [
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [],
+  "layouts": [],
+  "browser": "158.0.8127.37",
+  "performance": [
+    {
+      "width": 1440,
+      "height": 900,
+      "firstReadyMs": 6158,
+      "emulatedTouch": false,
+      "renderedFrames": 1441,
+      "meanFPS": 60.002500104171,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 16.80000000000109,
+      "intervalsOver25Ms": 0,
+      "heap": 160233899,
+      "final": {
+        "camera": [
+          -172.99999999999997,
+          116.00000000000003,
+          296.99999999999994
+        ],
+        "target": [
+          0,
+          85,
+          8
+        ],
+        "pixelRatio": 1,
+        "triangles": 3987612,
+        "drawCalls": 458,
+        "geometries": 716,
+        "textures": 76,
+        "quality": "auto",
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 1588,
+        "cameraUpdates": 1487,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": null,
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "Esri World Elevation",
+            "service": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer",
+            "sources": [
+              "Airbus_WorldDEM4Ortho_24m"
+            ],
+            "datum": "EGM2008",
+            "sourceOriginM": 595.0549926757812,
+            "sourceSpacingM": [
+              24.737664565767023,
+              24.737664565767023
+            ],
+            "gridStepM": 64,
+            "sampleCount": 4225,
+            "radiusM": 2048,
+            "blendOutStartM": 1536,
+            "requests": 45,
+            "readyMs": 5219,
+            "reference": "Relative to Esri origin sample, feathered to EGM96 fallback. This is an approximate local vertical registration."
+          },
+          "regionalImagery": {
+            "reason": "Checking imagery coverage",
+            "loading": 0,
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "highestVisibleZoom": 0,
+            "textures": 0,
+            "estimatedTextureBytes": 0
+          },
+          "imagery": {
+            "provider": "arcgis",
+            "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+            "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+            "reason": "World Imagery",
+            "loading": 0,
+            "visibleTiles": 63,
+            "maxZoom": 19,
+            "highestVisibleZoom": 18,
+            "textures": 2,
+            "estimatedTextureBytes": 22762838
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 94,
+            "visibleTiles": 68
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 16,
+            "cachedTiles": 38,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 592,
+            "distantTiles": 9,
+            "residentBytes": 4274724,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 1,
+              "floorCount": 17,
+              "estimated": 2986
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "firstReadyMs": 5628,
+      "emulatedTouch": true,
+      "renderedFrames": 1441,
+      "meanFPS": 60.002500104171006,
+      "p95Ms": 16.700000000000728,
+      "p99Ms": 16.80000000000109,
+      "intervalsOver25Ms": 0,
+      "heap": 112504471,
+      "final": {
+        "camera": [
+          -172.99999999999997,
+          116.00000000000003,
+          296.99999999999994
+        ],
+        "target": [
+          0,
+          85,
+          8
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 928636,
+        "drawCalls": 193,
+        "geometries": 379,
+        "textures": 47,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 1525,
+        "cameraUpdates": 1487,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": null,
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "Esri World Elevation",
+            "service": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer",
+            "sources": [
+              "Airbus_WorldDEM4Ortho_24m"
+            ],
+            "datum": "EGM2008",
+            "sourceOriginM": 595.0549926757812,
+            "sourceSpacingM": [
+              24.737664565767023,
+              24.737664565767023
+            ],
+            "gridStepM": 64,
+            "sampleCount": 4225,
+            "radiusM": 2048,
+            "blendOutStartM": 1536,
+            "requests": 45,
+            "readyMs": 4761,
+            "reference": "Relative to Esri origin sample, feathered to EGM96 fallback. This is an approximate local vertical registration."
+          },
+          "regionalImagery": {
+            "reason": "Checking imagery coverage",
+            "loading": 0,
+            "visibleTiles": 0,
+            "maxZoom": null,
+            "highestVisibleZoom": 0,
+            "textures": 0,
+            "estimatedTextureBytes": 0
+          },
+          "imagery": {
+            "provider": "arcgis",
+            "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+            "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+            "reason": "World Imagery",
+            "loading": 0,
+            "visibleTiles": 32,
+            "maxZoom": 19,
+            "highestVisibleZoom": 17,
+            "textures": 2,
+            "estimatedTextureBytes": 11578027
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 28,
+            "visibleTiles": 12
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 33,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 388,
+            "distantTiles": 7,
+            "residentBytes": 3579420,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 1,
+              "floorCount": 17,
+              "estimated": 2485
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    }
+  ]
+}

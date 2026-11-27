@@ -1,0 +1,29 @@
+{
+  "date": "2026-11-27T06:52:30.909Z",
+  "checks": [
+    "Loading state identifies imagery as pending",
+    "Service denial presents Retry map",
+    "Retry map restores actual Esri imagery",
+    "No uncaught browser errors"
+  ],
+  "errors": [],
+  "imagery": {
+    "provider": "arcgis",
+    "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+    "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+    "reason": "World Imagery",
+    "state": "ready",
+    "canRetry": false,
+    "loading": 0,
+    "visibleTiles": 62,
+    "maxZoom": 19,
+    "highestVisibleZoom": 18,
+    "textures": 2,
+    "estimatedTextureBytes": 22762838
+  },
+  "zones": {
+    "blendStartM": 8,
+    "blendEndM": 32
+  },
+  "capture": "real-map-restored.jpg"
+}

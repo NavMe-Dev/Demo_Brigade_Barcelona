@@ -1,8 +1,10 @@
 import * as THREE from 'three';
 import { lightingAt } from './solar.js';
-import {getGeography,geoCredits} from './geo-world.js';
+import {loadShowcase,landscapeHeight} from './showcase-landscape.js';
+import {loadHybrid} from './hybrid-landscape.js';
+import { KTX2Loader } from 'three/addons/loaders/KTX2Loader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { ExteriorOrbitControls } from './exterior-orbit-controls.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
@@ -16,12 +18,15 @@ const clamp = THREE.MathUtils.clamp;
 const smooth = THREE.MathUtils.smootherstep;
 const poolCenter = vec([40,24,37]);
 const podiumCenter = vec([0,8,32]);
+const terrainHeight = (x,z) => landscape?.terrain?.heightAt(x,z) ?? landscapeHeight(x,z);
+const closeViews = new Set(['skyGarden','ecoGarden','pool']);
 const view = {
-  overview: [[183, 152, 298], [0, 80, 0]],
+  overview: [[-173, 116, 297], [0, 85, 8]],
   landing: [
     [475, 335, 540],
     [0, 20, 0],
   ],
+  regional: [[-3500, 17500, -7500],[-1800,0,-9000]],
   aerial: [
     [105, 213, 160],
     [0, 46, 0],
@@ -31,21 +36,19 @@ const view = {
     [0, 65, 0],
   ],
   entrance: [
-    [-44, 10, 99],
-    [0, 14, 35],
+    [-47, 8, 86],
+    [-31, 6, 54],
   ],
-  location: [
-    [368, 358, 545],
-    [0, 30, 0],
-  ],
-  front: [[132,77,273],[2,86,6]],
+  front: [[-173,116,297],[0,85,8]],
+  frontage: [[-97,36,138],[-4,5,76]],
+  gardensWide: [[314,228,425],[15,20,35]],
   rear: [[-118,89,-273],[0,85,0]],
   crown: [[46,167,105],[10,164,47]],
   balcony: [[-25,94,85],[-9,91,48]],
   podium: [[57,12,78],[21,8,51]],
-  pool: [[57,28,48],[39,24,36]],
-  skyGarden: [[8.4,180.1,35.3],[9.6,179.05,39.5]],
-  ecoGarden: [[-12.2,17.2,54.4],[-6.8,16.3,56.3]],
+  pool: [[56,34,51],[39.75,24,36.8]],
+  skyGarden: [[7.7,180.5,32.3],[10.6,179.15,40]],
+  ecoGarden: [[-14.5,18.6,52.5],[-5.4,16.2,57.2]],
   clubhouse: [
     [98, 48, 113],
     [39, 12, 38],
@@ -63,16 +66,20 @@ const view = {
 const wingTargets = { A: [0, 81, -21], B: [0, 81, 21] };
 const eligibleFloors = new Set([12, 17, 18, 19, 20, 22, 23, 24, 25, 26]);
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(43, 1, 0.6, 24000);
+const camera = new THREE.PerspectiveCamera(43, 1, 0.6, 12000);
 const pointer = new THREE.Vector2();
 const ray = new THREE.Raycaster();
-let renderer, controls, environment, sky, sun, fill, exterior, geography, selection, outline;
-let skyLight, coarse, detailed, detailedScreens, geographicShell, waterNormal, gardenLights;
+let renderer, controls, environment, sky, sun, fill, exterior, landscape, selection, outline;
+let ktx2;
+const skyFiles = { day:'sky-light.hdr', morning:'sky-light.hdr', sunset: 'showcase/golden-hour.hdr', evening: 'sky-evening.hdr', night: 'sky-night.hdr' };
+const skies = new Map();
+let disposed = false;
+let skyLight, coarse, detailed, detailedScreens, waterNormal, gardenLights;
 let quality = 'auto';
-let loadDetailed, loadGeographicShell;
+let loadDetailed;
 let active = true,
   ready = false,
-  mood = 'day',
+  mood = 'sunset',
   flight = null,
   wing = null,
   level = null,
@@ -81,6 +88,8 @@ let drawPending = true,
   lastDraw = 0,
   lowSamples = 0,
   frameId,
+  lastFrame = 0,
+  cameraUpdates = 0,
   mapData,
   callbacks,
   startPoint,
@@ -134,7 +143,24 @@ function projection() {
         ? 0
         : 0.15 * h
     : 0;
-  camera.setViewOffset(w, h, x, y, w, h);
+  if (cameraKey === 'front' || cameraKey === 'overview') {
+    const panel = document.querySelector('#estatePanel');
+    const dock = document.querySelector('#experienceDock');
+    const top = document.querySelector('.header').getBoundingClientRect().bottom + 14;
+    const left = !mobile() && !panel.hidden ? panel.getBoundingClientRect().right + 18 : 0;
+    const bottom = mobile() && !panel.hidden
+      ? panel.getBoundingClientRect().top - 10
+      : dock.hidden ? h - 30 : dock.getBoundingClientRect().top - 12;
+    const safeHeight = Math.max(bottom - top, h * .32);
+    const safeWidth = w - left;
+    camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan(Math.max(
+      Math.tan(THREE.MathUtils.degToRad(21.5)) * h / safeHeight,
+      .25 * h / safeWidth,
+    )));
+    camera.setViewOffset(w, h, -left / 2, (h - top - bottom) / 2, w, h);
+  } else if (cameraKey !== 'comparison') {
+    camera.setViewOffset(w, h, x, y, w, h);
+  }
   camera.updateProjectionMatrix();
   if (renderer.domElement.style.width !== w+'px' || renderer.domElement.style.height !== h+'px') {
     renderer.setSize(w, h);
@@ -146,8 +172,8 @@ function cancelFlight() {
   if (!flight) return;
   const previous = flight;
   flight = null;
+  controls.enabled = active;
   previous.done?.();
-  if(previous.city){controls.maxDistance=1800;callbacks.cityEnd?.();}
   if(previous.intro)callbacks.intro(false);
 }
 function fly(pos, target, duration = 1250) {
@@ -158,7 +184,8 @@ function fly(pos, target, duration = 1250) {
   if (reduced() || duration === 0) {
     camera.position.copy(end);
     controls.target.copy(endTarget);
-    controls.update();
+    controls.clearMomentum();
+    camera.lookAt(controls.target);
     drawPending = true;
     return Promise.resolve();
   }
@@ -166,35 +193,36 @@ function fly(pos, target, duration = 1250) {
   const from = new THREE.Spherical().setFromVector3(camera.position.clone().sub(controls.target));
   const to = new THREE.Spherical().setFromVector3(end.sub(endTarget));
   to.theta = from.theta + Math.atan2(Math.sin(to.theta - from.theta), Math.cos(to.theta - from.theta));
+  controls.clearMomentum();
+  controls.enabled = false;
   return new Promise((done) => {
     flight = {
       from,
       to,
       startTarget: controls.target.clone(),
       endTarget,
-      time: performance.now(),
       duration,
       done,
     };
   });
 }
-function updateFlight(now) {
-  if (!flight || flight.waitingForReveal) return;
+function updateFlight(seconds) {
+  if (!flight || flight.waitingForReveal || flight.paused) return;
   const f = flight;
-  // Start the clock on the first visible frame, including after a background-tab load.
-  if(f.time === null) f.time = now;
-  const t = clamp((now - f.time) / f.duration, 0, 1);
-  if(f.city){
-    const progress=smooth(t,0,1)*(f.keys.length-1),i=Math.min(f.keys.length-2,Math.floor(progress));
-    const k=smooth(t,0,1);
-    camera.position.copy(f.path.getPoint(k));controls.target.copy(f.look.getPoint(k));
-    if(i!==f.stage){f.stage=i;callbacks.cityStage?.(f.keys[i]);}
-  } else if (f.path) {
+  f.elapsed = Math.min(f.duration, (f.elapsed ?? 0) + seconds * 1000);
+  const t = f.elapsed / f.duration;
+  if (f.path) {
     const progress = smooth(t, 0, 1);
     camera.position.copy(f.path.getPointAt(progress));
     if(f.look)controls.target.copy(f.look.getPointAt(progress));
   } else {
-    const k = smooth(t, 0, 1);
+    // Accelerate and brake over one second. Cruise at a constant angular speed.
+    const ramp = 1000;
+    const elapsed = f.elapsed;
+    const progress = elapsed < ramp ? elapsed ** 2 / (2 * ramp)
+      : elapsed > f.duration - ramp ? f.duration - ramp - (f.duration - elapsed) ** 2 / (2 * ramp)
+      : elapsed - ramp / 2;
+    const k = f.orbit ? progress / (f.duration - ramp) : smooth(t, 0, 1);
     controls.target.lerpVectors(f.startTarget, f.endTarget, k);
     const s = new THREE.Spherical(
       THREE.MathUtils.lerp(f.from.radius, f.to.radius, k),
@@ -204,24 +232,28 @@ function updateFlight(now) {
     camera.position.setFromSpherical(s).add(controls.target);
   }
   drawPending = true;
+  camera.lookAt(controls.target);
   if (t >= 1) {cancelFlight();f.complete?.();}
 }
 function overviewView() {
-  return mobile() ? [[218, 165, 345], [0, 81, 0]] : view.overview;
+  return view.overview;
 }
 
 export function playIntroduction() {
   if (!ready || !active || section !== 'overview' || reduced()) return;
-  goView('landing', 0);
-  const [start, focus] = view.landing;
+  const geographic = landscape?.stats().imagery?.provider === 'arcgis' && landscape?.stats().regionalImagery?.provider === 'arcgis';
+  goView(geographic ? 'regional' : 'landing', 0);
+  const [start, focus] = geographic ? view.regional : view.landing;
   const [end, target] = overviewView();
   // The original local building sequence uses separate splines for the eye and its target.
   flight = {
-    intro: true, time: null, duration: 8900,
-    path: new THREE.CatmullRomCurve3([start, [265, 208, 380], [100, 137, 290], [-54, 114, 275], [36, 118, 263], end].map(vec)),
-    look: new THREE.CatmullRomCurve3([focus, [0, 48, 1], [0, 67, 0], [0, 83, 0], [0, 83, 0], target].map(vec)),
+    intro: true, duration: 14500,
+    path: new THREE.CatmullRomCurve3((geographic ? [start,[-1300,8000,-4100],[200,1800,2100],[152,176,335],[-109,113,313],end] : [start,[330,240,434],[152,176,335],[-12,123,316],[-109,113,313],end]).map(vec)),
+    look: new THREE.CatmullRomCurve3((geographic ? [focus,[-200,0,-1700],[0,20,0],[0,67,0],[0,83,0],target] : [focus,[0,48,1],[0,67,0],[0,83,0],[0,83,0],target]).map(vec)),
   };
+  controls.enabled = false;
   cameraKey = 'overview';
+  projection();
   callbacks.intro(true);
 }
 
@@ -231,9 +263,11 @@ export function tourArchitecture() {
   if (reduced()) return goView('front',0);
   cancelFlight();
   const poses = [[camera.position.toArray(),controls.target.toArray()],...keys.map(key => view[key])];
+  controls.clearMomentum();
+  controls.enabled = false;
   return new Promise(done => {
     flight = {
-      time:null, duration:17000, done,
+      duration:17000, done,
       path:new THREE.CatmullRomCurve3(poses.map(([eye]) => vec(eye))),
       look:new THREE.CatmullRomCurve3(poses.map(([,target]) => vec(target))),
     };
@@ -245,15 +279,22 @@ export function stopIntroduction() {
 
 export function goView(key, duration) {
   cameraKey = key;
-  if(key==='street' && geography){const x=-46.19,z=76.54;return fly([x,geography.terrain.heightAt(x,z)+1.7,z],[-10,25,2],duration);}
+  if (controls) controls.maxDistance = key === 'regional' ? 60000 : 1800;
+  if (controls) controls.minDistance = closeViews.has(key) || ['amenities','masterplan'].includes(section) ? .8 : 12;
+  projection();
+  if(key==='street'){const x=-52,z=80;return fly([x,terrainHeight(x,z)+1.7,z],[-17,16,62],duration);}
   const pair = key === 'overview' ? overviewView() : view[key] || overviewView();
   return fly(...pair, duration);
 }
 export function focusWing(id, duration) {
+  cameraKey = 'wing';
+  projection();
   const t = wingTargets[id] || wingTargets.A;
   return fly([t[0] + (id === 'A' ? -99 : 93), t[1] + 37, t[2] + (id === 'A' ? -138 : 138)], t, duration);
 }
 export function focusFloor(id, floor, duration = 830) {
+  cameraKey = 'floor';
+  projection();
   const t = wingTargets[id];
   const y = floorY(floor);
   return fly(
@@ -272,23 +313,55 @@ export function zoom(factor) {
   delta.setLength(clamp(delta.length() * factor, controls.minDistance, controls.maxDistance));
   fly(delta.add(controls.target).toArray(), controls.target.toArray(), 300);
 }
+function selectSky(value) {
+  if (!skyLight || disposed) return;
+  const file = skyFiles[value];
+  if (!file) {
+    scene.background = scene.environment = skyLight;
+    return;
+  }
+  if (!skies.has(file)) {
+    const request = new HDRLoader().loadAsync('assets/' + file).then((texture) => {
+      if (disposed) {
+        texture.dispose();
+        return null;
+      }
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      return texture;
+    }).catch(() => {
+      skies.delete(file);
+      return null;
+    });
+    skies.set(file, request);
+  }
+  return skies.get(file).then((texture) => {
+    if (value !== mood || disposed) return;
+    scene.background = scene.environment = texture || skyLight;
+    drawPending = true;
+  });
+}
 export function setMood(value){
- mood=value;geography?.setMood(mood);
+ mood=value;landscape?.setMood(mood);
  if(!renderer||!mapData)return;
  const mode=lightingAt(value,mapData);
- scene.fog.color.set(mode.sky);scene.backgroundIntensity=mode.background;
- sky.material.uniforms.horizon.value.set(mode.sky);sky.material.uniforms.top.value.set(value==='evening'?'#101d36':'#6993aa');
- sun.position.fromArray(mode.direction).multiplyScalar(220).add(sun.target.position);
- sky.material.uniforms.sunDirection.value.fromArray(mode.direction).normalize();sky.material.uniforms.sunColor.value.set(mode.sun).multiplyScalar(value==='evening'?.12:1);
+ const afterDark = value === 'evening' || value === 'night';
+ scene.fog.color.set(mode.sky);scene.backgroundIntensity=mode.background;scene.backgroundBlurriness=0;
+ sky.material.uniforms.horizon.value.set(mode.sky);sky.material.uniforms.top.value.set(afterDark?'#101d36':'#6993aa');
+ const direction = value==='sunset' ? [-.66,.24,1] : value==='day' ? [-.28,.60,1] : mode.direction;
+ sun.position.fromArray(direction).normalize().multiplyScalar(220).add(sun.target.position);
+ sky.material.uniforms.sunDirection.value.fromArray(mode.direction).normalize();sky.material.uniforms.sunColor.value.set(mode.sun).multiplyScalar(afterDark?.12:1);
  const skyRotation=Math.atan2(mode.direction[0],mode.direction[2]);scene.environmentRotation.y=skyRotation;scene.backgroundRotation.y=skyRotation;
- sky.visible=true;scene.background=null;
- sun.color.set(mode.sun);sun.intensity=mode.intensity*.86;fill.intensity=mode.ambient*.8;
- fill.color.set(value==='evening'?'#afbddf':'#e2edfe');
- scene.environmentIntensity=mode.env;renderer.toneMappingExposure=mode.exposure*.95;
+ sky.visible=!skyLight;
+ const skyReady = selectSky(value);
+ sun.color.set(mode.sun);sun.intensity=mode.intensity*.86;fill.intensity=mode.ambient*.45;
+ fill.color.set(afterDark?'#afbddf':'#e2edfe');
+ scene.environmentIntensity=mode.env*.83;renderer.toneMappingExposure=mode.exposure*.95;
  for(const root of [coarse,detailed])if(root)root.traverse(o=>{const m=o.material;
-  if(m?.emissive&&/glaz|glass|window|lantern/i.test(m.name)){m.emissive.set('#e8aa66');m.emissiveIntensity=value==='evening'?.25:value==='sunset'?.07:0;}
+  if(m?.emissive&&/warm reflected glass|garden lantern/i.test(m.name)){m.emissive.set('#e8aa66');m.emissiveIntensity=afterDark?.25:value==='sunset'?.07:0;}
  });
+ updateGardenLighting();
  renderer.shadowMap.needsUpdate=true;drawPending=true;
+ return skyReady;
 }
 export function setEvening(value){setMood(value?'evening':'day');}
 export function focusDesign(code,floor,duration=850){
@@ -299,7 +372,10 @@ export function focusDesign(code,floor,duration=850){
 }
 export function finishFlight(){
  if(!flight)return;
- updateFlight(flight.time+flight.duration);controls?.update();drawPending=true;
+ flight.waitingForReveal = false;
+ flight.paused = false;
+ updateFlight(flight.duration / 1000);
+ drawPending=true;
 }
 function hitWing(hit) {
   for (let p = hit.object; p; p = p.parent)
@@ -341,55 +417,72 @@ export function highlight(id, floor, design = null) {
       ? [mapData.designFootprints[design]]
       : mapData?.wings?.[id]?.footprints;
   if (!rects) return;
-  const polys = rects.map(([x1, z1, x2, z2]) => [
-    [x1 - 0.45, z1 - 0.45],
-    [x2 + 0.45, z1 - 0.45],
-    [x2 + 0.45, z2 + 0.45],
-    [x1 - 0.45, z2 + 0.45],
-  ]);
   selection = new THREE.Group();
   outline = new THREE.Group();
-  const yf = floor ? floorY(floor) : 15,
-    height = floor ? 3.15 : (roofHeights[id] || 174) - 15;
-  for (const polygon of polys) {
-    const shape = new THREE.Shape(polygon.map(([x, z]) => new THREE.Vector2(x, -z)));
-    const g = new THREE.ExtrudeGeometry(shape, { depth: height, bevelEnabled: false });
-    g.rotateX(-Math.PI / 2);
-    const band = new THREE.Mesh(
-      g,
-      new THREE.MeshBasicMaterial({
-        color: floor ? 0xffdf79 : 0xf8d597,
-        transparent: true,
-        opacity: floor ? 0.55 : 0.075,
-        depthWrite: false,
-        polygonOffset: true,
-        polygonOffsetFactor: -1,
-      }),
-    );
-    band.position.y = yf - (floor ? height / 2 : 0);
-    selection.add(band);
-    const edges = new THREE.LineSegments(
-      new THREE.EdgesGeometry(g, 18),
-      new THREE.LineBasicMaterial({ color: 0xffe6a0, transparent: true, opacity: floor ? 0.95 : 0.49 }),
-    );
-    edges.position.y = band.position.y;
-    outline.add(edges);
-  }
-  if(!floor){
-    const other=id==='A'?'B':'A';const h=(roofHeights[other]||174)-15;
-    for(const [a,b,c,d] of mapData.wings[other].footprints){
-      const accent=new THREE.Mesh(new THREE.BoxGeometry(c-a+1,h,d-b+1),new THREE.MeshBasicMaterial({color:0x312a29,transparent:true,opacity:.13,depthWrite:false}));
-      accent.position.set((a+c)/2,15+h/2,(b+d)/2);selection.add(accent);
-    }
+  const yf = floor ? floorY(floor) : 15;
+  const height = floor ? 3.15 : (roofHeights[id] || 174) - 15;
+  addSelectionSilhouette(rects, yf - (floor ? height / 2 : 0), height,
+    floor ? 0xffdf79 : 0xf8d597, floor ? .55 : .075, true);
+  if (!floor) {
+    const other = id === 'A' ? 'B' : 'A';
+    addSelectionSilhouette(mapData.wings[other].footprints, 15,
+      (roofHeights[other] || 174) - 15, 0x312a29, .13, false);
   }
   scene.add(selection, outline);
 }
+// Draw the exterior boundary of the footprint union once. The brochure's
+// intersecting bay and service-core rectangles otherwise stack transparent faces.
+function addSelectionSilhouette(rectangles, bottom, height, color, opacity, edged) {
+  const rects = rectangles.map(([x1,z1,x2,z2])=>[x1-.45,z1-.45,x2+.45,z2+.45]);
+  const xs = [...new Set(rects.flatMap(r=>[r[0],r[2]]))].sort((a,b)=>a-b);
+  const zs = [...new Set(rects.flatMap(r=>[r[1],r[3]]))].sort((a,b)=>a-b);
+  const covered = (i,j)=>rects.some(([a,b,c,d])=>a<=xs[i] && b<=zs[j] && c>=xs[i+1] && d>=zs[j+1]);
+  const faces=[], lines=[];
+  const top=bottom+height;
+  function wall(x,z,u,v) {
+    const a=[x,bottom,z], b=[u,bottom,v], c=[u,top,v], d=[x,top,z];
+    faces.push(...a,...b,...c,...a,...c,...d);
+    lines.push(...a,...b,...c,...d);
+  }
+  for(let i=0;i<xs.length-1;i++) for(let j=0;j<zs.length-1;j++){
+    if(!covered(i,j))continue;
+    const x=xs[i], u=xs[i+1], z=zs[j], v=zs[j+1];
+    if(!covered(i-1,j))wall(x,z,x,v);
+    if(!covered(i+1,j))wall(u,v,u,z);
+    if(!covered(i,j-1))wall(u,z,x,z);
+    if(!covered(i,j+1))wall(x,v,u,v);
+  }
+  const geometry = values=>new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(values,3));
+  selection.add(new THREE.Mesh(geometry(faces),new THREE.MeshBasicMaterial({
+    color,opacity,transparent:true,depthWrite:false,side:THREE.FrontSide,
+    polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1,
+  })));
+  if(edged)outline.add(new THREE.LineSegments(geometry(lines),new THREE.LineBasicMaterial({
+    color:0xffe6a0,transparent:true,opacity:opacity>.1?.95:.49,depthWrite:false,
+  })));
+}
+const pinPoint = new THREE.Vector3();
+const pinRay = new THREE.Ray();
+const pinHit = new THREE.Vector3();
 function updatePins() {
-  for (const { el, pos } of markers) {
-    const p = vec(pos).project(camera);
-    el.hidden = p.z < 0 || p.z > 1 || Math.abs(p.x) > 0.96 || Math.abs(p.y) > 0.8 || !active;
-    el.style.left = (p.x * 0.5 + 0.5) * innerWidth + 'px';
-    el.style.top = (-p.y * 0.5 + 0.5) * innerHeight + 'px';
+  const placed = [];
+  const projected = markers.map(marker=>{
+    pinPoint.fromArray(marker.pos);
+    const distance = pinRay.direction.copy(pinPoint).sub(camera.position).length();
+    pinRay.origin.copy(camera.position);
+    pinRay.direction.normalize();
+    const occluded = marker.occluders.some(box=>pinRay.intersectBox(box,pinHit) &&
+      pinHit.distanceTo(camera.position) < distance-2);
+    pinPoint.project(camera);
+    return {marker,distance,occluded,z:pinPoint.z,x:(pinPoint.x*.5+.5)*innerWidth,y:(.5-pinPoint.y*.5)*innerHeight};
+  }).sort((a,b)=>a.distance-b.distance);
+  for(const { marker:{el}, x, y, z, occluded } of projected){
+    el.hidden = !active || occluded || z < -1 || z > 1 || x < 22 ||
+      x > innerWidth-22 || y < 22 || y > innerHeight-22 ||
+      placed.some(p=>Math.abs(p.x-x)<78&&Math.abs(p.y-y)<30);
+    el.style.left = x+'px';
+    el.style.top = y+'px';
+    if(!el.hidden)placed.push({x,y});
   }
 }
 export function setSection(value, amenity = '') {
@@ -409,7 +502,7 @@ export function setSection(value, amenity = '') {
           ]
         : ['towers', 'masterplan'].includes(section)
           ? [
-              ['A', 'Wing A', [-25, 151, -20]],
+              ['A', 'Wing A', [-25, 119, -20]],
               ['B', 'Wing B', [13, 112, 38]],
             ]
           : [];
@@ -420,7 +513,10 @@ export function setSection(value, amenity = '') {
       el.textContent = label;
       el.onclick = () => (section === 'amenities' ? callbacks.amenity(id) : callbacks.wing(id));
       host.append(el);
-      markers.push({ el, pos });
+      const occluders = ['A','B'].filter(wing=>id!==wing).flatMap(wing=>
+        (mapData?.wings[wing]?.footprints??[]).map(([x,z,u,v])=>
+          new THREE.Box3(new THREE.Vector3(x,15,z),new THREE.Vector3(u,roofHeights[wing]||174,v))));
+      markers.push({ el, pos, occluders });
     }
   }
   projection();
@@ -501,9 +597,9 @@ function bindInteractions() {
 const clearance = new THREE.Vector3();
 function guardCamera() {
   const p = camera.position;
-  const minimum=(geography?.terrain.heightAt(p.x,p.z)??0)+1.5;
+  const minimum=terrainHeight(p.x,p.z)+1.5;
   if (p.y < minimum) p.y = minimum;
-  if(section==='amenities')return;
+  if(section==='amenities'||closeViews.has(cameraKey))return;
   if (p.y > 185 || Math.abs(p.x) > 48 || Math.abs(p.z) > 57) return;
   const footprints = Object.values(mapData?.wings || {}).flatMap((w) => w.footprints);
   const obstructed = () =>
@@ -518,15 +614,14 @@ function guardCamera() {
   drawPending = true;
 }
 function chooseDetail() {
-  if (!coarse) return;
+  if (!coarse || flight?.orbit || flight?.orbitApproach) return;
   const distance = camera.position.distanceTo(controls.target);
   const close = distance < (exterior === detailed ? 550 : 495);
-  const high = quality !== 'performance' && (quality === 'high' || !compactGPU());
-  const next = flight?.city && geographicShell && distance > 2600
-    ? geographicShell
-    : high && detailed && (flight?.intro || close) ? detailed : coarse;
+  const high = quality !== 'performance' && (quality !== 'auto' || !compactGPU());
+  const next = high && detailed && (flight?.intro || close) ? detailed : coarse;
+  const screenRange = detailedScreens?.visible ? 175 : 135;
   const showScreens = next === detailed && renderer.getPixelRatio() > .8 &&
-    camera.position.distanceToSquared(podiumCenter) < 135**2;
+    camera.position.distanceToSquared(podiumCenter) < screenRange ** 2;
   if (detailedScreens && detailedScreens.visible !== showScreens) {
     detailedScreens.visible = showScreens;
     renderer.shadowMap.needsUpdate = true;
@@ -544,6 +639,7 @@ function installDetail(model) {
   detailed = model.scene;
   detailedScreens = detailed.getObjectByName('Podium_clay_screens');
   detailed.traverse(prepareExteriorMesh);
+  hideIllustrativeFrontage();
   detailed.visible = false;
   scene.add(detailed);
   setMood(mood);
@@ -571,7 +667,37 @@ function rippleNormal() {
 function updateGardenLighting() {
   if (!gardenLights) return;
   for (const light of gardenLights) {
-    light.intensity = section === 'amenities' && activeDeck === light.userData.deck && mood === 'evening' ? 10 : 0;
+    light.intensity = mood==='night' ? (section==='amenities'&&activeDeck===light.userData.deck?12:6) : 0;
+  }
+}
+// The compatibility GLBs keep their original art. Omit their short frontage
+// strip when the registered road layer is ready, while retaining the sports courts.
+function removeIllustrativeFrontage(object) {
+  if (!object.isMesh || !object.parent?.name.includes('Courts_pergolas_and_approach') &&
+    !object.name.includes('Courts_pergolas_and_approach')) return;
+  const name = object.material.name;
+  if (name === 'Warm charcoal asphalt' || name === 'Buff limestone paving') {
+    object.visible = false;
+  } else if (name === 'Court striping' && !object.userData.frontageFiltered) {
+    const source = object.geometry;
+    const positions = source.getAttribute('position');
+    const keep = [];
+    const index = i=>source.index ? source.index.getX(i) : i;
+    for (let i = 0; i < (source.index?.count ?? positions.count); i += 3) {
+      const a = index(i), b = index(i+1), c = index(i+2);
+      if (Math.max(positions.getZ(a),positions.getZ(b),positions.getZ(c)) < 40) keep.push(a,b,c);
+    }
+    object.geometry = source.clone().setIndex(keep);
+    object.userData.frontageFiltered = true;
+  }
+}
+function hideIllustrativeFrontage() {
+  if (!landscape) return;
+  for (const model of [coarse,detailed]) {
+    if (!model || model.userData.frontageReplaced) continue;
+    model.traverse(removeIllustrativeFrontage);
+    model.userData.frontageReplaced = true;
+    renderer.shadowMap.needsUpdate = true;
   }
 }
 function prepareExteriorMesh(object) {
@@ -579,6 +705,9 @@ function prepareExteriorMesh(object) {
   object.castShadow = ![].concat(object.material).some(material => material.transparent);
   object.receiveShadow = true;
   for (const material of [].concat(object.material)) {
+    for (const texture of [material.map, material.normalMap, material.roughnessMap, material.aoMap]) {
+      if (texture) texture.anisotropy = Math.min(renderer.capabilities.getMaxAnisotropy(), 8);
+    }
     if (material.name.startsWith('Reflecting pools')) {
       const geometry = object.geometry;
       if (!geometry.getAttribute('uv')) {
@@ -598,12 +727,15 @@ function prepareExteriorMesh(object) {
 }
 export function setQuality(value) {
   quality = value;
+  landscape?.setQuality(value);
   if (!ready) return;
-  if (quality === 'high' && !detailed) loadDetailed?.();
+  if ((quality === 'high' || quality === 'cinematic') && !detailed) loadDetailed?.();
   const performance = quality === 'performance' || (quality === 'auto' && compactGPU());
-  renderer.setPixelRatio(Math.min(devicePixelRatio, performance ? .95 : 1.65));
-  if (sun.shadow.mapSize.x !== (performance ? 1024 : 2048)) {
-    sun.shadow.mapSize.setScalar(performance ? 1024 : 2048);
+  const cinematic = quality === 'cinematic';
+  renderer.setPixelRatio(Math.min(devicePixelRatio, performance ? .95 : cinematic ? 2 : 1.65));
+  const shadowSize = performance ? 1024 : cinematic ? Math.min(renderer.capabilities.maxTextureSize, 4096) : 2048;
+  if (sun.shadow.mapSize.x !== shadowSize) {
+    sun.shadow.mapSize.setScalar(shadowSize);
     sun.shadow.map?.dispose();
     sun.shadow.map = null;
   }
@@ -617,13 +749,25 @@ function draw(now) {
   }
   frameId = requestAnimationFrame(draw);
   if (!ready || !active || document.hidden) {
-    lastDraw = 0;
+    lastFrame = lastDraw = 0;
     return;
   }
-  const animating = Boolean(flight && !flight.waitingForReveal);
-  updateFlight(now);
-  controls.update();
-  guardCamera();
+  const elapsed = lastFrame ? (now - lastFrame) / 1000 : 1 / 60;
+  const seconds = Math.min(elapsed, .05);
+  lastFrame = now;
+  const animating = Boolean(flight && !flight.waitingForReveal && !flight.paused);
+  if (flight) {
+    if (animating) {
+      updateFlight(flight.orbit && elapsed > .25 ? seconds : elapsed);
+      cameraUpdates++;
+    }
+  } else {
+    if (controls.advance(seconds)) cameraUpdates++;
+    guardCamera();
+  }
+  const far = camera.position.y > 900 ? 80000 : 12000;
+  const near = camera.position.y > 900 ? 4 : .6;
+  if(camera.far !== far){camera.far=far;camera.near=near;camera.updateProjectionMatrix();}
   chooseDetail();
   if (waterNormal && !reduced() && section === 'amenities' && activeDeck === 'clubhouse' &&
       camera.position.distanceToSquared(poolCenter) < 85**2) {
@@ -634,7 +778,7 @@ function draw(now) {
     lastDraw = 0;
     return;
   }
-  if (animating && lastDraw) {
+  if (quality === 'auto' && animating && lastDraw) {
     lowSamples = now - lastDraw > 37 ? lowSamples + 1 : Math.max(0, lowSamples - 1);
     if (lowSamples > 18 && renderer.getPixelRatio() > 0.85) {
       renderer.setPixelRatio(Math.max(0.85, renderer.getPixelRatio() * 0.85));
@@ -642,11 +786,15 @@ function draw(now) {
     }
   }
   sky.position.copy(camera.position);
-  scene.fog.density=.000145/(1+Math.max(0,camera.position.y-1000)/1500);
-  geography?.update(camera,innerHeight*renderer.getPixelRatio());
+  scene.fog.density=.00022/(1+Math.max(0,camera.position.y-1000)/1500)**2;
+  camera.updateMatrixWorld();
+  landscape?.update(camera,innerHeight*renderer.getPixelRatio());
+  updateGeographicCredit();
+  camera.updateMatrixWorld();
   updatePins();
   renderer.render(scene, camera);
   if (++renderedFrames === 1) {
+    if (!compactGPU() || quality === 'cinematic' || quality === 'high') loadDetailed?.();
     const canvas = renderer.domElement;
     canvas.classList.add('estate-canvas-ready');
     const opening = flight;
@@ -655,7 +803,7 @@ function draw(now) {
       const begin = () => {
         canvas.onanimationend = canvas.onanimationcancel = null;
         opening.waitingForReveal = false;
-        opening.time = null;
+        opening.elapsed = 0;
       };
       canvas.onanimationend = canvas.onanimationcancel = begin;
     }
@@ -663,12 +811,58 @@ function draw(now) {
   drawPending = false;
   lastDraw = now;
 }
+let geographicCreditKey = '';
+function updateGeographicCredit() {
+  const state = landscape?.stats();
+  const imagery = state?.imagery?.provider === 'arcgis' ? state.imagery : state?.regionalImagery?.provider === 'arcgis' ? state.regionalImagery : state?.imagery;
+  const credit = document.querySelector('#geographicCredit');
+  if (!credit) return;
+  // Full source notices stay in the shared credits dialog across every scene.
+  const licensed = imagery?.provider === 'arcgis';
+  const loading = imagery?.state === 'loading' || (!imagery?.state && /Checking|Loading/.test(imagery?.reason || ''));
+  const message = licensed ? imagery.attribution : loading ? 'Loading Esri satellite imagery…'
+    : imagery?.state === 'retrying' ? 'Reconnecting to Esri satellite imagery…'
+    : imagery?.state === 'unauthorized' ? 'Esri imagery access unavailable'
+    : 'Geographic imagery unavailable · Architectural ground';
+  const canRetry = !licensed && Boolean(imagery?.canRetry);
+  const hasEsriElevation = state?.elevation?.provider === 'Esri World Elevation';
+  document.querySelector('#mapEsriCredit').hidden = !licensed && !hasEsriElevation;
+  const retry = document.querySelector('#mapRetry');
+  retry.hidden = !canRetry;
+  retry.onclick = () => landscape?.retryImagery();
+  const key = message + hasEsriElevation + canRetry;
+  if (key === geographicCreditKey) return;
+  geographicCreditKey = key;
+  credit.replaceChildren();
+  for(const [label,href] of [
+    ...(licensed ? [['Powered by Esri','https://www.esri.com/'],[message,imagery.attributionUrl]] : [[message,null]]),
+    ...(hasEsriElevation ? [['Elevation · Esri, Airbus and contributors','https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer']] : []),
+    ['© OpenStreetMap contributors','https://www.openstreetmap.org/copyright'],
+    ['Terrain and footprint credits','assets/geography/CREDITS.txt'],
+  ]) {
+    const node = document.createElement(href?'a':'span');node.textContent=label;
+    if(href){node.href=href;node.target='_blank';node.rel='noopener noreferrer';}
+    credit.append(node);
+  }
+}
+window.addEventListener('brigade:landscape-change',updateGeographicCredit);
+
 export function activate(value) {
   active = value;
-  if(value && geography){scene.add(geography.root);geography.shadows.visible=true;geography.setMood(mood);geoCredits(document.getElementById('geoCredits'),geography.stats().imagery);}
-  geography?.setActive(value);
-  if (!value) cancelFlight();
+  if (value && landscape) {
+    scene.add(landscape.root);
+    landscape.setMood(mood);
+  }
+  landscape?.setActive(value);
+  if (!value) {
+    cancelFlight();
+    controls?.clearMomentum();
+    if (controls) controls.enabled = false;
+    cancelAnimationFrame(frameId);
+    frameId = lastFrame = lastDraw = 0;
+  }
   else {
+    if (controls) controls.enabled = true;
     projection();
     drawPending = true;
     if (ready && !frameId) frameId = requestAnimationFrame(draw);
@@ -676,8 +870,10 @@ export function activate(value) {
 }
 function dispose() {
   cancelAnimationFrame(frameId);
+  removeEventListener('resize', projection);
+  document.removeEventListener('visibilitychange', resetFrameClock);
   controls?.dispose();
-  geography?.dispose();
+  landscape?.dispose();
   const geometries = new Set(),
     materials = new Set();
   scene.traverse((o) => {
@@ -687,10 +883,16 @@ function dispose() {
   for (const g of geometries) g.dispose();
   for (const m of materials) m.dispose();
 
+  disposed = true;
+  for (const sky of skies.values()) sky.then((texture) => { if(texture!==skyLight)texture?.dispose(); });
+  ktx2?.dispose();
   skyLight?.dispose();
   waterNormal?.dispose();
   environment?.dispose();
   renderer?.dispose();
+}
+function resetFrameClock() {
+  lastFrame = lastDraw = 0;
 }
 export async function initScene(handlers) {
   callbacks = handlers;
@@ -701,15 +903,18 @@ export async function initScene(handlers) {
       powerPreference: 'high-performance',
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, compactGPU() ? 1.35 : 1.65));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.AgXToneMapping;
     renderer.toneMappingExposure = 1.08;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.shadowMap.autoUpdate = false;
-    controls = new OrbitControls(camera, renderer.domElement);
+    controls = new ExteriorOrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.enablePan = false;
-    controls.rotateSpeed = 0.65;
+    controls.rotateSpeed = .45;
+    controls.zoomSpeed = .65;
+    controls.panSpeed = .5;
     controls.minDistance = 20;
     controls.maxDistance = 1800;
     controls.maxPolarAngle = Math.PI * 0.8;
@@ -728,7 +933,8 @@ export async function initScene(handlers) {
       near: 1,
       far: 550,
     });
-    sun.shadow.normalBias = 0.16;
+    sun.shadow.normalBias = 0.065;
+    sun.shadow.bias = -0.00014;
     sun.target.position.y = 45;
     fill = new THREE.HemisphereLight(0xd5e7ef, 0xb8a085, 1.7);
     scene.add(sun, sun.target, fill);
@@ -751,21 +957,23 @@ export async function initScene(handlers) {
     
     projection();
     bindInteractions();
-    const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
-    const [model, metadata, world, hdModel, hdr] = await Promise.all([
+    ktx2 = new KTX2Loader().setTranscoderPath('vendor/addons/libs/basis/').detectSupport(renderer);
+    const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).setKTX2Loader(ktx2);
+    const [model, metadata, world, hdr] = await Promise.all([
       loader.loadAsync('assets/exterior-lod.glb'),
       fetch('assets/scene-map.json')
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
-      getGeography(),
-      compactGPU() ? null : loader.loadAsync('assets/brigade-barcelona.glb').catch(() => null),
-      new HDRLoader().loadAsync('assets/sky-light.hdr').catch(() => null),
+      loadHybrid(loader, invalidateLandscape).catch(error => {
+        console.warn('Geographic context unavailable, retaining architectural landscape',error.message);
+        return loadShowcase(loader,invalidateLandscape);
+      }),
+      new HDRLoader().loadAsync('assets/' + skyFiles.sunset).catch(() => null),
     ]);
     mapData = metadata;
     coarse = exterior = model.scene;
     exterior.traverse(prepareExteriorMesh);
     scene.add(exterior);
-    if (hdModel) installDetail(hdModel);
     let detailRequest;
     loadDetailed = () => {
       detailRequest ??= loader.loadAsync('assets/brigade-barcelona.glb')
@@ -773,33 +981,33 @@ export async function initScene(handlers) {
         .catch(() => { detailRequest = null; });
       return detailRequest;
     };
-    let shellRequest;
-    loadGeographicShell = () => {
-      shellRequest ??= loader.loadAsync('assets/exterior-geographic.glb').then(model => {
-        if (!ready) return;
-        geographicShell = model.scene;
-        geographicShell.visible = false;
-        scene.add(geographicShell);
-      }).catch(() => { shellRequest = null; });
-      return shellRequest;
-    };
-    geography = world;
+    landscape = world;
+    hideIllustrativeFrontage();
+    function invalidateLandscape(shadows = true) {
+      if (disposed) return;
+      drawPending = true;
+      if(shadows)renderer.shadowMap.needsUpdate = true;
+      window.dispatchEvent(new Event('brigade:landscape-change'));
+    }
     scene.add(world.root);
+    invalidateLandscape();
     world.setActive(active);
     if (hdr) {
       skyLight = hdr;
+      skies.set(skyFiles.sunset,Promise.resolve(hdr));
       hdr.mapping = THREE.EquirectangularReflectionMapping;
       scene.environment = hdr;
       environment.dispose();
       environment = null;
     }
-    setMood(mood);
+    await setMood(mood);
     for (const [id, data] of Object.entries(mapData?.wings || {})) {
       if (data.target) wingTargets[id] = data.target;
       const wingMesh = exterior.getObjectByName('Wing_' + id);
       if (wingMesh) roofHeights[id] = new THREE.Box3().setFromObject(wingMesh).max.y;
     }
     for (const [key, pos] of Object.entries(mapData?.amenities || {})) {
+      if (key === 'pool') continue;
       const alias = { skyDeck: 'sky', entry: 'entrance' }[key] || key;
       if (view[alias] && Array.isArray(pos)) {
         const shift = vec(pos).sub(vec(view[alias][1]));
@@ -807,6 +1015,7 @@ export async function initScene(handlers) {
       }
     }
     ready = true;
+    setQuality(quality);
     renderer.shadowMap.needsUpdate = true;
     document.querySelector('#estateCanvas').append(renderer.domElement);
     renderer.domElement.addEventListener('webglcontextlost', (event) => {
@@ -817,23 +1026,15 @@ export async function initScene(handlers) {
       callbacks.fallback('3D paused · exterior rendering');
     });
     await goView(cameraKey, 0);
+    if(section === 'overview' && !reduced()) await landscape.prepareArrival?.(camera,innerHeight*renderer.getPixelRatio());
     setSection(section);
     highlight(wing, level);
     frameId = requestAnimationFrame(draw);
-    addEventListener('resize', () => {
-      projection();
-      if (section === 'overview' && !flight) goView(cameraKey === 'landing' ? 'landing' : 'overview', 0);
-    });
+    addEventListener('resize', projection);
+    document.addEventListener('visibilitychange', resetFrameClock);
     addEventListener('pagehide', (event) => {
       if (!event.persisted) dispose();
     });
-    invalidateGeo();
-    function invalidateGeo(){
-      if(!active||!ready)return;
-      geoCredits(document.getElementById('geoCredits'),geography?.stats().imagery);
-      drawPending=true;
-    }
-    window.addEventListener('brigade:geo-change',invalidateGeo);
     return true;
   } catch (error) {
     console.error('Exterior scene unavailable', error);
@@ -842,7 +1043,21 @@ export async function initScene(handlers) {
     return false;
   }
 }
-export function authorView(position, target, eyeLevel=false) {
+export function getExteriorContext() {
+  return coarse;
+}
+export async function getExteriorLighting(value) {
+  await setMood(value);
+  return { background: scene.background, environment: scene.environment,
+    rotation: scene.environmentRotation.y, direction: sun.position.clone().sub(sun.target.position).normalize() };
+}
+export function getExteriorLandscape() {
+  if (!landscape) throw new Error('The exterior landscape is unavailable.');
+  return landscape;
+}
+export function authorView(position, target, eyeLevel=false, centered=false) {
+  cameraKey = centered ? 'comparison' : 'authored';
+  projection();
   if(controls)controls.minDistance=eyeLevel?.8:5;
   return fly(position, target);
 }
@@ -855,9 +1070,10 @@ export function cameraPath(waypoints) {
     fly(waypoints.at(-1), controls.target.toArray(), 0);
     return;
   }
+  controls.clearMomentum();
+  controls.enabled = false;
   flight = {
     path: new THREE.CatmullRomCurve3(points),
-    time: performance.now(),
     duration: Math.min(20000, 2000 * points.length),
   };
 }
@@ -874,31 +1090,14 @@ export function sceneMetrics() {
     geometries: renderer.info.memory.geometries,
     textures: renderer.info.memory.textures,
     quality,
-    detail: exterior === geographicShell ? 'geographic' : exterior === coarse ? 'low' : 'full',
-    floor: level, renderedFrames, mood, solarDirection:sun.position.clone().sub(sun.target.position).normalize().toArray(),
+    detail: exterior === coarse ? 'low' : 'full',
+    floor: level, renderedFrames, cameraUpdates, motion:flight?.orbit ? (flight.paused ? 'paused' : 'orbit') : flight ? 'transition' : 'manual', mood, solarDirection:sun.position.clone().sub(sun.target.position).normalize().toArray(),
     wing,
-    geographicContext: Boolean(geography),
-    imagery: Boolean(geography?.stats().imagery.localImageryReady), gis:geography?.stats(),
+    landscape: landscape?.stats(),
+
   };
 }
 
-export async function playCityFlight(stillCurrent,onArrival){
-  if(!ready)return;
-  if(reduced()){goView('landing',0);onArrival();return;}
-  const world=await getGeography();
-  await Promise.all([world.ensureRegion(),loadGeographicShell?.()]);
-  if(!stillCurrent() || !active)return;
-  if(reduced()){goView('landing',0);onArrival();return;}
-  cancelFlight();controls.maxDistance=65000;
-  const at=(lon,lat,y)=>{const [x,z]=world.terrain.wgs84ToLocal(lon,lat);return vec([x,y,z]);};
-  const eyes=[at(78.505,17.365,14000),at(78.413,17.378,7200),at(78.336,17.394,2600),
-    vec([620,940,-440]),vec(view.landing[0])];
-  const looks=[at(78.444,17.417,0),at(78.363,17.408,0),vec([-283,-56,-1208]),vec([0,0,0]),vec(view.landing[1])];
-  // Centripetal splines keep the radically different city and parcel distances in metre space.
-  flight={city:true,time:null,duration:9300,keys:['Hyderabad','Kokapet','Kokapet Lake','Neopolis · Plot 20','Brigade Barcelona'],
-    path:new THREE.CatmullRomCurve3(eyes,false,'centripetal'),look:new THREE.CatmullRomCurve3(looks,false,'centripetal'), complete:onArrival};
-  cameraKey='landing';drawPending=true;
-}
 export function orbitBuilding(){
   if(!ready || !active)return;
   cancelFlight();
@@ -909,15 +1108,17 @@ export function orbitBuilding(){
   const radius=clamp(Math.hypot(direction.x,direction.z),220,390);
   const startEye=[pivot.x+radius*Math.sin(heading),clamp(camera.position.y,105,190),pivot.z+radius*Math.cos(heading)];
   fly(startEye,pivot.toArray(),750);
+  flight.orbitApproach = true;
+  controls.enabled = true;
   flight.complete=()=>{
     const start=new THREE.Spherical().setFromVector3(camera.position.clone().sub(pivot)),end=start.clone();
     end.theta+=Math.PI*2;
-    flight={from:start,to:end,startTarget:pivot,endTarget:pivot,time:null,duration:12000};
+    flight={orbit:true,from:start,to:end,startTarget:pivot,endTarget:pivot,duration:24000};
   };
 }
-let mapFeaturesEnabled=false;
-export function mapFeatures(enabled){
-  mapFeaturesEnabled=enabled;
-  if(geography)geography.setFeatures(enabled);
-  else if(enabled)getGeography().then(world=>world.setFeatures(mapFeaturesEnabled)).catch(()=>{});
+
+export function toggleOrbitPause() {
+  if (!flight?.orbit) return;
+  flight.paused = !flight.paused;
+  return flight.paused;
 }

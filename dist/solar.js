@@ -4,10 +4,11 @@ const rad=Math.PI/180;
 const settings={
  morning:{hour:8,sky:'#e7d4c4',sun:'#ffd6aa',intensity:2.7,ambient:1.55,exposure:1.03,env:.7,background:.74},
  day:{hour:13,sky:'#d6dfdf',sun:'#ffedcf',intensity:3.1,ambient:1.65,exposure:1.05,env:.78,background:.95},
- sunset:{hour:17.75,sky:'#d0a38c',sun:'#ff9e58',intensity:2.8,ambient:1.0,exposure:1.04,env:.46,background:.48},
- evening:{hour:18.9,sky:'#424b65',sun:'#e7c6a0',intensity:.18,ambient:.72,exposure:1.13,env:.27,background:.18},
+ sunset:{hour:17.75,sky:'#d0a38c',sun:'#ff9e58',intensity:2.8,ambient:1.0,exposure:1.04,env:.46,background:.78},
+ evening:{hour:18.9,sky:'#424b65',sun:'#e7c6a0',intensity:.18,ambient:.72,exposure:1.13,env:.27,background:.55},
+ night:{hour:22,sky:'#202c46',sun:'#9aafdd',intensity:.04,ambient:.19,exposure:1.05,env:.39,background:.72},
 };
-export const lightingModes=Object.keys(settings);
+export const lightingModes=['morning','day','sunset','night'];
 export function lightingAt(mode,site){
  const value=settings[mode]||settings.day;
  const latitude=site.location.lat*rad,longitude=site.location.lon;

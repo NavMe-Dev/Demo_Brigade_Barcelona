@@ -1,0 +1,74 @@
+{
+  "browser": "158.0.8127.37",
+  "desktop": {
+    "camera": [
+      -172.99999999999997,
+      116.00000000000003,
+      296.99999999999994
+    ],
+    "target": [
+      0,
+      85,
+      8
+    ],
+    "pixelRatio": 1,
+    "triangles": 4447743,
+    "drawCalls": 760,
+    "geometries": 396,
+    "textures": 75,
+    "quality": "auto",
+    "detail": "full",
+    "floor": null,
+    "renderedFrames": 3,
+    "mood": "sunset",
+    "solarDirection": [
+      -0.5401133910772828,
+      0.19640486948264826,
+      0.818353622844368
+    ],
+    "wing": null,
+    "landscape": {
+      "plantingTiles": 229,
+      "terrainIndirect": true,
+      "specimenBatches": 3
+    }
+  },
+  "orbitDegrees": 360,
+  "retainedBalconyOutlook": true,
+  "mobile": {
+    "camera": [
+      -172.99999999999997,
+      116.00000000000003,
+      296.99999999999994
+    ],
+    "target": [
+      0,
+      85,
+      8
+    ],
+    "pixelRatio": 0.95,
+    "triangles": 411498,
+    "drawCalls": 281,
+    "geometries": 128,
+    "textures": 37,
+    "quality": "auto",
+    "detail": "low",
+    "floor": null,
+    "renderedFrames": 1,
+    "mood": "sunset",
+    "solarDirection": [
+      -0.5401133910772828,
+      0.19640486948264826,
+      0.818353622844368
+    ],
+    "wing": null,
+    "landscape": {
+      "plantingTiles": 229,
+      "terrainIndirect": true,
+      "specimenBatches": 0
+    }
+  },
+  "requests": 82,
+  "gisRequests": [],
+  "errors": []
+}

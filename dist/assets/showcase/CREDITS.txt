@@ -1,0 +1,28 @@
+BRIGADE BARCELONA · ARCHITECTURAL SHOWCASE ASSETS
+
+All surrounding terrain, roads and planting placements are illustrative.
+The documented estate access points follow the developer brochure masterplan.
+
+Tree Small 02 by Rico Cilliers, Poly Haven, CC0 1.0.
+The 1K glTF alpha map was combined with the leaf diffuse, and the geometry was simplified to 14,145 triangles before Meshopt and KTX2 export.
+https://polyhaven.com/a/tree_small_02
+
+Fern 02 by Rico Cilliers and Rob Tuytel, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/fern_02
+
+Rosendal Park Sunset (Pure Sky) by Dimitrios Savva and Jarod Guest, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/rosendal_park_sunset_puresky
+
+Asphalt Floor by eye-candy.xyz, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/asphalt_floor
+
+Leafy Grass and Grey Stone Path, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/leafy_grass
+https://polyhaven.com/a/grey_stone_path
+
+CC0 1.0 Universal
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Additional active sky and architectural surface sources are listed in
+../sky-light.LICENSE.txt and ../textures/architecture/SOURCES.md.
+The building, architectural illustrations and branding derive from the supplied project brochure.

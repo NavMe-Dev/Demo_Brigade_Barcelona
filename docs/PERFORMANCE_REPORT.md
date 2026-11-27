@@ -76,3 +76,67 @@ Hardware-backed Chrome on Apple M2 tested the revised assets at 20 Mbps downstre
 The desktop path reached the approximately 60 FPS target on this Mac. The emulated phone viewport used the low-detail model and the desktop GPU. The result leaves the physical mobile 30 FPS target unverified. The first live frame takes longer than the previous geographic release. The opening waits for the base terrain, lighting and selected initial assets before revealing the building.
 
 After return from the neighborhood route and garbage collection, Chrome reported JavaScript heap usage of 10.20 MiB on desktop and 8.68 MiB in the emulated phone viewport. Peak typed-array backing storage in the recorded snapshots was 44.02 MiB and 25.21 MiB respectively. These measurements exclude GPU driver memory. [Raw refresh benchmark](../qa/architectural-performance.json) · [Transfer sizes and profiles](ARCHITECTURAL_ASSET_MANIFEST.md)
+
+## November 27 exterior rebuild
+
+Chrome 158 on Apple M2 tested the shipped Auto profile with a disabled cache, 20 Mbps downstream, 5 Mbps upstream and 40 ms latency. The phone profile used the same Mac GPU with touch and the 390 × 844 viewport emulated. The FPS sample counts completed render calls during the 4.5-second camera move.
+
+| Viewport | First usable control | First exterior frame | Mean camera FPS | p95 frame interval | Total transfer through location route |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1920 × 1080 desktop, 1× | 1.47 s | 4.49 s | 60.0 | 18.8 ms | 22.18 MB |
+| 390 × 844 emulated phone, 2× | 1.45 s | 4.48 s | 60.0 | 18.3 ms | 14.36 MB |
+
+The compact exterior is 3.63 MB with 23 embedded KTX2 images. The detailed exterior is 6.39 MB with 26 embedded KTX2 images and loads after the first desktop draw. Both use Meshopt and GPU instancing. The first draw and transfer costs increased relative to the earlier refresh. The benchmark covers the open geographic fallback and one host GPU. Physical phones, the Cinematic profile and authenticated Esri transfer were outside this run. [Raw benchmark](../qa/exterior-rebuild-performance.json)
+
+## November 27 neighborhood rebuild
+
+Chrome 158 on Apple M2 measured Auto quality with the same cold-cache network profile of 20 Mbps down, 5 Mbps up and 40 ms latency. The 390 × 844 phone run emulated touch and used the Mac GPU. The FPS values count draws during the established 4.5-second camera move.
+
+| Viewport | First usable control | First exterior frame | Mean camera FPS | p95 frame interval | Total transfer through location route |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1920 × 1080 desktop, 1× | 1.48 s | 5.09 s | 59.8 | 18.9 ms | 25.09 MB |
+| 390 × 844 emulated phone, 2× | 1.47 s | 5.07 s | 60.0 | 18.6 ms | 17.02 MB |
+
+The startup frontage bundle is 10.3 KB plus the road index. Neighborhood and regional geometry bundles total 1.33 MB and load as the camera selects their tiles. The browser showed 59 road tiles in the desktop hero, 64 in Location and 15 on the emulated phone during the visual run. Road and material loading increased cold first-frame time by about 0.6 s compared with the preceding exterior build. These measurements cover the Sentinel fallback; physical devices and licensed Esri transfers remain unmeasured. [Raw benchmark](../qa/neighborhood-performance.json) · [Visual capture metrics](../qa/evidence/neighborhood-rebuild/capture.json)
+
+## November 27 standalone showcase
+
+Chrome 158 on Apple M2 measured Auto quality with a cold cache, 20 Mbps downstream, 5 Mbps upstream and 40 ms latency. The touch-emulated phone used the same host GPU. The frame-rate sample measures the 4.5-second moving camera view.
+
+| Viewport | First usable control | First live exterior frame | Mean camera FPS | p95 frame interval | Full benchmark transfer |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| 1920 × 1080 desktop, 1× | 1.43 s | 6.50 s | 50.3 | 21.9 ms | 22.21 MB |
+| 390 × 844 emulated phone, 2× | 1.44 s | 6.50 s | 59.9 | 20.1 ms | 14.74 MB |
+
+Both trials recorded zero geographic data transfers. The initial golden-hour panorama now loads alongside the landscape instead of in a second network stage. File transfer for the complete benchmark decreased compared with the preceding neighborhood build, while the first live frame took longer and the desktop motion sample ran at a lower frame rate. Physical mobile performance and the Cinematic profile remain unmeasured. [Raw benchmark](../qa/showcase-performance.json)
+
+## November 27 spatial apartment views
+
+The live viewer borrows the compact exterior and existing illustrative landscape for the active apartment. It loads apartment models on demand, shares the exterior model’s geometry and textures, and disposes of the apartment-specific clipping materials when leaving. The two comparison previews render on demand in the same WebGL viewer.
+
+Chrome 158 measured CPU wall time inside WebGL renderer calls on the local Mac at 1440 × 900. These timings include CPU submission and possible shader compilation or GPU stalls. They cannot establish GPU frame rate. Static controls used reduced motion and generated few samples. The exterior orbit used normal motion.
+
+| Action | Calls sampled | Observed CPU render time |
+| --- | ---: | --- |
+| Exterior orbit | 133 | 2.5 ms median, 3.2 ms p95 |
+| B14 dollhouse and section | 23 | p95 72.5 ms, maximum 220.0 ms |
+| B14 walkthrough and lighting changes | 27 | p95 19.1 ms, maximum 247.9 ms |
+| B14 bedroom window | 1 | 6.6 ms |
+| B14 balcony | 1 | 3.3 ms |
+| B14 floor switch | 2 | 2.6–2.7 ms |
+| B14 comparison | 4 | 1.5–1.9 ms |
+
+The interactions include first-use spikes when entering the new rendering modes. Across 13 layouts, floor switching took 26–52 ms from selecting the floor until two animation callbacks completed. The B14 comparison produced both previews in 66 ms. Sampled window scenes submitted about 1.21–1.47 million triangles and 392–467 draw calls. The 390 × 844 mobile view used browser touch emulation. Physical device timing and GPU timer-query measurements remain outstanding. [Raw measurements](../qa/evidence/spatial-views/report.json)
+
+## November 27 live Esri hybrid environment
+
+Chrome 158 measured the configured World Imagery and World Elevation integration after the other browser suites had completed. Each profile ran a full 24-second orbit with a fixed target. The browser used the local Mac GPU. The phone profile emulated a 390 × 844 touch screen at 2× device scale. These are completed-render intervals from requestAnimationFrame and the renderer frame counter.
+
+| Profile | First exterior ready | Mean rendered FPS | p95 interval | p99 interval | Intervals over 25 ms | Final draw calls | Final triangles | JS heap |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1440 × 900 desktop | 6.158 s | 60.00 | 16.7 ms | 16.8 ms | 0 | 458 | 3,987,612 | 160.2 MB |
+| 390 × 844 touch emulation | 5.628 s | 60.00 | 16.7 ms | 16.8 ms | 0 | 193 | 928,636 | 112.5 MB |
+
+Both runs displayed actual ArcGIS imagery, reaching zoom 18 on desktop and 17 on the phone profile. The imagery cache caps native refinement at the verified local level 19. The World Elevation sampling phase took 5.219 seconds on desktop and 4.761 seconds in the phone run. Each sampled 4,225 points in 45 requests before building the shared ground, road and footprint meshes. First-ready timings include that network work, measured on the unthrottled local server. The broader capture run observed a 6.922-second elevation load. The no-key fallback reached its first rendered exterior in 881 ms in a separate capture run.
+
+The desktop endpoint held 716 geometries and 76 textures according to Three.js. The phone endpoint held 379 geometries and 47 textures. These counts and JS heap snapshots do not measure GPU memory. Physical phone frame delivery remains unverified. [Live frame and loading measurements](../qa/evidence/hybrid-environment/report-performance-live.json) · [Fallback measurements](../qa/evidence/hybrid-environment/report-performance.json) · [Live browser captures](HYBRID_QA.md)

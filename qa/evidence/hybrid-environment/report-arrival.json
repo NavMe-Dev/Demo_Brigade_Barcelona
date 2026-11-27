@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-27T06:33:31.058Z",
+  "checks": [
+    "Licensed initial arrival opens at geographic scale",
+    "Geographic arrival settles at the building hero",
+    "Replay and Skip restore the architectural hero",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [],
+  "layouts": [],
+  "browser": "158.0.8127.37",
+  "arrival": {
+    "initial": [
+      -3499.999928463987,
+      17499.999691094494,
+      -7499.999889444346
+    ],
+    "settled": [
+      -173,
+      116,
+      297
+    ],
+    "readyToSettleMs": 14895
+  }
+}

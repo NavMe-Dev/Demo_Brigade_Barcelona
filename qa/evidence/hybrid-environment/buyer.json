@@ -1,0 +1,820 @@
+{
+  "browser": "158.0.8127.37",
+  "date": "2026-11-27T06:19:15.743Z",
+  "arrival": {
+    "desktop /": {
+      "pathname": "/",
+      "firstExteriorFrameMs": 602,
+      "firstPosition": [
+        474.999991828192,
+        334.99999464605673,
+        539.9999940261265
+      ],
+      "firstDirection": [
+        -0.6049851020503312,
+        -0.40120064532658795,
+        -0.6877725412421463
+      ],
+      "approachMs": 15211,
+      "frames": 726,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3799,
+          "camera": [
+            437.96,
+            309.47,
+            512.17
+          ]
+        },
+        {
+          "ms": 7598,
+          "camera": [
+            215.39,
+            196.52,
+            362.98
+          ]
+        },
+        {
+          "ms": 11417,
+          "camera": [
+            -89.02,
+            113.74,
+            314.71
+          ]
+        },
+        {
+          "ms": 15211,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.12,
+        0.86,
+        0.14,
+        0.59
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 3977396,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "desktop /experience/": {
+      "pathname": "/experience/",
+      "firstExteriorFrameMs": 572,
+      "firstPosition": [
+        474.999991828192,
+        334.99999464605673,
+        539.9999940261265
+      ],
+      "firstDirection": [
+        -0.6049851020503312,
+        -0.40120064532658795,
+        -0.6877725412421463
+      ],
+      "approachMs": 15188,
+      "frames": 488,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3795,
+          "camera": [
+            437.96,
+            309.46,
+            512.17
+          ]
+        },
+        {
+          "ms": 7584,
+          "camera": [
+            216.76,
+            196.96,
+            363.72
+          ]
+        },
+        {
+          "ms": 11381,
+          "camera": [
+            -87.08,
+            113.83,
+            314.78
+          ]
+        },
+        {
+          "ms": 15188,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.12,
+        0.76,
+        0.14,
+        0.24
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 3977396,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "phone /experience/": {
+      "pathname": "/experience/",
+      "firstExteriorFrameMs": 1381,
+      "firstPosition": [
+        474.999991828192,
+        334.99999464605673,
+        539.9999940261265
+      ],
+      "firstDirection": [
+        -0.6049851020503312,
+        -0.40120064532658795,
+        -0.6877725412421463
+      ],
+      "approachMs": 15200,
+      "frames": 877,
+      "samples": [
+        {
+          "ms": 0,
+          "camera": [
+            475,
+            335,
+            540
+          ]
+        },
+        {
+          "ms": 3800,
+          "camera": [
+            437.96,
+            309.46,
+            512.17
+          ]
+        },
+        {
+          "ms": 7600,
+          "camera": [
+            215.39,
+            196.52,
+            362.98
+          ]
+        },
+        {
+          "ms": 11400,
+          "camera": [
+            -88.05,
+            113.79,
+            314.75
+          ]
+        },
+        {
+          "ms": 15200,
+          "camera": [
+            -173,
+            116,
+            297
+          ]
+        }
+      ],
+      "waypointErrorsMetres": [
+        0.11,
+        0.76,
+        0.15,
+        0.24
+      ],
+      "lateralDisplacementMetres": 78.83,
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "triangles": 914711,
+      "webgl2": true,
+      "skipSeen": true,
+      "mapSeen": false,
+      "cityMapRequests": [],
+      "apartmentModelRequests": 0
+    },
+    "reducedMotion": {
+      "viewport": "390×844",
+      "firstPosition": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalCamera": [
+        -172.99999999999997,
+        116.00000000000003,
+        296.99999999999994
+      ],
+      "finalTarget": [
+        0,
+        85,
+        8
+      ],
+      "skipSeen": false,
+      "mapSeen": false
+    }
+  },
+  "checks": [
+    "desktop / first exterior frame uses the wide approach pose and points at the original target",
+    "desktop / automatically draws the local exterior with no interaction",
+    "desktop / completes the 14.5-second architectural approach",
+    "desktop / follows a moving orbit between endpoints",
+    "desktop / passes the four revised orbit waypoints in sequence",
+    "desktop / settles on the responsive overview",
+    "desktop / shows Skip during motion and Replay after settling",
+    "desktop / never displays or downloads a regional map or apartment during arrival",
+    "desktop /experience/ first exterior frame uses the wide approach pose and points at the original target",
+    "desktop /experience/ automatically draws the local exterior with no interaction",
+    "desktop /experience/ completes the 14.5-second architectural approach",
+    "desktop /experience/ follows a moving orbit between endpoints",
+    "desktop /experience/ passes the four revised orbit waypoints in sequence",
+    "desktop /experience/ settles on the responsive overview",
+    "desktop /experience/ shows Skip during motion and Replay after settling",
+    "desktop /experience/ never displays or downloads a regional map or apartment during arrival",
+    "Replay returns to the wide end of the approach",
+    "Replayed approach advances before Skip",
+    "Skip lands on the settled overview",
+    "Keyboard orbit immediately takes control of the introduction",
+    "Selecting a wing during the approach takes control immediately",
+    "phone /experience/ first exterior frame uses the wide approach pose and points at the original target",
+    "phone /experience/ automatically draws the local exterior with no interaction",
+    "phone /experience/ completes the 14.5-second architectural approach",
+    "phone /experience/ follows a moving orbit between endpoints",
+    "phone /experience/ passes the four revised orbit waypoints in sequence",
+    "phone /experience/ settles on the responsive overview",
+    "phone /experience/ shows Skip during motion and Replay after settling",
+    "phone /experience/ never displays or downloads a regional map or apartment during arrival",
+    "Reduced motion opens the hero directly with introduction controls hidden",
+    "Reduced-motion arrival uses no legacy satellite fallback",
+    "Wing A refuge has six residential choices, with A7 removed",
+    "Selected refuge geometry is active",
+    "Typical Wing A has all seven designs",
+    "Wing B floor selects six numbered brochure bays",
+    "Floor-plate hotspot opens B10 in the apartment panel",
+    "OR across study and four-bedroom configurations",
+    "AND with wing B returns only B10 and B11",
+    "Area filter updates to empty state",
+    "Three saved comparison rows show plans, rendered previews and decks",
+    "Compare and saved apartment survive reload",
+    "Property information shows the documented address",
+    "Property information retains the hybrid ground without low-resolution satellite fallback",
+    "Back restores the previous public scene",
+    "Four architectural sunlight directions change the rendered scene",
+    "Public link ?wing=A bypasses the introduction",
+    "Public link ?wing=B bypasses the introduction",
+    "Public link ?amenity=sky-deck bypasses the introduction",
+    "Public link ?amenity=eco-deck bypasses the introduction",
+    "Public link ?amenity=clubhouse bypasses the introduction",
+    "Public link ?layout=invalid bypasses the introduction",
+    "Apartment share opens the live B10 kitchen and bypasses the building introduction",
+    "Six responsive viewports, collapsible panels and real touch input"
+  ],
+  "screens": [
+    "exterior-1920",
+    "wing-b-floor-22",
+    "comparison-1920",
+    "property-info-1920",
+    "exterior-360",
+    "refuge-390",
+    "exterior-820"
+  ],
+  "devices": [
+    {
+      "width": 360,
+      "height": 800,
+      "viewport": {
+        "body": 360,
+        "visible": 360,
+        "canvas": 800,
+        "viewport": 800
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 903820,
+        "drawCalls": 148,
+        "geometries": 162,
+        "textures": 43,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 5,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 10,
+            "visibleTiles": 10
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 8,
+            "cachedTiles": 8,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 261,
+            "distantTiles": 4,
+            "residentBytes": 962508,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 715
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "viewport": {
+        "body": 390,
+        "visible": 390,
+        "canvas": 844,
+        "viewport": 844
+      },
+      "touch": {
+        "pinchRadiusDelta": -36,
+        "dragMetres": 23
+      },
+      "renderer": {
+        "camera": [
+          -56.431136068134144,
+          67.92956777388518,
+          -115.40726073842112
+        ],
+        "target": [
+          0,
+          50.074999999999996,
+          -22.999999999999993
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 877939,
+        "drawCalls": 131,
+        "geometries": 173,
+        "textures": 42,
+        "quality": "auto",
+        "detail": "low",
+        "floor": 12,
+        "renderedFrames": 58,
+        "cameraUpdates": 51,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 12,
+            "visibleTiles": 12
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 8,
+            "cachedTiles": 9,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 280,
+            "distantTiles": 4,
+            "residentBytes": 1044954,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 772
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "viewport": {
+        "body": 430,
+        "visible": 430,
+        "canvas": 932,
+        "viewport": 932
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 905076,
+        "drawCalls": 148,
+        "geometries": 162,
+        "textures": 43,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 6,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 10,
+            "visibleTiles": 10
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 8,
+            "cachedTiles": 8,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 342,
+            "distantTiles": 2,
+            "residentBytes": 962508,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 715
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 820,
+      "height": 1180,
+      "viewport": {
+        "body": 820,
+        "visible": 820,
+        "canvas": 1180,
+        "viewport": 1180
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 1083156,
+        "drawCalls": 167,
+        "geometries": 178,
+        "textures": 47,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 7,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 20,
+            "visibleTiles": 20
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 8,
+            "cachedTiles": 8,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 714,
+            "distantTiles": 0,
+            "residentBytes": 962508,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 715
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 1180,
+      "height": 820,
+      "viewport": {
+        "body": 1180,
+        "visible": 1180,
+        "canvas": 820,
+        "viewport": 820
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 1115655,
+        "drawCalls": 217,
+        "geometries": 206,
+        "textures": 47,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 7,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 32,
+            "visibleTiles": 32
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 10,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 599,
+            "distantTiles": 2,
+            "residentBytes": 1135908,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 840
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "viewport": {
+        "body": 1920,
+        "visible": 1920,
+        "canvas": 1080,
+        "viewport": 1080
+      },
+      "renderer": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 1,
+        "triangles": 1132190,
+        "drawCalls": 227,
+        "geometries": 221,
+        "textures": 47,
+        "quality": "auto",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 8,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "sunset",
+        "solarDirection": [
+          -0.5401133910772828,
+          0.19640486948264826,
+          0.818353622844368
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable · architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 37,
+            "visibleTiles": 37
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 11,
+            "cachedTiles": 11,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 782,
+            "distantTiles": 1,
+            "residentBytes": 1201068,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 886
+            }
+          },
+          "zones": {
+            "blendStartM": 170,
+            "blendEndM": 320
+          }
+        }
+      }
+    }
+  ],
+  "errors": []
+}

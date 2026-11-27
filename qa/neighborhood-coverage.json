@@ -1,0 +1,352 @@
+{
+  "point": [
+    78.312086932,
+    17.402192529
+  ],
+  "imageryCitation": [
+    {
+      "NICE_NAME": "Vivid Mosaic Metro",
+      "NICE_DESC": "Vantor",
+      "SRC_DESC": "WV03",
+      "SRC_DATE": 20260519,
+      "SRC_RES": 0.31,
+      "SRC_ACC": 8.47,
+      "MinMapLevel": 12,
+      "MaxMapLevel": 19,
+      "BlockName": "Vivid_Mosaic_30_Hyderabad_IN_26Q3",
+      "ReleaseName": "Raster Basemaps 2026.R09"
+    },
+    {
+      "NICE_NAME": "TerraColor NextGen",
+      "NICE_DESC": "Earthstar Geographics",
+      "SRC_DESC": "TerraColor NextGen",
+      "SRC_DATE": null,
+      "SRC_RES": 15,
+      "SRC_ACC": 12,
+      "MinMapLevel": 0,
+      "MaxMapLevel": 11,
+      "BlockName": null,
+      "ReleaseName": null
+    }
+  ],
+  "imageryCache": {
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "16": 1,
+    "17": 1,
+    "18": 1,
+    "19": 1,
+    "20": 0,
+    "21": 0,
+    "22": 0,
+    "23": 0
+  },
+  "elevationCache": {
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "16": 1,
+    "17": 0,
+    "18": 0,
+    "19": 0,
+    "20": 0,
+    "21": 0,
+    "22": 0,
+    "23": 0
+  },
+  "developerEndpoint": {
+    "code": 499,
+    "message": "Token Required.",
+    "details": []
+  },
+  "elevationSources": {
+    "url": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/DataExtents/MapServer",
+    "matches": {
+      "1m or better": [],
+      "2-6m": [],
+      "10m": [],
+      "25m": [
+        {
+          "PixelSize": 24.737640380859375,
+          "Source": "Airbus Defence and Space GmbH",
+          "ProductName": "Airbus_WorldDEM4Ortho_24m",
+          "VerticalDatum": "EGM2008"
+        }
+      ],
+      "30m": [
+        {
+          "PixelSize": 30.922080993652344,
+          "Source": "NASA, NGA, USGS",
+          "ProductName": "SRTM_1_arcsec",
+          "VerticalDatum": "EGM96"
+        }
+      ],
+      "50-60m": [],
+      "90m": [
+        {
+          "PixelSize": 92.76624298095703,
+          "Source": "N Robinson,NCEAS",
+          "ProductName": "EarthEnv_DEM90",
+          "VerticalDatum": "EGM96"
+        },
+        {
+          "PixelSize": 92.76624298095703,
+          "Source": "USGS, NASA, CGIAR",
+          "ProductName": "SRTM",
+          "VerticalDatum": "EGM96"
+        }
+      ],
+      "150m": [],
+      "250m": [
+        {
+          "PixelSize": 231.9156036376953,
+          "Source": "USGS",
+          "ProductName": "GMTED_2010",
+          "VerticalDatum": "variable"
+        }
+      ],
+      "500m": [
+        {
+          "PixelSize": 463.8312072753906,
+          "Source": "USGS",
+          "ProductName": "GMTED_2010",
+          "VerticalDatum": "variable"
+        },
+        {
+          "PixelSize": 463.8312072753906,
+          "Source": "GEBCO",
+          "ProductName": "GEBCO_2025_15arcsec",
+          "VerticalDatum": "MSL"
+        }
+      ],
+      "1000m": [
+        {
+          "PixelSize": 927.6624145507812,
+          "Source": "GEBCO",
+          "ProductName": "GEBCO_14",
+          "VerticalDatum": "MSL"
+        },
+        {
+          "PixelSize": 927.6624145507812,
+          "Source": "USGS",
+          "ProductName": "GMTED_2010",
+          "VerticalDatum": "variable"
+        }
+      ]
+    }
+  },
+  "meshCatalog": {
+    "namedLocalSceneCount": 0,
+    "envelopeCandidates": [
+      {
+        "id": "da443d1b4d9e48e8a7efbee1b467bad4",
+        "title": "scene_mesh_textured",
+        "type": null,
+        "extent": null,
+        "error": 499
+      },
+      {
+        "id": "c9bf4927f74d493fac4ce1e9907aee1d",
+        "title": "SIM__3857__DE_Frankfurt__IntegratedMesh",
+        "type": "IntegratedMesh",
+        "extent": [
+          8.637563200566822,
+          50.08388598700984,
+          8.71636348564319,
+          50.13500174059851
+        ],
+        "error": null
+      },
+      {
+        "id": "b470fa1b1712495e93f53856737a2c3f",
+        "title": "Scene Layer - Integrated Mesh",
+        "type": "IntegratedMesh",
+        "extent": [
+          8.646069959015728,
+          50.09000113523261,
+          8.706527684647908,
+          50.12753937159754
+        ],
+        "error": null
+      },
+      {
+        "id": "79c0d5873a6b42ddb4707c3d4f38499d",
+        "title": "MVCore_Oblique_IntegratedMesh",
+        "type": null,
+        "extent": null,
+        "error": 404
+      }
+    ]
+  },
+  "Open3D_Buildings_v1": {
+    "layerType": "3DObject",
+    "copyright": "Map data OpenStreetMap contributors, Microsoft Building Footprints, Scene Layer by ESRI",
+    "textureSetCount": 0,
+    "geometryAttributes": [
+      [
+        "position",
+        "feature-index"
+      ]
+    ],
+    "examplesInside5km": [
+      {
+        "index": 3707336,
+        "center": [
+          78.32162869440953,
+          17.403043702108178,
+          -3.5280285803601146
+        ],
+        "radiusM": 1664,
+        "distanceM": 1184,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3707336,
+            "vertexCount": 32712
+          },
+          "attribute": {
+            "resource": 3707336
+          }
+        }
+      },
+      {
+        "index": 3707339,
+        "center": [
+          78.32165378172769,
+          17.424058545105122,
+          9.688705302774906
+        ],
+        "radiusM": 1671,
+        "distanceM": 2690,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3707339,
+            "vertexCount": 35214
+          },
+          "attribute": {
+            "resource": 3707339
+          }
+        }
+      }
+    ],
+    "indexPagesRead": 5,
+    "testedNodes": 92,
+    "searchExhausted": false
+  },
+  "OpenStreetMap3D_Buildings_v1": {
+    "layerType": "3DObject",
+    "copyright": "Map data OpenStreetMap contributors, Microsoft Building Footprints, Scene Layer by ESRI",
+    "textureSetCount": 0,
+    "geometryAttributes": [
+      [
+        "position",
+        "feature-index"
+      ]
+    ],
+    "examplesInside5km": [
+      {
+        "index": 3452900,
+        "center": [
+          78.32160022689351,
+          17.403043852294324,
+          -13.645376564003527
+        ],
+        "radiusM": 1664,
+        "distanceM": 1186,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3452900,
+            "vertexCount": 25923
+          },
+          "attribute": {
+            "resource": 3452900
+          }
+        }
+      },
+      {
+        "index": 3452903,
+        "center": [
+          78.3216570671323,
+          17.424060421468383,
+          -7.533214831724763
+        ],
+        "radiusM": 1673,
+        "distanceM": 2695,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3452903,
+            "vertexCount": 24726
+          },
+          "attribute": {
+            "resource": 3452903
+          }
+        }
+      }
+    ],
+    "indexPagesRead": 5,
+    "testedNodes": 88,
+    "searchExhausted": false
+  },
+  "Esri3D_Buildings_v1": {
+    "layerType": "3DObject",
+    "copyright": "TomTom, Vantor, Esri Community Maps contributors, \u00a9 OpenStreetMap contributors available under the Open Database License, Microsoft, Esri, Google Open Buildings (CC BY-4.0) and U.S. Geological Survey, 2019, USGS 3D Elevation Program Digital Elevation Program",
+    "textureSetCount": 0,
+    "geometryAttributes": [
+      [
+        "position",
+        "feature-index"
+      ]
+    ],
+    "examplesInside5km": [
+      {
+        "index": 3809468,
+        "center": [
+          78.32162921874217,
+          17.40305111062333,
+          -3.6312523540109396
+        ],
+        "radiusM": 1666,
+        "distanceM": 1184,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3809468,
+            "vertexCount": 30900
+          },
+          "attribute": {
+            "resource": 3809468
+          }
+        }
+      },
+      {
+        "index": 3809471,
+        "center": [
+          78.32166140561041,
+          17.424060468689067,
+          9.662155533209443
+        ],
+        "radiusM": 1673,
+        "distanceM": 2691,
+        "mesh": {
+          "geometry": {
+            "definition": 0,
+            "resource": 3809471,
+            "vertexCount": 33909
+          },
+          "attribute": {
+            "resource": 3809471
+          }
+        }
+      }
+    ],
+    "indexPagesRead": 5,
+    "testedNodes": 88,
+    "searchExhausted": false
+  }
+}

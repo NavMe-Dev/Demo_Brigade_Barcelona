@@ -1,0 +1,171 @@
+{
+  "date": "2026-11-27T06:32:44.106Z",
+  "checks": [
+    "Live hybrid terrain matches its active sampler and patch edges",
+    "Live configured imagery is displayed",
+    "Initial licensed arrival starts over the geographic region",
+    "No uncaught browser or shader errors"
+  ],
+  "failed": [],
+  "blocked": [],
+  "errors": [],
+  "captures": [
+    "hyderabad-aerial",
+    "hero",
+    "aerial-masterplan",
+    "main-entrance",
+    "front-road",
+    "rear-surroundings",
+    "street-level",
+    "clubhouse",
+    "eco-deck",
+    "sky-deck",
+    "golden-hour",
+    "night",
+    "geographic-arrival",
+    "bedroom-window",
+    "balcony",
+    "mobile"
+  ],
+  "layouts": [],
+  "browser": "158.0.8127.37",
+  "terrain": {
+    "vertices": 213444,
+    "sharedVertices": 11843,
+    "maximumSeamErrorM": 0,
+    "maximumHeightErrorM": 0,
+    "anchor": [
+      78.312086932,
+      17.402192529
+    ],
+    "anchorElevationM": 596.286,
+    "roundTripErrorM": 0.000006259274223666099,
+    "parcelVertices": 16,
+    "maximumParcelHeightM": 0.046742637435338165
+  },
+  "live": {
+    "imagery": {
+      "provider": "arcgis",
+      "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+      "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+      "reason": "World Imagery",
+      "loading": 0,
+      "visibleTiles": 62,
+      "maxZoom": 19,
+      "highestVisibleZoom": 18,
+      "textures": 2,
+      "estimatedTextureBytes": 22762838
+    },
+    "networkRequests": 427,
+    "failedLocal": []
+  },
+  "arrivalStart": {
+    "camera": [
+      -3499.999928463987,
+      17499.999691094494,
+      -7499.999889444346
+    ],
+    "target": [
+      -1799.9999701827908,
+      -9.815135896388282e-15,
+      -8999.999863958985
+    ],
+    "pixelRatio": 1,
+    "triangles": 1298351,
+    "drawCalls": 323,
+    "geometries": 304,
+    "textures": 52,
+    "quality": "auto",
+    "detail": "low",
+    "floor": null,
+    "renderedFrames": 7,
+    "cameraUpdates": 1,
+    "motion": "transition",
+    "mood": "sunset",
+    "solarDirection": [
+      -0.5401133910772828,
+      0.19640486948264826,
+      0.818353622844368
+    ],
+    "wing": null,
+    "landscape": {
+      "kind": "hybrid",
+      "anchor": [
+        78.312086932,
+        17.402192529
+      ],
+      "anchorElevationM": 596.286,
+      "elevation": {
+        "provider": "Esri World Elevation",
+        "service": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer",
+        "sources": [
+          "Airbus_WorldDEM4Ortho_24m"
+        ],
+        "datum": "EGM2008",
+        "sourceOriginM": 595.0549926757812,
+        "sourceSpacingM": [
+          24.737664565767023,
+          24.737664565767023
+        ],
+        "gridStepM": 64,
+        "sampleCount": 4225,
+        "radiusM": 2048,
+        "blendOutStartM": 1536,
+        "requests": 45,
+        "readyMs": 6922,
+        "reference": "Relative to Esri origin sample, feathered to EGM96 fallback. This is an approximate local vertical registration."
+      },
+      "regionalImagery": {
+        "provider": "arcgis",
+        "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+        "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+        "reason": "World Imagery",
+        "loading": 4,
+        "visibleTiles": 14,
+        "maxZoom": 18,
+        "highestVisibleZoom": 11,
+        "textures": 2,
+        "estimatedTextureBytes": 24728918
+      },
+      "imagery": {
+        "provider": "arcgis",
+        "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+        "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+        "reason": "World Imagery",
+        "loading": 0,
+        "visibleTiles": 18,
+        "maxZoom": 19,
+        "highestVisibleZoom": 13,
+        "textures": 2,
+        "estimatedTextureBytes": 22762838
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 44,
+        "visibleTiles": 44
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 0,
+        "cachedTiles": 0,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 0,
+        "distantTiles": 0,
+        "residentBytes": 0,
+        "failures": 0,
+        "excludedRoadConflicts": 0,
+        "heightMethods": {
+          "supplied": 0,
+          "floorCount": 0,
+          "estimated": 0
+        }
+      },
+      "zones": {
+        "blendStartM": 170,
+        "blendEndM": 320
+      }
+    }
+  }
+}

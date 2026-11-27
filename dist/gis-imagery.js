@@ -10,6 +10,7 @@ const ILLUMINATION = {
   morning: [0.91, 0.79, 0.67],
   sunset: [0.76, 0.50, 0.36],
   evening: [0.23, 0.29, 0.39],
+  night: [0.08, 0.105, 0.16],
 };
 
 async function loadTexture(THREE, path, signal) {
@@ -84,6 +85,7 @@ export function createImagery(
     maxLocal = mobile ? 6 : 10;
   let mood = 'day';
   const tint = new THREE.Color().setRGB(...ILLUMINATION.day);
+  const showcase = { value: 1 };
   const root = new THREE.Group();
   root.name = 'RegisteredTerrain';
   const arc =
@@ -110,10 +112,39 @@ export function createImagery(
   const seed = new THREE.DataTexture(new Uint8Array([151, 143, 116, 255]), 1, 1);
   seed.colorSpace = THREE.SRGBColorSpace;
   seed.needsUpdate = true;
+  const groundSurface = { value: seed };
+  new THREE.TextureLoader().load(new URL('./assets/geography/roads/soil-color.webp', import.meta.url).href, texture => {
+    if (stopped) return texture.dispose();
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    texture.anisotropy = 4;
+    groundSurface.value = texture;
+    onChange();
+  }, undefined, () => {});
   function material() {
     const m = new THREE.MeshBasicMaterial({ map: seed, toneMapped: false, vertexColors: true });
     m.color = tint;
     arc?.decorate(m);
+    const decorateGeography = m.onBeforeCompile;
+    m.onBeforeCompile = (shader) => {
+      decorateGeography.call(m, shader);
+      shader.uniforms.showcase = showcase;
+      shader.uniforms.groundSurface = groundSurface;
+      shader.vertexShader = 'varying vec2 sitePosition;\n' + shader.vertexShader.replace(
+        '#include <begin_vertex>', '#include <begin_vertex>\nsitePosition = position.xz;',
+      );
+      shader.fragmentShader = 'uniform float showcase; uniform sampler2D groundSurface; varying vec2 sitePosition;\n' +
+        shader.fragmentShader.replace('#include <color_fragment>', `
+          float distanceToPlot = length(sitePosition * vec2(1.0, .88));
+          float finish = showcase * (1.0 - smoothstep(175.0, 860.0, distanceToPlot));
+          vec3 detail = texture2D(groundSurface, sitePosition / 6.0).rgb;
+          vec3 wide = texture2D(groundSurface, sitePosition.yx / 31.0).rgb;
+          float field = sin(sitePosition.x * .021) * cos(sitePosition.y * .028);
+          vec3 ground = (detail * .41 + wide * .59) * vec3(.94,.90,.75) * (.90 + .13 * field);
+          diffuseColor.rgb = mix(diffuseColor.rgb, ground * diffuse, finish);
+          #include <color_fragment>
+        `);
+    };
     return m;
   }
   const horizon = material();
@@ -309,10 +340,13 @@ export function createImagery(
     }
     root.clear();
     horizon.dispose();
+    if (groundSurface.value !== seed) groundSurface.value.dispose();
     seed.dispose();
     preview?.dispose();
     regionPreview?.dispose();
   }
   const baseReady = Promise.all([loadPreview(), loadRegion()]).then(() => Boolean(preview && regionPreview));
-  return { root, tint, baseReady, update, setActive, setMood, stats, dispose };
+  return { root, tint, baseReady, update, setActive, setMood, stats, dispose,
+    setPresentation: (mode) => { showcase.value = mode === 'showcase' ? 1 : 0; },
+  };
 }

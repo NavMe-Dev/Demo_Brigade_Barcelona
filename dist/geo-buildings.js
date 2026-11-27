@@ -49,14 +49,18 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
     oz = record.tile[1] * tileSize;
   const positions = [],
     colors = [],
+    facade = [],
     mainIndices = [],
     minorIndices = [];
   let largeBuildings = 0;
-  const paint = ['#c7bdb1', '#d0c7bc', '#c2beb8', '#c7c0ae'].map((c) => new THREE.Color(c));
-  const roofs = ['#c2bbae', '#c5b8a4', '#b1b4ad', '#c2b7a2'].map((c) => new THREE.Color(c));
-  function vertex(x, y, z, c) {
+  let excludedRoadConflicts = 0;
+  const heightMethods = { supplied: 0, floorCount: 0, estimated: 0 };
+  const paint = ['#65685f', '#70695f', '#5e6362', '#756354'].map((c) => new THREE.Color(c));
+  const roofs = ['#444d50', '#715244', '#4e5554', '#675347'].map((c) => new THREE.Color(c));
+  function vertex(x, y, z, c, along = 0, above = 0, enabled = 0) {
     positions.push(x - ox, y, z - oz);
     colors.push(c.r, c.g, c.b);
+    facade.push(along, above, enabled);
   }
   let i = 8;
   function u16() {
@@ -71,8 +75,12 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
   }
   for (let f = 0; f < record.count; f++) {
     const height = u16() / 10;
-    i++;
+    const heightMethod = data.getUint8(i++);
+    heightMethods[['supplied', 'floorCount', 'estimated'][heightMethod] || 'estimated']++;
     const category = data.getUint8(i++);
+    const shade = .80 + .20 * ((f * 37) % 17) / 16;
+    const wall = paint[category].clone().multiplyScalar(shade);
+    const roof = roofs[category].clone().multiplyScalar(shade);
     const parts = u16(),
       indices = [];
     let minX = Infinity,
@@ -106,7 +114,7 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
       const top = roofGroundMax(rings, terrain, highest) + height;
       const roofStart = positions.length / 3;
       const points = rings.flat();
-      for (const point of points) vertex(point.x, top, point.y, roofs[category]);
+      for (const point of points) vertex(point.x, top, point.y, roof);
       for (const [a, b, c] of THREE.ShapeUtils.triangulateShape(rings[0], rings.slice(1))) {
         const A = points[a],
           B = points[b],
@@ -116,9 +124,12 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
       }
       for (const edge of segments) {
         const start = positions.length / 3;
+        const [ax,,az] = edge[0];
+        const windowed = Number(height >= 7 && Math.hypot(ax,az) < 1100);
         for (const [x, y, z] of edge) {
-          vertex(x, y, z, paint[category]);
-          vertex(x, top, z, paint[category]);
+          const along = Math.hypot(x-ax,z-az);
+          vertex(x, y, z, wall, along, y-highest, windowed);
+          vertex(x, top, z, wall, along, top-highest, windowed);
         }
         for (let k = 0; k < edge.length - 1; k++) {
           const a = start + k * 2;
@@ -126,8 +137,19 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
         }
       }
     }
+    // Omit one unsurveyed 4.5 m extrusion beside the entrance. Its source
+    // footprint intersects the estimated surface of OSM way 1451011423.
+    // Match the original decimetre bounds so regenerating tile order is safe.
+    // The underlying Overture source and packed footprint remain available.
+    const entranceRoadConflict = heightMethod === 2 && height === 4.5 &&
+      Math.abs(minX - 1.1) < .01 && Math.abs(maxX - 8.2) < .01 &&
+      Math.abs(minZ - 110.8) < .01 && Math.abs(maxZ - 114.3) < .01;
+    if (entranceRoadConflict) {
+      excludedRoadConflicts++;
+      continue;
+    }
     // Keep distant high-rises and larger outlines in one contiguous draw range.
-    const significant = height >= 8 || Math.hypot(maxX - minX, maxZ - minZ) >= 15;
+    const significant = height >= 12 || Math.hypot(maxX - minX, maxZ - minZ) >= 24;
     if (significant) largeBuildings++;
     const target = significant ? mainIndices : minorIndices;
     for (const index of indices) target.push(index);
@@ -136,6 +158,7 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geometry.setAttribute('facade', new THREE.Float32BufferAttribute(facade, 3));
   geometry.setIndex(mainIndices.concat(minorIndices));
   geometry.computeVertexNormals();
   geometry.computeBoundingSphere();
@@ -144,7 +167,11 @@ export function buildFootprintTile(THREE, terrain, record, buffer, material, til
   mesh.name = 'Footprints ' + record.tile.join(',');
   mesh.receiveShadow = true;
   mesh.userData.buildings = record.count;
+  mesh.userData.renderedBuildings = record.count - excludedRoadConflicts;
+  mesh.userData.excludedRoadConflicts = excludedRoadConflicts;
   mesh.userData.largeBuildings = largeBuildings;
+  mesh.userData.heightMethods = heightMethods;
+  mesh.userData.provenance = 'Overture and OpenStreetMap footprints with approximate facades';
   mesh.userData.mainIndexCount = mainIndices.length;
   mesh.userData.residentBytes = Object.values(geometry.attributes).reduce(
     (s, a) => s + a.array.byteLength,
@@ -160,10 +187,27 @@ export function createBuildings(
 ) {
   const root = new THREE.Group();
   root.name = 'Real-world building footprints';
-  const compact = quality === 'mobile' || quality === 'low' || quality === 'compact';
+  let compact = quality === 'performance' || quality === 'mobile' || quality === 'low' || quality === 'compact' ||
+    (quality === 'auto' && (globalThis.innerWidth || 900) <= 680);
   const budget = { ...CEILINGS[compact ? 'mobile' : 'desktop'], ...limits };
   if (Number.isFinite(maxDistance)) budget.distance = maxDistance;
-  const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.96, metalness: 0 });
+  const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.96, metalness: 0, envMapIntensity: .4 });
+  material.onBeforeCompile = shader => {
+    shader.vertexShader = 'attribute vec3 facade; varying vec3 footprintFacade;\n' +
+      shader.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nfootprintFacade = facade;');
+    shader.fragmentShader = 'varying vec3 footprintFacade;\n' +
+      shader.fragmentShader.replace('#include <color_fragment>', `
+        #include <color_fragment>
+        vec2 cell = footprintFacade.xy / vec2(3.6,3.1);
+        vec2 bay = fract(cell);
+        vec2 edge = max(fwidth(cell),vec2(.001));
+        vec2 opening = smoothstep(vec2(.25,.29)-edge,vec2(.25,.29)+edge,bay)
+          * (1.0-smoothstep(vec2(.75,.77)-edge,vec2(.75,.77)+edge,bay));
+        float mask = opening.x * opening.y;
+        float fade = 1.0 - smoothstep(180.0,520.0,length(vViewPosition));
+        diffuseColor.rgb *= 1.0 - .43 * mask * fade * footprintFacade.z;
+      `);
+  };
   const manifestController = new AbortController(),
     cache = new Map(),
     pending = new Map(),
@@ -231,7 +275,7 @@ export function createBuildings(
           data = item.mesh.userData;
         item.mesh.geometry.setDrawRange(0, low ? data.mainIndexCount : Infinity);
         visibleCount++;
-        visibleBuildings += low ? data.largeBuildings : data.buildings;
+        visibleBuildings += low ? data.largeBuildings : data.renderedBuildings;
       }
     }
   }
@@ -286,10 +330,12 @@ export function createBuildings(
       const dx = Math.max(0, x0 - px, px - x1),
         dz = Math.max(0, z0 - pz, pz - z1),
         distance = Math.hypot(dx, dz);
-      if (distance <= budget.distance && frustum.intersectsBox(item.box))
-        ordered.push({ item, distance });
+      const retention = desired.has(item.file) ? 65 : 0;
+      if (distance <= budget.distance + retention && frustum.intersectsBox(item.box))
+        ordered.push({ item, distance, priority: distance - retention });
     }
-    ordered.sort((a, b) => a.distance - b.distance);
+    ordered.sort((a, b) => a.priority - b.priority);
+    const previousDistant = distant;
     desired = new Set();
     distant = new Set();
     queue = [];
@@ -301,7 +347,8 @@ export function createBuildings(
       const height = globalThis.innerHeight || 900;
       const range = Math.hypot(distance, Math.max(0, camera.position.y - terrain.sceneRangeM[1]));
       const metresPerPixel = (2 * range * Math.tan((camera.fov * Math.PI) / 360)) / height;
-      if (metresPerPixel > (compact ? 2.2 : 3.0)) distant.add(item.file);
+      const threshold = (compact ? .85 : 1.05) + (previousDistant.has(item.file) ? -.15 : .15);
+      if (metresPerPixel > threshold) distant.add(item.file);
       const saved = cache.get(item.file);
       if (saved) saved.seen = clock;
       else if (
@@ -341,6 +388,12 @@ export function createBuildings(
       distantTiles: distant.size,
       residentBytes: [...cache.values()].reduce((s, v) => s + v.mesh.userData.residentBytes, 0),
       failures: failures.size,
+      excludedRoadConflicts: [...cache.values()].reduce((sum, { mesh }) =>
+        sum + mesh.userData.excludedRoadConflicts, 0),
+      heightMethods: [...cache.values()].reduce((sum, { mesh }) => {
+        for (const method of Object.keys(sum)) sum[method] += mesh.userData.heightMethods[method];
+        return sum;
+      }, { supplied: 0, floorCount: 0, estimated: 0 }),
     };
   }
   function dispose() {
@@ -356,5 +409,14 @@ export function createBuildings(
     recount();
     ready = false;
   }
-  return { root, update, setActive, dispose, stats, ready: started };
+  function setQuality(value) {
+    compact = value === 'performance' || value === 'mobile' || value === 'low' || value === 'compact' ||
+      (value === 'auto' && (globalThis.innerWidth || 900) <= 680);
+    Object.assign(budget, CEILINGS[compact ? 'mobile' : 'desktop'], limits);
+    if (Number.isFinite(maxDistance)) budget.distance = maxDistance;
+    lastUpdate = -Infinity;
+    if (lastCamera) update(lastCamera);
+    notify();
+  }
+  return { root, update, setActive, setQuality, dispose, stats, ready: started };
 }

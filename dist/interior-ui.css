@@ -1,0 +1,486 @@
+/* Residence explorer: one shared scale for the controls around the 3D canvas. */
+body.exploring {
+  --ui-edge: 28px;
+  --ui-paper: rgba(255, 253, 249, .96);
+  --ui-ink: #302f2b;
+  --ui-muted: #736d63;
+  --ui-line: #ded9d0;
+  --ui-accent: #652a32;
+  --ui-shadow: 0 8px 32px #1b221b16, 0 1px 3px #1b221b0a;
+  --ui-credit: 28px;
+}
+.interior-breadcrumb { display: none; }
+body.exploring .header {
+  inset: 0 0 auto;
+  height: 72px;
+  padding: 0 var(--ui-edge);
+  background: rgba(255, 253, 249, .94);
+  backdrop-filter: blur(18px);
+  color: var(--ui-ink);
+  border-bottom: 1px solid #ffffff80;
+}
+body.exploring .brochure-logo img { width: 106px; height: auto; }
+body.exploring .interior-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-left: 32px;
+  padding-left: 28px;
+  border-left: 1px solid var(--ui-line);
+  font-size: 14px;
+  color: var(--ui-muted);
+}
+#interiorResidence { color: var(--ui-ink); font-weight: 500; }
+body.exploring .enquire-link {
+  min-height: 40px;
+  padding: 0 20px;
+  border-radius: 8px;
+  background: var(--ui-accent);
+  color: #fff;
+  font-size: 14px;
+}
+body.exploring .estate-menu {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border-color: var(--ui-line);
+  color: var(--ui-ink);
+}
+#experience { color: var(--ui-ink); }
+#experience :is(button,select) { -webkit-tap-highlight-color: transparent; }
+#experience :is(button,select):focus-visible { outline: 2px solid #945360; outline-offset: 3px; }
+#experience button { transition: background .15s, border-color .15s, box-shadow .15s; }
+#experience :is(.property-card,.room-caption,.scene-tools,#interiorFilmstrip,.mode-switch,.walk-pad) {
+  background: var(--ui-paper);
+  border: 1px solid #fff9;
+  border-radius: 14px;
+  box-shadow: var(--ui-shadow);
+  backdrop-filter: blur(18px);
+  text-shadow: none;
+}
+#experience .interior-return { top: 92px; left: var(--ui-edge); gap: 8px; }
+#experience .interior-return button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 14px;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  border: 1px solid #fff9;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: var(--ui-shadow);
+}
+#experience .interior-return svg { width: 18px; height: 18px; }
+#experience #skipInterior[hidden] { display: none; }
+#experience .scene-tools, body.walking #experience .scene-tools {
+  top: 92px;
+  left: calc(var(--ui-edge) + 183px);
+  flex-direction: row;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 10px;
+}
+#experience .scene-tools .icon-button {
+  width: 34px; height: 34px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--ui-ink);
+  box-shadow: none;
+}
+#experience .scene-tools svg { width: 18px; height: 18px; }
+#experience .scene-tools button:hover { background: #eee9e2; }
+#experience .property-card {
+  top: 92px;
+  right: var(--ui-edge);
+  left: auto;
+  bottom: 210px;
+  width: 296px;
+  max-height: calc(100dvh - 302px);
+}
+#experience .property-card.collapsed { bottom: auto; }
+#experience .card-toggle { padding: 20px 20px 14px; gap: 12px; flex: none; }
+#experience .card-toggle > span:first-child { gap: 7px; }
+#experience .card-toggle .eyebrow {
+  color: var(--ui-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.3px;
+}
+#experience .card-toggle strong { font-size: 28px; color: var(--ui-accent); letter-spacing: -.5px; }
+#experience .card-toggle strong span {
+  display: inline-block;
+  padding: 4px 7px;
+  border: 1px solid var(--ui-line);
+  border-radius: 5px;
+  margin-left: 10px;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--ui-muted);
+  vertical-align: middle;
+}
+#experience .toggle-symbol {
+  width: 28px; height: 28px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border: 1px solid var(--ui-line);
+  border-radius: 50%;
+  color: var(--ui-muted);
+  font: 20px Arial, sans-serif;
+}
+#experience .spatial-options { padding: 0 20px 16px; flex: none; }
+#experience .spatial-options > label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--ui-ink);
+}
+#experience select, .floor-view-compare select {
+  appearance: none;
+  background: #fffdfa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m4 6 4 4 4-4' fill='none' stroke='%23736d63' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E") right 10px center / 16px no-repeat;
+  border: 1px solid var(--ui-line, #ded9d0);
+  border-radius: 8px;
+  min-height: 40px;
+  padding: 8px 32px 8px 12px;
+  color: var(--ui-ink, #302f2b);
+  font: 14px Arial, sans-serif;
+  cursor: pointer;
+}
+#apartmentFloor { width: 182px; }
+#experience .spatial-options .view-source {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ui-muted);
+}
+#experience .card-body { padding: 0 20px 20px; min-height: 0; }
+#experience .area-grid { padding-top: 18px; border-color: var(--ui-line); }
+#experience .area-grid strong { font-size: 22px; }
+#experience .area-grid :is(small,span), #experience .area-source { font-size: 12px; }
+#experience .section-label { font-size: 12px; letter-spacing: 1px; color: var(--ui-muted); }
+#experience .room-list { gap: 6px; }
+#experience .room-list button {
+  min-height: 42px;
+  padding: 8px 10px;
+  border-color: var(--ui-line);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--ui-ink);
+}
+#experience .room-list button.active { border-color: #9d6c72; color: var(--ui-accent); background: #f4e9e9; }
+#experience .interior-view-options { font-size: 14px; gap: 14px; margin: 20px 0; }
+#experience .interior-view-options > div { display: grid; gap: 8px; width: 100%; }
+#experience .interior-view-options select { width: 100%; margin: 0; }
+#experience .lighting-control .segmented { border-color: var(--ui-line); border-radius: 9px; }
+#experience .lighting-control .segmented button { font-size: 12px; min-height: 40px; border-radius: 6px; }
+#experience .lighting-control .segmented button[aria-pressed=true] { background: #ebe4dc; color: var(--ui-ink); }
+#experience .property-card .button { border-radius: 8px; font-size: 14px; min-height: 44px; }
+#experience .secondary-actions button { font-size: 12px; }
+#experience .scene-title { top: 156px; left: var(--ui-edge); }
+#experience .scene-title h1 { font-size: 30px; }
+#experience .scene-title .eyebrow { font-size: 12px; }
+#experience .scene-title #conceptBadge { font-size: 12px; border-radius: 7px; }
+#experience .room-caption, body.walking #experience .room-caption {
+  left: var(--ui-edge);
+  top: auto;
+  bottom: 206px;
+  width: 354px;
+  max-width: calc(100vw - 56px);
+  padding: 20px !important;
+}
+#experience .room-caption .eyebrow { font-size: 12px; letter-spacing: 1.3px; color: var(--ui-muted); }
+#experience .room-caption h2 { font-size: 32px; letter-spacing: -.7px; margin: 7px 0; color: var(--ui-accent); }
+#experience #roomDimensions { font-size: 13px; line-height: 1.5; color: var(--ui-muted); }
+#experience .viewpoint-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+#experience .viewpoint-actions :is(button,select) { margin: 0; }
+#experience .viewpoint-actions select { flex-basis: 100%; width: 100%; }
+#experience .viewpoint-actions button {
+  flex: 1 1 auto;
+  min-height: 40px;
+  padding: 9px 12px;
+  background: #faf7f2;
+  border: 1px solid var(--ui-line);
+  border-radius: 8px;
+  color: var(--ui-ink);
+  font-size: 14px;
+  white-space: nowrap;
+}
+#experience .viewpoint-actions button:is(#windowView,#balconyView) { background: var(--ui-accent); color: white; border-color: var(--ui-accent); }
+#experience .viewpoint-actions button:hover { box-shadow: inset 0 0 0 100px #0000000a; }
+#experience .room-caption .view-source { margin: 12px 0 0; font-size: 12px; line-height: 1.4; color: var(--ui-muted); }
+#experience .walk-pad, body.walking #experience .walk-pad {
+  left: auto;
+  top: auto;
+  right: var(--ui-edge);
+  bottom: 206px;
+  transform: none;
+  padding: 8px;
+  border-radius: 16px;
+}
+#experience .walk-pad button {
+  width: 38px; height: 38px;
+  margin: 2px;
+  border: 1px solid var(--ui-line);
+  border-radius: 8px;
+  background: #fffdfa;
+  color: var(--ui-ink);
+  font-size: 19px;
+}
+#experience .walk-pad button:active { background: #ebe4dc; }
+#experience #interiorFilmstrip {
+  left: var(--ui-edge);
+  right: var(--ui-edge);
+  bottom: 102px;
+  height: 90px;
+  gap: 8px;
+  padding: 8px;
+  scroll-padding: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #aa9d90 transparent;
+}
+#experience #interiorFilmstrip button {
+  flex: 0 0 104px;
+  height: 72px;
+  background: #eee9e2;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+#experience #interiorFilmstrip img { height: 43px; display: block; }
+#experience #interiorFilmstrip span {
+  display: block;
+  position: static;
+  padding: 5px 3px;
+  background: transparent;
+  color: var(--ui-ink);
+  font-size: 12px;
+  line-height: 14px;
+  text-shadow: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#experience #interiorFilmstrip button:is(.active,:focus-visible) { border-color: var(--ui-accent); background: #f7eaea; }
+#experience #interiorFilmstrip button:hover { border-color: #bca69f; }
+#experience .bottom-controls {
+  left: 50%;
+  right: auto;
+  bottom: calc(var(--ui-credit) + 12px);
+  width: auto;
+  transform: translateX(-50%);
+  gap: 0;
+}
+#experience .controls-hint {
+  position: fixed;
+  right: calc(100% + 28px);
+  bottom: 9px;
+  width: max-content;
+  max-width: calc((100vw - 480px)/2 - 56px);
+  white-space: normal;
+  padding: 0;
+  background: transparent;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #3f3c36;
+  text-shadow: 0 1px 3px #fff, 0 0 12px #fff;
+}
+#experience .mode-switch { padding: 4px; border-radius: 12px; }
+#experience .mode-switch button { border-radius: 8px; min-height: 42px; padding: 10px 20px; font-size: 14px; }
+#experience .mode-switch button.active { background: var(--ui-accent); }
+#experience .scene-footer { display: none; }
+#experience #apartmentInterface {
+  right: var(--ui-edge);
+  bottom: calc(var(--ui-credit) + 15px);
+  padding: 10px 14px;
+  min-height: 42px;
+  border: 1px solid #fff9;
+  border-radius: 9px;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  font-size: 14px;
+  box-shadow: var(--ui-shadow);
+}
+#experience.interior-interface-hidden .walk-pad, body:has(#experience.interior-interface-hidden) #hotspots { visibility: hidden; }
+#experience .tour-bar { top: 92px; border-radius: 10px; font-size: 14px; }
+#experience .tour-bar button { font-size: 13px; border-radius: 6px; }
+.floor-view-compare { padding: 28px; border-radius: 16px; }
+.floor-view-compare h2 { font: 30px Georgia,serif; color: #652a32; padding-right: 70px; }
+.floor-view-compare .comparison-close { float: right; border: 1px solid #ded9d0; background: #fffdfa; border-radius: 8px; padding: 10px 14px; font-size: 14px; }
+.floor-view-compare > label { display: flex; align-items: center; gap: 14px; margin: 24px 0; font-size: 14px; }
+.floor-view-images img { border-radius: 10px; }
+.floor-view-images figcaption { font-size: 14px; line-height: 1.5; padding: 10px 0; }
+@media (max-width: 1100px) {
+  #experience .controls-hint { display: none; }
+  #experience .property-card { width: 280px; }
+  #experience .mode-switch button { padding-inline: 16px; }
+}
+@media (max-width: 800px) {
+  body.exploring { --ui-edge: 12px; --ui-credit: 28px; }
+  body.exploring .header { height: 64px; padding: 0 16px; }
+  body.exploring .brochure-logo img { width: 92px; }
+  body.exploring .interior-breadcrumb { display: none; }
+  body.exploring .enquire-link { padding: 0 16px; }
+  #experience .interior-return { top: 76px; }
+  #experience .interior-return button { font-size: 13px; padding: 0 11px; min-height: 40px; gap: 6px; }
+  #experience .scene-tools, body.walking #experience .scene-tools { top: 76px; right: 12px; left: auto; }
+  #experience .scene-tools .icon-button { width: 30px; height: 32px; }
+  #experience .property-card, #experience .property-card.collapsed {
+    left: 12px; right: 12px; top: 128px; bottom: auto; width: auto; max-height: calc(100dvh - 260px);
+  }
+  #experience .card-toggle { padding: 14px 16px 10px; }
+  #experience .card-toggle > span:first-child { flex-direction: row; align-items: center; gap: 14px; }
+  #experience .card-toggle .eyebrow { display: none; }
+  #experience .card-toggle strong { font-size: 24px; }
+  #experience .spatial-options { padding: 0 16px 12px; }
+  #experience .spatial-options > label { font-size: 13px; }
+  #experience #apartmentFloor { min-height: 36px; width: 190px; padding-block: 6px; font-size: 13px; }
+  #experience .spatial-options .view-source { margin-top: 7px; font-size: 12px; }
+  #experience .card-body { padding: 0 16px 16px; }
+  #experience .scene-title { top: 278px; left: 16px; }
+  #experience .scene-title h1 { font-size: 26px; }
+  #experience .scene-title .eyebrow { font-size: 12px; }
+  #experience .room-caption, body.walking #experience .room-caption {
+    left: 12px;
+    bottom: 190px;
+    top: auto;
+    width: calc(100% - 128px);
+    max-width: 360px;
+    padding: 14px !important;
+    border-radius: 12px;
+  }
+  #experience .room-caption .eyebrow { display: none; }
+  #experience .room-caption h2 { font-size: 25px; margin: 0 0 5px; }
+  #experience #roomDimensions { font-size: 12px; }
+  #experience .viewpoint-actions { gap: 6px; margin-top: 10px; }
+  #experience .viewpoint-actions :is(select,button) { min-height: 36px; font-size: 12px; padding-block: 7px; }
+  #experience .viewpoint-actions button { padding-inline: 8px; }
+  #experience .room-caption .view-source { font-size: 12px; margin-top: 9px; }
+  #experience .walk-pad, body.walking #experience .walk-pad { right: 12px; bottom: 190px; padding: 5px; border-radius: 12px; }
+  #experience .walk-pad button { width: 26px; height: 36px; margin: 1px; font-size: 18px; border-radius: 5px; }
+  #experience #interiorFilmstrip { bottom: 98px; height: 80px; padding: 6px; gap: 6px; border-radius: 12px; }
+  #experience #interiorFilmstrip button { flex-basis: 94px; height: 64px; }
+  #experience #interiorFilmstrip img { height: 36px; }
+  #experience #interiorFilmstrip span { font-size: 12px; }
+  #experience .bottom-controls { bottom: calc(var(--ui-credit) + 12px); width: calc(100% - 24px); }
+  #experience .mode-switch { width: 100%; justify-content: center; }
+  #experience .mode-switch button { flex: 1; justify-content: center; font-size: 12px; padding: 10px 8px; min-height: 42px; gap: 6px; }
+  #experience .mode-switch svg { width: 17px; height: 17px; }
+  #experience #apartmentInterface {
+    top: 265px; bottom: auto; right: 12px; font-size: 12px; min-height: 36px; padding: 8px 10px;
+  }
+  #experience:has(.property-card:not(.collapsed)) #apartmentInterface { visibility: hidden; }
+  #experience .tour-bar { top: 76px; left: 12px; transform: none; width: calc(100% - 24px); min-height: 42px; font-size: 13px; }
+}
+@media (max-height: 700px) and (min-width: 801px) {
+  #experience .room-caption, body.walking #experience .room-caption { bottom: 190px; padding: 16px !important; }
+  #experience .room-caption h2 { font-size: 27px; }
+  #experience .room-caption .eyebrow { display: none; }
+  #experience .viewpoint-actions { margin-top: 10px; }
+  #experience .property-card { max-height: calc(100dvh - 215px); bottom: 123px; }
+  #experience .walk-pad, body.walking #experience .walk-pad { bottom: 190px; }
+  #experience #interiorFilmstrip { height: 78px; bottom: 100px; }
+  #experience #interiorFilmstrip button { height: 60px; }
+  #experience #interiorFilmstrip img { height: 32px; }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  body.exploring { --ui-edge: 12px; --ui-credit: 28px; }
+  body.exploring .header { height: 52px; padding: 0 16px; }
+  body.exploring .brochure-logo img { width: 80px; }
+  body.exploring .interior-breadcrumb { font-size: 12px; }
+  #experience .interior-return { top: 64px; left: 12px; }
+  #experience .scene-tools, body.walking #experience .scene-tools { top: 64px; left: 183px; right: auto; }
+  #experience .property-card, #experience .property-card.collapsed { top: 64px; left: auto; right: 12px; bottom: auto; width: 246px; max-height: calc(100dvh - 154px); }
+  #experience .card-toggle { padding: 12px 14px 8px; }
+  #experience .card-toggle .eyebrow { display: none; }
+  #experience .card-toggle strong { font-size: 24px; }
+  #experience .spatial-options { padding: 0 14px 12px; }
+  #experience .spatial-options .view-source { font-size: 12px; }
+  #experience .spatial-options select { min-height: 32px; font-size: 12px; padding-block: 6px; width: 164px; }
+  #experience .room-caption, body.walking #experience .room-caption { top: 116px; bottom: auto; left: 12px; width: 292px; padding: 12px !important; }
+  #experience .room-caption .eyebrow { display: none; }
+  #experience .room-caption h2 { font-size: 23px; margin: 0 0 4px; }
+  #experience #roomDimensions { font-size: 12px; }
+  #experience .viewpoint-actions { margin-top: 8px; gap: 6px; }
+  #experience .viewpoint-actions :is(button,select) { font-size: 12px; min-height: 30px; padding-block: 6px; }
+  #experience .viewpoint-actions select { flex-basis: auto; width: 100%; }
+  #experience .room-caption .view-source { font-size: 12px; margin-top: 7px; }
+  #experience #interiorFilmstrip { left: 12px; right: auto; width: 45vw; max-width: none; bottom: 34px; height: 66px; padding: 5px; }
+  #experience #interiorFilmstrip button { flex-basis: 90px; height: 54px; }
+  #experience #interiorFilmstrip img { height: 28px; }
+  #experience #interiorFilmstrip span { font-size: 12px; padding-block: 3px; }
+  #experience .bottom-controls { left: auto; right: 12px; transform: none; bottom: 34px; width: auto; }
+  #experience .mode-switch button { font-size: 12px; padding: 8px 12px; min-height: 38px; }
+  #experience .walk-pad, body.walking #experience .walk-pad { left: auto; right: 12px; bottom: 92px; padding: 5px; }
+  #experience .walk-pad button { height: 32px; width: 28px; margin: 1px; }
+  #experience #apartmentInterface { top: 215px; bottom: auto; right: 120px; font-size: 12px; min-height: 34px; padding: 8px 10px; }
+  #experience .tour-bar { top: 58px; font-size: 12px; width: auto; }
+}
+
+/* Expanded details take precedence over the walking controls. */
+#experience:has(.property-card:not(.collapsed)) .walk-pad { visibility: hidden; }
+#roomOptionsToggle { display: none; }
+@media (max-width: 800px) and (min-height: 511px) {
+  #experience .scene-tools .icon-button { width: 40px; height: 40px; }
+  #experience .property-card, #experience .property-card.collapsed { top: 136px; }
+  #experience .property-card.collapsed .spatial-options .view-source { display: none; }
+  #experience .room-caption, body.walking #experience .room-caption { width: calc(100% - 168px); }
+  #experience .walk-pad button { width: 40px; height: 40px; }
+  #experience #apartmentInterface { top: 254px; }
+}
+@media (max-width: 800px) and (max-height: 740px) and (orientation: portrait) {
+  #experience .property-card.collapsed .spatial-options { display: none; }
+  #experience .room-caption, body.walking #experience .room-caption { width: calc(100% - 24px); max-width: none; }
+  #experience #apartmentInterface { top: 210px; }
+  #experience .walk-pad { visibility: hidden; }
+  #experience #roomOptionsToggle {
+    display: block;
+    margin: 10px 0 0;
+    min-height: 36px;
+    padding: 8px 12px;
+    background: #faf7f2;
+    border: 1px solid var(--ui-line);
+    border-radius: 8px;
+    font-size: 13px;
+  }
+  #experience .room-caption:not(.view-options-open) :is(.viewpoint-actions,.view-source) { display: none; }
+  #experience:has(.view-options-open) :is(.property-card,#apartmentInterface) { visibility: hidden; }
+}
+@media (max-height: 510px) and (orientation: landscape) {
+  #experience .room-caption .view-source { display: none; }
+  #experience .room-caption { max-height: calc(100dvh - 220px); overflow-y: auto; pointer-events: auto; }
+  #experience .walk-pad button { width: 40px; height: 40px; }
+  #experience #apartmentInterface { right: 158px; }
+}
+@media (max-width: 800px) and (max-height: 740px) and (orientation: portrait) {
+  #experience #apartmentInterface {
+    top: 145px;
+    right: 56px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 8px;
+    font-size: 0;
+    box-shadow: none;
+    background: transparent;
+    border-color: var(--ui-line);
+  }
+  #experience #apartmentInterface::before {
+    content: '';
+    display: block;
+    width: 18px;
+    height: 18px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23302f2b' stroke-width='1.5'%3E%3Cpath d='M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+  #experience .room-caption.view-options-open {
+    max-height: calc(100dvh - 360px);
+    overflow-y: auto;
+    pointer-events: auto;
+  }
+  #experience .room-caption.view-options-open :is(#roomDimensions,.view-source) { display: none; }
+}
+#experience.interior-interface-hidden #apartmentInterface { visibility: visible !important; }

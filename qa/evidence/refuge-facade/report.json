@@ -1,0 +1,423 @@
+{
+  "checks": [
+    "full: front pier closes unsupported span",
+    "full: framed aperture remains open",
+    "full: parapet and ceiling beam are continuous",
+    "full: wing bounds unchanged",
+    "low: front pier closes unsupported span",
+    "low: framed aperture remains open",
+    "low: parapet and ceiling beam are continuous",
+    "low: wing bounds unchanged",
+    "Floor 12 retains six designs and excludes A7",
+    "Typical floor retains seven designs",
+    "No browser errors"
+  ],
+  "errors": [],
+  "models": {
+    "beforeFull": {
+      "bounds": [
+        [
+          -39.4257812,
+          15,
+          -37.6757812
+        ],
+        [
+          41.1757812,
+          159.671875,
+          -1.32501221
+        ]
+      ],
+      "rays": {
+        "pier": 16.5,
+        "aperture": 16.5,
+        "parapet": 1.5,
+        "beam": 16.5
+      },
+      "metrics": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 1,
+        "triangles": 3892725,
+        "drawCalls": 360,
+        "geometries": 473,
+        "textures": 75,
+        "quality": "high",
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 11,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "day",
+        "solarDirection": [
+          -0.23346307108777453,
+          0.5002780094738025,
+          0.8337966824563375
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "open DEM"
+          },
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable \u00b7 architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 35,
+            "visibleTiles": 35
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 10,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 736,
+            "distantTiles": 1,
+            "residentBytes": 1135908,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 840
+            }
+          },
+          "zones": {
+            "blendStartM": 8,
+            "blendEndM": 32
+          }
+        }
+      }
+    },
+    "beforeLow": {
+      "bounds": [
+        [
+          -39.4257812,
+          15,
+          -37.6757812
+        ],
+        [
+          41.1757812,
+          159.671875,
+          -1.32501221
+        ]
+      ],
+      "rays": {
+        "pier": 16.5,
+        "aperture": 16.5,
+        "parapet": 1.5,
+        "beam": 16.5
+      },
+      "metrics": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 961630,
+        "drawCalls": 213,
+        "geometries": 472,
+        "textures": 75,
+        "quality": "performance",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 12,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "day",
+        "solarDirection": [
+          -0.23346307108777453,
+          0.5002780094738025,
+          0.8337966824563375
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "open DEM"
+          },
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable \u00b7 architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 34,
+            "visibleTiles": 17
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 10,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 364,
+            "distantTiles": 3,
+            "residentBytes": 1135908,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 840
+            }
+          },
+          "zones": {
+            "blendStartM": 8,
+            "blendEndM": 32
+          }
+        }
+      }
+    },
+    "full": {
+      "bounds": [
+        [
+          -39.4257812,
+          15,
+          -37.6757812
+        ],
+        [
+          41.1757812,
+          159.671875,
+          -1.32501221
+        ]
+      ],
+      "rays": {
+        "pier": 1.28125,
+        "aperture": 16.1796875,
+        "parapet": 1.5,
+        "beam": 1.3515625
+      },
+      "metrics": {
+        "camera": [
+          -99.00000000000009,
+          120.00000000000003,
+          -161.00000000000006
+        ],
+        "target": [
+          0,
+          83,
+          -23
+        ],
+        "pixelRatio": 1,
+        "triangles": 3893145,
+        "drawCalls": 360,
+        "geometries": 474,
+        "textures": 75,
+        "quality": "high",
+        "detail": "full",
+        "floor": null,
+        "renderedFrames": 11,
+        "cameraUpdates": 1,
+        "motion": "manual",
+        "mood": "day",
+        "solarDirection": [
+          -0.23346307108777453,
+          0.5002780094738025,
+          0.8337966824563375
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "open DEM"
+          },
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable \u00b7 architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 35,
+            "visibleTiles": 35
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 10,
+            "cachedTiles": 10,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 736,
+            "distantTiles": 1,
+            "residentBytes": 1135908,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 840
+            }
+          },
+          "zones": {
+            "blendStartM": 8,
+            "blendEndM": 32
+          }
+        }
+      }
+    },
+    "low": {
+      "bounds": [
+        [
+          -39.4257812,
+          15,
+          -37.6757812
+        ],
+        [
+          41.1757812,
+          159.671875,
+          -1.32501221
+        ]
+      ],
+      "rays": {
+        "pier": 1.28125,
+        "aperture": 16.1796875,
+        "parapet": 1.5,
+        "beam": 1.3515625
+      },
+      "metrics": {
+        "camera": [
+          88,
+          50.99999999999999,
+          -9.999999999999995
+        ],
+        "target": [
+          32.99999999999999,
+          49.99999999999999,
+          -9.999999999999998
+        ],
+        "pixelRatio": 0.95,
+        "triangles": 923517,
+        "drawCalls": 178,
+        "geometries": 593,
+        "textures": 75,
+        "quality": "performance",
+        "detail": "low",
+        "floor": null,
+        "renderedFrames": 33,
+        "cameraUpdates": 4,
+        "motion": "manual",
+        "mood": "day",
+        "solarDirection": [
+          -0.23346307108777453,
+          0.5002780094738025,
+          0.8337966824563375
+        ],
+        "wing": "A",
+        "landscape": {
+          "kind": "hybrid",
+          "anchor": [
+            78.312086932,
+            17.402192529
+          ],
+          "anchorElevationM": 596.286,
+          "elevation": {
+            "provider": "open DEM"
+          },
+          "regionalImagery": null,
+          "imagery": {
+            "provider": "architectural",
+            "reason": "Geographic imagery unavailable \u00b7 architectural ground"
+          },
+          "roads": {
+            "ready": true,
+            "tiles": 34,
+            "visibleTiles": 19
+          },
+          "buildings": {
+            "ready": true,
+            "active": true,
+            "visibleTiles": 13,
+            "cachedTiles": 32,
+            "pending": 0,
+            "queued": 0,
+            "visibleBuildings": 415,
+            "distantTiles": 5,
+            "residentBytes": 3499296,
+            "failures": 0,
+            "excludedRoadConflicts": 1,
+            "heightMethods": {
+              "supplied": 0,
+              "floorCount": 0,
+              "estimated": 2469
+            }
+          },
+          "zones": {
+            "blendStartM": 8,
+            "blendEndM": 32
+          }
+        }
+      }
+    }
+  },
+  "installedAssets": [
+    {
+      "path": "dist/assets/brigade-barcelona.glb",
+      "bytes": 6392528,
+      "sha256": "2e5dae2d28ff273b9a5e1ac2d4ae5da9fa8e336b7df85f3064bcd0fed4b78d91"
+    },
+    {
+      "path": "dist/assets/exterior.glb",
+      "bytes": 6392528,
+      "sha256": "2e5dae2d28ff273b9a5e1ac2d4ae5da9fa8e336b7df85f3064bcd0fed4b78d91"
+    },
+    {
+      "path": "dist/assets/exterior-lod.glb",
+      "bytes": 3638836,
+      "sha256": "020eebb355c5d6adfb82c667a91d4c093db746dbda2d80480aff8e598f54641e"
+    },
+    {
+      "path": "dist/assets/wing-a.glb",
+      "bytes": 3456844,
+      "sha256": "85a4603001f1a9c454d8b36dc6eb420d8fe48bf0b5cb2ca43538aabd7f32e8fc"
+    },
+    {
+      "path": "models/masterplan.blend",
+      "bytes": 15510197,
+      "sha256": "9f4747d1a6713ad9343290b6e9da507f77b3b961852c067116a20fe51eac32d8"
+    },
+    {
+      "path": "models/architecture/wing-a.blend",
+      "bytes": 4567524,
+      "sha256": "724b6225e36e2883cb0199cac671862b0d2efcd678c3bd789903931dfb5c7307"
+    }
+  ],
+  "scope": "Floor-12 refuge facade in Wing A. Browser tested staged GLBs, then verified installed bytes match. Geographic services disabled only in the capture fixture."
+}

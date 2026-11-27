@@ -1,4 +1,5 @@
 """Annotate the six supplied screenshots and assemble the comparison plates."""
+import argparse
 import json
 from pathlib import Path
 
@@ -56,26 +57,54 @@ def annotated(source, area, markers):
         draw.text((15,height+9+27*(index-1)),f'{index}. {label}',fill='#22312b',font=font(16))
     return plate
 
-def compare(name, reference):
+def compare(name, reference, evidence):
     canvas = Image.new('RGB',(1800,730),'#f2eee6')
     draw = ImageDraw.Draw(canvas)
     labels = ['Supplied reference','Three.js browser','Blender Cycles']
-    photos = [reference,*[Image.open(EVIDENCE / f'{name}-{engine}.jpg')
+    photos = [reference,*[Image.open(evidence / f'{name}-{engine}.jpg')
                           for engine in ('browser','cycles')]]
     for index, (label, photo) in enumerate(zip(labels,photos)):
         x = 26+index*592
         draw.text((x,18),label,fill='#22312b',font=font(27))
         photo = ImageOps.contain(photo,(566,642))
         canvas.paste(photo,(x+(566-photo.width)//2,65+(642-photo.height)//2))
-    canvas.save(EVIDENCE / f'{name}-comparison.jpg',quality=92)
+    canvas.save(evidence / f'{name}-comparison.jpg',quality=92)
+
+def pair(evidence, left, right, labels, name):
+    board = Image.new('RGB', (1800, 575), '#f2eee6')
+    draw = ImageDraw.Draw(board)
+    for index, (file, label) in enumerate(zip((left, right), labels)):
+        x = 26 + index * 888
+        draw.text((x, 18), label, fill='#22312b', font=font(27))
+        with Image.open(file) as picture:
+            frame = ImageOps.contain(picture, (862, 495))
+            board.paste(frame, (x + (862 - frame.width) // 2, 63))
+    board.save(evidence / (name + '.jpg'), quality=92)
 
 if __name__ == '__main__':
-    EVIDENCE.mkdir(parents=True,exist_ok=True)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--output', type=Path, default=EVIDENCE)
+    parser.add_argument('--native-art', action='store_true')
+    args = parser.parse_args()
+    evidence = args.output
+    evidence.mkdir(parents=True, exist_ok=True)
+    native_pages = dict(zip(ANNOTATIONS, (2, 3, 12, 10, 8, 5)))
     for view in json.loads(SOURCES.read_text())['views']:
         name = view['id']
         source = Image.open(ROOT / view['screenshot'])
         area, markers = ANNOTATIONS[name]
         annotation = annotated(source,area,markers)
-        annotation.save(EVIDENCE / f'{name}-annotated.jpg',quality=93)
-        if all((EVIDENCE / f'{name}-{engine}.jpg').exists() for engine in ('browser','cycles')):
-            compare(name,source.crop(area))
+        annotation.save(evidence / f'{name}-annotated.jpg',quality=93)
+        if not all((evidence / f'{name}-{engine}.jpg').exists() for engine in ('browser','cycles')):
+            continue
+        reference = source.crop(area)
+        if args.native_art:
+            native = next((evidence / 'references').glob(f'brochure-p{native_pages[name]:02d}.*'))
+            reference = Image.open(native)
+        compare(name, reference, evidence)
+    if args.native_art:
+        pair(evidence, EVIDENCE / 'complete-exterior-browser.jpg',
+             evidence / 'complete-exterior-browser.jpg',
+             ('Archived browser capture', 'Rebuilt browser exterior'), 'before-after')
+        pair(evidence, evidence / 'materials-daylight.jpg', evidence / 'materials-golden-hour.jpg',
+             ('Daylight · neutral finishes', 'Golden hour · same exterior materials'), 'materials-lighting')

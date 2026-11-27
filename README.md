@@ -4,22 +4,23 @@ Explore Plot 20 in Neopolis, Kokapet, Hyderabad. The opening camera moves from a
 
 ## Run locally
 
-The checked-in site serves its maps, models, fonts, decoders and apartment data over local HTTP. From the repository root, run the following commands.
+The checked-in site serves registered terrain, mapped roads, architectural ground materials, HDRI skies, 3D models and apartment data over local HTTP. Authorized ArcGIS imagery streams when a browser key is configured in .env.local.
 
 ```sh
 npm run build
 npm start
 ```
 
-Open the [buyer experience](http://127.0.0.1:5173/experience/). Python 3 serves the site and Node.js rebuilds the catalogue and shared route. The local server also reads an optional browser-restricted ArcGIS key from `.env.local`, as described in the [Esri setup guide](docs/ESRI_INTEGRATION.md). The delivered `dist/` folder can also run directly with `python3 -m http.server 5173 --bind 127.0.0.1 --directory dist`.
+Open the [buyer experience](http://127.0.0.1:5173/experience/) for the cinematic arrival or the [Building view](http://127.0.0.1:5173/?scene=towers) to explore immediately. The exterior and apartment outlooks share the same hybrid 3D environment anchored to the published HMDA Plot 20 boundary. The local server now supplies the configured public Esri browser key. World Imagery streams beyond the authored ground and World Elevation supplies the surrounding terrain when available. See the [hybrid environment report](docs/HYBRID_ENVIRONMENT.md) and [spatial alignment report](docs/SPATIAL_ALIGNMENT.md).
 
 ## Explore
 
 - Select a wing on the façade or use **Explore building**. The floor rail shows the typical floors 17–20 and 22–26 and the separate floor 12 refuge plan. Choose an apartment from the verified plate or browse designs independently of a floor. [Wing A refuge floor](http://127.0.0.1:5173/experience/?wing=A&floor=12)
 - Use **Apartments** to filter by wing, configuration, floor, total SBA and total carpet area. Save a design or compare up to three. These choices are stored in the current browser.
 - Open an apartment to orbit its dollhouse, change furnishing or lighting, select a room on the source plan, take a guided tour, or walk with the keyboard or touch controls. **Back to building** returns to the development. [A3 living room](http://127.0.0.1:5173/experience/?layout=A3&room=living) · [Four-bedroom B10](http://127.0.0.1:5173/experience/?layout=B10)
+- In walk mode, use the window and balcony controls to approach openings. Switch between compatible floors from the apartment card, or compare the same outlook on two floors. In dollhouse mode, select **Apartment in Building** for a section through the tower.
 - Use the masterplan or a deck’s numbered legend to move to the matching 3D location. Explore the clubhouse programme through its labelled conceptual studies. [Eco Deck](http://127.0.0.1:5173/experience/?amenity=eco-deck) · [Sky Deck](http://127.0.0.1:5173/experience/?amenity=sky-deck) · [Clubhouse](http://127.0.0.1:5173/experience/?amenity=clubhouse)
-- **Location** includes a Hyderabad-to-Plot-20 flight, an optional mapped-infrastructure overlay, a 360° orbit, a street-level camera and the regional map. [Fly from Hyderabad](http://127.0.0.1:5173/experience/?scene=journey). The four lighting presets use Hyderabad’s coordinates, local time and the parcel orientation.
+- **Property info** displays the address. Morning, Daylight, Golden hour and Night are available from the lighting control.
 
 ## Source and evidence
 
@@ -27,7 +28,8 @@ The [bundled developer brochure](sources/brigade-barcelona-brochure.pdf) supplie
 
 | Topic | Document |
 | --- | --- |
-| Geographic exterior and camera transitions | [GIS architecture](docs/GIS_ARCHITECTURE.md) |
+| Unit placement, views and cutaways | [Spatial alignment](docs/SPATIAL_ALIGNMENT.md) |
+| Archived geographic exterior | [GIS architecture](docs/GIS_ARCHITECTURE.md) |
 | Esri licensing and site-specific coverage | [Integration](docs/ESRI_INTEGRATION.md) · [Geographic coverage](docs/GEOGRAPHIC_COVERAGE_REPORT.md) |
 | Footprints, height estimates and construction masks | [Building sources](docs/BUILDING_DATA_SOURCES.md) |
 | Public application and data flow | [Architecture](docs/ARCHITECTURE.md) |

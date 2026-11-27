@@ -1,5 +1,4 @@
 import * as site from './estate-scene.js';
-import {geoCredits} from './geo-world.js';
 import {preloadInterior,enterInterior,leaveInterior,openInteriorPlan} from './app.js';
 import {getProject,readJSON,designsOnFloor,compareIds} from './project-data.js';
 import {defaultFilters,mountFilters,mountCompare,modelCard,configuration} from './residences.js';
@@ -34,18 +33,20 @@ function icons(scope = document) {
       '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + pathIcons[i.dataset.icon] + '"/></svg>';
 }
 icons();
-const names={overview:'Explore',masterplan:'Masterplan',towers:'Building',apartments:'Apartments',amenities:'Amenities',location:'Location',compare:'Compare',interiors:'Interiors',tour:'Guided tour',enquire:'Enquire'};
+const names={overview:'Explore',masterplan:'Masterplan',towers:'Building',apartments:'Apartments',amenities:'Amenities',location:'Property info',compare:'Compare',interiors:'Interiors',tour:'Guided tour',enquire:'Enquire'};
 const amenityNames={'eco-deck':'Eco Deck','sky-deck':'Sky Deck',clubhouse:'Clubhouse'};
 const shell=$('estatePanel'),content=$('estatePanelContent'),detail=$('layoutInfo');
 const small=()=>innerWidth<=680;
 const isInside=()=>document.body.classList.contains('exploring');
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-let introPlaying=false,cityPlaying=false,featuresVisible=false;
-let project,section='overview',wing=null,floor=null,selected='A3',mood='day',amenity='eco-deck',cameraView='aerial';
-let queuedSection=null,live=false,regional=false,job=0,panelVersion=0,planWidget,detailOpen=false,returnSection='apartments',pendingNav=null,skip=false;
+let introPlaying=false;
+let project,section='overview',wing=null,floor=null,selected='A3',mood='sunset',amenity='eco-deck',cameraView='aerial';
+let queuedSection=null,live=false,job=0,panelVersion=0,planWidget,detailOpen=false,pendingNav=null,skip=false;
 const exteriorViews = [
- ['aerial','Aerial masterplan'], ['front','Hero exterior'], ['rear','Rear façade'],
+ ['front','Architectural Hero'], ['gardensWide','Scenic Gardens'], ['frontage','Front Road'],
+ ['aerial','Complete Masterplan'], ['rear','Rear façade'], ['ecoGarden','Garden View'],
+ ['clubhouse','Clubhouse View'], ['skyGarden','Rooftop View'],
  ['crown','Roofline and signage'], ['balcony','Balcony detail'], ['podium','Podium'],
  ['street','Street level'], ['entrance','Main entrance'],
 ];
@@ -58,17 +59,17 @@ function validFloor(value){return project.templates.some(t=>t.levels.includes(Nu
 function query(push=false){
  if(isInside())return;
  const q=new URLSearchParams();
- if(cityPlaying)q.set('scene','journey');else if(section!=='overview')q.set('scene',section);
+ if(section!=='overview')q.set('scene',section);
  if(wing&&['towers','apartments'].includes(section))q.set('wing',wing);
  if(floor&&['towers','apartments'].includes(section))q.set('floor',floor);
  if(section==='apartments'&&selected)q.set('design',selected);
  if(section==='amenities')q.set('amenity',amenity);
- if(mood!=='day')q.set('light',mood);
+ if(mood!=='sunset')q.set('light',mood);
  const url=location.pathname+(q.size?'?'+q:'');
  if(url!==location.pathname+location.search)history[push?'pushState':'replaceState'](null,'',url);
 }
 function showExteriorStatus(){
- if(live)$('estateStatus').textContent=cityPlaying?'Hyderabad to Plot 20':introPlaying?'Cinematic introduction':'Live 3D · Concept exterior';
+ if(live)$('estateStatus').textContent=introPlaying?'Cinematic introduction':'Live 3D · Architectural Showcase';
 }
 function syncIntroControl(){
  const control=$('introControl');
@@ -84,9 +85,9 @@ function setIntroPlaying(playing){
 function setMood(value,write=true){
  mood=lightingModes.includes(value)?value:'day';site.setMood(mood);
  $('estateLight').dataset.mood=mood;$('estateLight').title=$('estateLight').ariaLabel='Time of day · '+mood;
- $('estateLight').firstElementChild.dataset.icon=mood==='evening'?'moon':'sun';icons($('estateLight'));
+ $('estateLight').firstElementChild.dataset.icon=['evening','night'].includes(mood)?'moon':'sun';icons($('estateLight'));
  for(const b of $('estateMoods').children)b.setAttribute('aria-pressed',String(b.dataset.mood===mood));
- if(isInside())document.querySelector('#lightingModes [data-light="'+mood+'"]')?.click();if(write)query();
+ if(isInside())document.querySelector('#lightingModes [data-light="'+(mood==='night'?'evening':mood)+'"]')?.click();if(write)query();
 }
 function panelVisible(open){
  shell.hidden=!open;$('reopenPanel').hidden=open||section==='overview';$('reopenPanel').lastElementChild.textContent=names[section];
@@ -139,7 +140,7 @@ function unitsOnFloor(){
  for(const a of units)g.append(action(a.code,()=>pickDesign(a.code)));
  content.append(el('p',floor?'Apartments on this plate':'Wing designs','panel-label'),g);
 }
-let selectedFeature,regionalMap;
+let selectedFeature;
 async function panelPlan(id,token){
  const holder=el('div',null,'amenity-host');content.append(holder);
  try{const {mountAmenityPlan}=await import('./amenity-plan.js');if(token!==panelVersion)return;
@@ -150,56 +151,11 @@ async function panelPlan(id,token){
  if(token!==panelVersion){widget?.destroy();return;}planWidget=widget;
  }catch(error){if(token===panelVersion){console.warn(error);holder.textContent='The plan could not be loaded.';}}
 }
-function finishCity(){
- cityPlaying=false;$('cityFlightHud').hidden=true;showExteriorStatus();syncIntroControl();
- document.body.classList.remove('city-flight');
-}
-function landAtBuilding(){
- navigate('overview',{push:false,motion:false});
- if(reduced())site.goView('landing',0);else site.playIntroduction();
-}
-async function startCity(push=true){
- navigate('overview',{push:false,motion:false,write:false});
- if(!live)return;
- const token=job;cityPlaying=true;query(push);document.body.classList.add('city-flight');
- $('cityFlightHud').hidden=false;$('cityFlightStage').textContent='Preparing Hyderabad';showExteriorStatus();
- try{await site.playCityFlight(()=>cityPlaying&&token===job,landAtBuilding);}
- catch{if(token===job){finishCity();landAtBuilding();notice('The regional terrain could not load. Showing Plot 20.');}}
-}
-$('skipCityFlight').onclick=landAtBuilding;
-$('neighborhoodReturn').onclick=()=>navigate('location');
-function showImagerySource(){
- const node=$('locationImagery');if(!node)return;
- const imagery=site.sceneMetrics()?.gis?.imagery;
- const source=imagery?.provider==='arcgis'?'Esri World Imagery':'Copernicus Sentinel-2 · 10 m near the site';
- node.textContent=regional?'Regional imagery · Copernicus Sentinel-2':'Satellite imagery · '+source;
-}
-addEventListener('brigade:geo-change',showImagerySource);
 function locationPanel(){
- $('estatePanelTitle').textContent='Neopolis, Kokapet';p(project.location.address);
- const flightButton=action('Fly from Hyderabad',()=>startCity(),'estate-action');flightButton.id='cityFlight';content.append(flightButton);
- choices('Geographic view',[['terrain','3D terrain'],['map','Regional map']],regional?'map':'terrain',key=>{regional=key==='map';renderPanel();if(regional)showRegion();else{regionalMap?.hideMap();site.activate(true);showExteriorStatus();site.goView('location');}});
- if(!regional){
-   const toggle=action('Mapped roads, paths and land use',()=>{featuresVisible=!featuresVisible;site.mapFeatures(featuresVisible);toggle.setAttribute('aria-pressed',String(featuresVisible));});
-   toggle.className='map-features';toggle.setAttribute('aria-pressed',String(featuresVisible));content.append(toggle);
-   rows([['Orbit building 360°',()=>site.orbitBuilding()],['Street-level inspection',()=>site.goView('street')]]);
- }
- rows(project.landmarks.map(l=>[l.name,()=>{if(regional)regionalMap?.locateLocal(l.point);else site.authorView([l.point[0]+180,l.point[1]+155,l.point[2]+200],l.point); }]));
- p('The plot boundary follows HMDA’s 16 published survey points. Tower siting and neighboring building heights are approximate.','panel-note');
- const source=el('p',null,'panel-note');source.id='locationImagery';content.append(source);showImagerySource();
- p('Neighboring buildings follow mapped footprints. Most heights are estimated.','panel-note');
-}
-async function showRegion(){
- const token=job;
- try{
-   regionalMap=await import('./regional-map.js');
-   if(token!==job||!regional)return;
-   site.activate(false);await regionalMap.openRegion(project.location,()=>navigate('towers'));
-   if(token===job&&regional){$('estateStatus').textContent='Regional satellite map · Sentinel-2';geoCredits($('geoCredits'));}
- }catch{
-   if(token!==job||!regional)return;
-   regional=false;regionalMap?.hideMap();site.activate(true);notice('Use the 3D terrain to explore the neighborhood.');renderPanel();
- }
+ $('estatePanelTitle').textContent='Property information';
+ p(project.location.address);
+ p('Published HMDA Plot 20 boundary · 17.402192529° N, 78.312086932° E. Tower siting, surface treatments, planting and apartment views are approximate.','panel-note');
+ content.append(action('Back to Building',()=>navigate('towers'),'estate-action'));
 }
 function renderPanel(){
  if(!project)return;const token=++panelVersion;planWidget?.destroy();planWidget=null;
@@ -208,7 +164,9 @@ function renderPanel(){
  if(section==='towers'){
   $('estatePanelTitle').textContent=wing?'Wing '+wing:'The building';
   choices('Select a wing',[['A','Wing A'],['B','Wing B']],wing,pickWing);
-  if(!wing){p('Choose either wing on the model to inspect its floor plates.');rows([['Aerial view',()=>site.goView('aerial')],['Orbit building 360°',()=>site.orbitBuilding()],['Street-level view',()=>site.goView('street')],['Main entrance',()=>site.goView('entrance')]]);return;}
+  if(!wing){
+
+   rows([['Architectural Hero',()=>site.goView('front')],['Front Road',()=>site.goView('frontage')],['Aerial view',()=>site.goView('aerial')],['Hyderabad aerial',()=>site.goView('regional')],['Orbit building 360°',()=>site.orbitBuilding()],['Pause or resume orbit',()=>site.toggleOrbitPause()],['Street-level view',()=>site.goView('street')],['Main entrance',()=>site.goView('entrance')],['Façade Close-up',()=>site.goView('crown')],['Podium',()=>site.goView('podium')],['Rooftop Swimming Pool',()=>site.goView('pool')],...Object.entries(amenityNames).map(([id,label])=>[label,()=>{amenity=id;navigate('amenities');}])]);return;}
   const scroll=el('div',null,'floor-rail');scroll.ariaLabel='Documented floor levels';const floors=project.templates.flatMap(t=>t.levels).sort((a,b)=>b-a);
   for(const n of floors){const b=action('',()=>pickFloor(wing,n));b.ariaLabel='Floor '+n;b.setAttribute('aria-pressed',String(n===floor));b.append(el('strong',String(n)),el('span',n===12?'Refuge plate':'Typical plate'));scroll.append(b);}
   content.append(el('p','Select a documented floor','panel-label'),scroll);
@@ -248,27 +206,27 @@ function askEnquiry(){
 }
 function sectionCamera(duration){
  if(['towers','apartments'].includes(section)&&wing)return floor?site.focusFloor(wing,floor,duration):site.focusWing(wing,duration);
- const key=section==='amenities'?({'eco-deck':'eco','sky-deck':'sky',clubhouse:'clubhouse'})[amenity]:({overview:'overview',masterplan:cameraView,location:'location'})[section]||'aerial';
+ const key=section==='amenities'?({'eco-deck':'eco','sky-deck':'sky',clubhouse:'clubhouse'})[amenity]:({overview:'overview',masterplan:cameraView,location:'front',towers:'front'})[section]||'aerial';
  return site.goView(key,duration);
 }
 function navigate(next,{push=true,motion=true,write=true}={}){
  if(!project){queuedSection=next;return;}if(!names[next])next='overview';$('estateNavDialog').close();$('lightingSheet').hidden=true;
- if(cityPlaying)finishCity();site.stopIntroduction();
+ site.stopIntroduction();
  if(next==='enquire'){askEnquiry();return;}
  if(['tour','interiors'].includes(next)){openDesign(selected||'A3',next==='tour'?'tour':'walk');return;}
  if(isInside()){pendingNav={next,push};leaveInterior({cinematic:true});return;}
- ++job;$('skipApproach').hidden=true;$('sceneDissolve').classList.remove('active');regionalMap?.hideMap();regional=false;section=next;syncIntroControl();showExteriorStatus();
+ ++job;$('skipApproach').hidden=true;$('sceneDissolve').classList.remove('active');section=next;syncIntroControl();showExteriorStatus();
  document.body.classList.toggle('estate-detail',next!=='overview');document.body.dataset.section=section;
  for(const b of document.querySelectorAll('.estate-nav button')){if(b.dataset.section===section)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');}
  if(next==='apartments'&&wing&&!filters.wings.length)filters.wings=[wing];
- site.activate(true);if(next!=='location'){featuresVisible=false;site.mapFeatures(false);}panelVisible(next!=='overview');detailOpen=!small();renderPanel();
- site.highlight(['towers','apartments'].includes(next)?(wing||current()?.wing):null,floor,next==='apartments'?selected:null);
+ site.activate(true);panelVisible(next!=='overview' && (next!=='towers'||!small()||Boolean(wing)));detailOpen=!small();renderPanel();
+ site.highlight(next==='apartments'?(wing||current()?.wing):next==='towers'?wing:null,floor,next==='apartments'?selected:null);
  if(live&&motion)sectionCamera();if(write)query(push);
 }
 async function openDesign(code,view='walk',room=null,{push=true}={}){
  const a=project?.layouts.find(item=>item.code===code);if(!a)return;
  if(isInside()&&current()?.code===code){if(view==='tour')$('tourButton').click();else $(view==='dollhouse'?'dollhouseButton':'walkButton').click();return;}
- const token=++job;if(cityPlaying)finishCity();site.stopIntroduction();regionalMap?.hideMap();site.activate(true);returnSection=['apartments','towers','compare'].includes(section)?section:'apartments';
+ const token=++job;site.stopIntroduction();site.activate(true);
  selected=code;if(wing&&wing!==a.wing)floor=null;wing=a.wing;skip=false;$('skipApproach').hidden=reduced();
  $('estateStatus').textContent='Preparing residence '+code;
  try{
@@ -294,45 +252,53 @@ async function route(q,initial=false){
  floor=validFloor(q.get('floor'));if(floor&&!wing)wing=design?.wing||'A';filters=defaultFilters();if(wing)filters.wings=[wing];if(floor)filters.floors=[floor];
  selected=design?.code||(wing==='B'?'B8':'A3');if(wing&&selected[0]!==wing)selected=wing==='A'?'A3':'B8';
  const key=q.get('amenity');amenity=amenityNames[key]?key:({sky:'sky-deck',gardens:'eco-deck'})[key]||'eco-deck';
- setMood(q.get('light')==='daylight'?'day':q.get('light')||'day',false);
+ setMood(q.get('light')==='daylight'?'day':q.get('light')==='evening'?'night':q.get('light')||'sunset',false);
  const invalid=(shared||legacy)&&!design;if(invalid)notice('That design could not be found. Browse the brochure collection.');
  let next=invalid?'apartments':q.get('scene')||(key?'amenities':requestedWing?'towers':'overview');
  if((shared||view==='walk'||view==='dollhouse')&&!invalid){next='apartments';filters.wings=[design.wing];}
- if(next==='journey'){await startCity(false);return;}
+ if(next==='journey'||next==='neighborhood')next='towers';
  navigate(next,{push:false,motion:false});
  if((shared||view==='walk'||view==='dollhouse')&&!invalid){if(floor===12&&code==='A7'){notice('A7 is replaced by a refuge area on this floor.');return;}await openDesign(code,view==='dollhouse'?'dollhouse':'walk',room,{push:false});}
  else if(live){
    if(section!=='overview')sectionCamera(initial?0:undefined);
    else if(initial&&!reduced())site.playIntroduction();
-   else site.goView(reduced()?'landing':'overview',0);
+   else site.goView('overview',0);
  }
 }
 $('introControl').onclick=()=>{if(introPlaying)site.goView('overview',0);else site.playIntroduction();};
 matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',()=>{
- if(reduced()&&cityPlaying)landAtBuilding();else if(reduced())site.stopIntroduction();
+ if(reduced()){site.stopIntroduction();if(section==='overview')site.goView('overview',0);}
  syncIntroControl();
 });
 $('estateMenu').onclick=()=>$('estateNavDialog').showModal();
 for(const [key,name] of Object.entries(names))$('estateNavDialog').querySelector('nav').append(action(name,()=>navigate(key)));
 $('previewInfo').onclick=()=>{$('estateNavDialog').close();$('aboutDialog').showModal();};
+$('mapCreditsButton').onclick=()=>$('mapCreditsDialog').showModal();
+$('closeMapCredits').onclick=()=>$('mapCreditsDialog').close();
 for(const b of document.querySelectorAll('[data-section]'))b.onclick=()=>navigate(b.dataset.section);
 $('panelClose').onclick=()=>{panelVisible(false);$('reopenPanel').focus();};$('reopenPanel').onclick=()=>{detailsVisible(false);panelVisible(true);};
 $('showLayout').onclick=()=>detailsVisible(true);
 $('estateLight').onclick=()=>{$('lightingSheet').hidden=!$('lightingSheet').hidden;};
-for(const v of lightingModes){const b=action(v==='day'?'Daylight':v[0].toUpperCase()+v.slice(1),()=>{setMood(v);$('lightingSheet').hidden=true;});b.dataset.mood=v;$('estateMoods').append(b);}
+for(const v of lightingModes){const b=action(v==='day'?'Daylight':v==='sunset'?'Golden hour':v[0].toUpperCase()+v.slice(1),()=>{setMood(v);$('lightingSheet').hidden=true;});b.dataset.mood=v;$('estateMoods').append(b);}
 $('estateQuality').onchange=event=>site.setQuality(event.target.value);
 $('estateRetry').onclick=()=>location.reload();
 $('estateReset').onclick=()=>sectionCamera();$('estateZoomIn').onclick=()=>site.zoom(.8);$('estateZoomOut').onclick=()=>site.zoom(1.25);
 $('skipApproach').onclick=()=>{skip=true;site.finishFlight();$('skipApproach').hidden=true;};
 $('homeButton').addEventListener('click',event=>{if(!isInside()){event.stopImmediatePropagation();navigate('overview');}},true);
 $('experienceDock').onclick=e=>{const v=e.target.closest('button')?.dataset.view;if(!v)return;
- if(v==='fullscreen')$('fullscreenButton').click();else if(v==='neighborhood')navigate('location');else if(v==='exterior')navigate('towers');else if(v==='masterplan')navigate(v);
+ if(v==='fullscreen')$('fullscreenButton').click();else if(v==='exterior')navigate('towers');else if(v==='masterplan')navigate(v);
  else if(v==='plan')openInteriorPlan(selected||'A3');else openDesign(selected||'A3',v);
 };
+window.addEventListener('brigade:interior-light',event=>{
+ mood=event.detail;
+ for(const button of $('estateMoods').querySelectorAll('[data-mood]'))
+  button.setAttribute('aria-pressed',String(button.dataset.mood===mood));
+});
 window.addEventListener('brigade:interior-enter',e=>{selected=e.detail.design;site.activate(false);$('skipApproach').hidden=true;});
 window.addEventListener('brigade:interior-exit',e=>{
  selected=e.detail.design;wing=selected[0];filters.wings=[wing];saved=loadIds('brigade-designs');site.activate(true);
- const next=pendingNav||{next:returnSection,push:false};pendingNav=null;
+ const next=pendingNav||{next:'towers',push:false};
+ if(!pendingNav){if(e.detail.floor)floor=e.detail.floor;else {wing=null;floor=null;}}pendingNav=null;
  navigate(next.next,{push:next.push,motion:false});
  if(floor)site.focusDesign(selected,floor,0);sectionCamera();showExteriorStatus();
 });
@@ -343,7 +309,7 @@ async function run(){
  for(const a of project.layouts){previewImages[a.code]=a.preview;collectionMeta[a.code]=a.balcony;}
  readJSON(project.index.resources.amenities).then(data=>site.registerAmenities(data.sections)).catch(()=>{});
  const initialJob=job;if(queuedSection){navigate(queuedSection);queuedSection=null;}
- live=await site.initScene({intro:setIntroPlaying,cityStage:stage=>{$('cityFlightStage').textContent=stage;},cityEnd:()=>{finishCity();query();},wing:pickWing,floor:pickFloor,design:pickDesign,
+ live=await site.initScene({intro:setIntroPlaying,wing:pickWing,floor:pickFloor,design:pickDesign,
  amenity:id=>{amenity=amenityNames[id]?id:'eco-deck';navigate('amenities');},feature:id=>{selectedFeature=id;planWidget?.select(id,{focus:true});},
  unsupported:()=>notice('The floor-specific layout is awaiting confirmation.'),
  fallback:message=>{live=false;$('estateRetry').hidden=false;$('estateScene').classList.add('estate-rendering-fallback');syncIntroControl();$('estateStatus').textContent=message;$('sceneQualification').textContent='Illustrative exterior rendering';for(const b of document.querySelectorAll('.estate-orbit-tools button'))b.disabled=true;}});

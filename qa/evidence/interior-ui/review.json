@@ -1,0 +1,382 @@
+[
+  {
+    "name": "desktop",
+    "errors": [],
+    "boxes": {
+      ".header": {
+        "x": 0,
+        "y": 0,
+        "w": 1600,
+        "h": 72,
+        "visible": true
+      },
+      ".interior-return": {
+        "x": 28,
+        "y": 92,
+        "w": 155.84375,
+        "h": 42,
+        "visible": true
+      },
+      ".scene-tools": {
+        "x": 211,
+        "y": 92,
+        "w": 116,
+        "h": 42,
+        "visible": true
+      },
+      "#propertyCard": {
+        "x": 1276,
+        "y": 92,
+        "w": 296,
+        "h": 177.390625,
+        "visible": true
+      },
+      "#roomCaption": {
+        "x": 28,
+        "y": 479.3125,
+        "w": 354,
+        "h": 264.6875,
+        "visible": true
+      },
+      "#walkPad": {
+        "x": 1428,
+        "y": 642,
+        "w": 144,
+        "h": 102,
+        "visible": true
+      },
+      "#interiorFilmstrip": {
+        "x": 28,
+        "y": 758,
+        "w": 1544,
+        "h": 90,
+        "visible": true
+      },
+      ".bottom-controls": {
+        "x": 594.6953125,
+        "y": 858,
+        "w": 410.609375,
+        "h": 52,
+        "visible": true
+      },
+      "#apartmentInterface": {
+        "x": 1455.609375,
+        "y": 865,
+        "w": 116.390625,
+        "h": 42,
+        "visible": true
+      },
+      "#geographicCredit": {
+        "x": 0,
+        "y": 926,
+        "w": 1600,
+        "h": 24,
+        "visible": true
+      }
+    }
+  },
+  {
+    "name": "laptop",
+    "errors": [],
+    "boxes": {
+      ".header": {
+        "x": 0,
+        "y": 0,
+        "w": 1366,
+        "h": 72,
+        "visible": true
+      },
+      ".interior-return": {
+        "x": 28,
+        "y": 92,
+        "w": 155.84375,
+        "h": 42,
+        "visible": true
+      },
+      ".scene-tools": {
+        "x": 211,
+        "y": 92,
+        "w": 116,
+        "h": 42,
+        "visible": true
+      },
+      "#propertyCard": {
+        "x": 1042,
+        "y": 92,
+        "w": 296,
+        "h": 177.390625,
+        "visible": true
+      },
+      "#roomCaption": {
+        "x": 28,
+        "y": 297.3125,
+        "w": 354,
+        "h": 264.6875,
+        "visible": true
+      },
+      "#walkPad": {
+        "x": 1194,
+        "y": 460,
+        "w": 144,
+        "h": 102,
+        "visible": true
+      },
+      "#interiorFilmstrip": {
+        "x": 28,
+        "y": 576,
+        "w": 1310,
+        "h": 90,
+        "visible": true
+      },
+      ".bottom-controls": {
+        "x": 477.6953125,
+        "y": 676,
+        "w": 410.609375,
+        "h": 52,
+        "visible": true
+      },
+      "#apartmentInterface": {
+        "x": 1221.609375,
+        "y": 683,
+        "w": 116.390625,
+        "h": 42,
+        "visible": true
+      },
+      "#geographicCredit": {
+        "x": 0,
+        "y": 744,
+        "w": 1366,
+        "h": 24,
+        "visible": true
+      }
+    }
+  },
+  {
+    "name": "mobile",
+    "errors": [],
+    "boxes": {
+      ".header": {
+        "x": 0,
+        "y": 0,
+        "w": 390,
+        "h": 64,
+        "visible": true
+      },
+      ".interior-return": {
+        "x": 12,
+        "y": 76,
+        "w": 139.78125,
+        "h": 40,
+        "visible": true
+      },
+      ".scene-tools": {
+        "x": 244,
+        "y": 76,
+        "w": 134,
+        "h": 48,
+        "visible": true
+      },
+      "#propertyCard": {
+        "x": 12,
+        "y": 136,
+        "w": 366,
+        "h": 102.796875,
+        "visible": true
+      },
+      "#roomCaption": {
+        "x": 12,
+        "y": 346.40625,
+        "w": 222,
+        "h": 273.59375,
+        "visible": true
+      },
+      "#walkPad": {
+        "x": 240,
+        "y": 524,
+        "w": 138,
+        "h": 96,
+        "visible": true
+      },
+      "#interiorFilmstrip": {
+        "x": 12,
+        "y": 632,
+        "w": 366,
+        "h": 80,
+        "visible": true
+      },
+      ".bottom-controls": {
+        "x": 12,
+        "y": 718,
+        "w": 366,
+        "h": 52,
+        "visible": true
+      },
+      "#apartmentInterface": {
+        "x": 281.953125,
+        "y": 254,
+        "w": 96.046875,
+        "h": 36,
+        "visible": true
+      },
+      "#geographicCredit": {
+        "x": 0,
+        "y": 798.21875,
+        "w": 390,
+        "h": 45.78125,
+        "visible": true
+      }
+    }
+  },
+  {
+    "name": "small-phone",
+    "errors": [],
+    "boxes": {
+      ".header": {
+        "x": 0,
+        "y": 0,
+        "w": 320,
+        "h": 64,
+        "visible": true
+      },
+      ".interior-return": {
+        "x": 12,
+        "y": 76,
+        "w": 139.78125,
+        "h": 40,
+        "visible": true
+      },
+      ".scene-tools": {
+        "x": 174,
+        "y": 76,
+        "w": 134,
+        "h": 48,
+        "visible": true
+      },
+      "#propertyCard": {
+        "x": 12,
+        "y": 136,
+        "w": 296,
+        "h": 54.796875,
+        "visible": true
+      },
+      "#roomCaption": {
+        "x": 12,
+        "y": 215,
+        "w": 296,
+        "h": 129,
+        "visible": true
+      },
+      "#walkPad": {
+        "x": 170,
+        "y": 248,
+        "w": 138,
+        "h": 96,
+        "visible": false
+      },
+      "#interiorFilmstrip": {
+        "x": 12,
+        "y": 356,
+        "w": 296,
+        "h": 80,
+        "visible": true
+      },
+      ".bottom-controls": {
+        "x": 12,
+        "y": 442,
+        "w": 296,
+        "h": 52,
+        "visible": true
+      },
+      "#apartmentInterface": {
+        "x": 211.953125,
+        "y": 210,
+        "w": 96.046875,
+        "h": 36,
+        "visible": true
+      },
+      "#geographicCredit": {
+        "x": 0,
+        "y": 509.625,
+        "w": 320,
+        "h": 58.375,
+        "visible": true
+      }
+    }
+  },
+  {
+    "name": "landscape",
+    "errors": [],
+    "boxes": {
+      ".header": {
+        "x": 0,
+        "y": 0,
+        "w": 844,
+        "h": 52,
+        "visible": true
+      },
+      ".interior-return": {
+        "x": 12,
+        "y": 64,
+        "w": 155.84375,
+        "h": 42,
+        "visible": true
+      },
+      ".scene-tools": {
+        "x": 183,
+        "y": 64,
+        "w": 116,
+        "h": 42,
+        "visible": true
+      },
+      "#propertyCard": {
+        "x": 586,
+        "y": 64,
+        "w": 246,
+        "h": 121.59375,
+        "visible": true
+      },
+      "#roomCaption": {
+        "x": 12,
+        "y": 116,
+        "w": 292,
+        "h": 149.59375,
+        "visible": true
+      },
+      "#walkPad": {
+        "x": 694,
+        "y": 202,
+        "w": 138,
+        "h": 96,
+        "visible": true
+      },
+      "#interiorFilmstrip": {
+        "x": 12,
+        "y": 290,
+        "w": 379.796875,
+        "h": 66,
+        "visible": true
+      },
+      ".bottom-controls": {
+        "x": 498.328125,
+        "y": 308,
+        "w": 333.671875,
+        "h": 48,
+        "visible": true
+      },
+      "#apartmentInterface": {
+        "x": 589.953125,
+        "y": 215,
+        "w": 96.046875,
+        "h": 34,
+        "visible": true
+      },
+      "#geographicCredit": {
+        "x": 0,
+        "y": 358.8125,
+        "w": 844,
+        "h": 31.1875,
+        "visible": true
+      }
+    }
+  }
+]

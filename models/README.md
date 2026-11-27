@@ -1,16 +1,16 @@
 # Architectural model sources
 
-Open `masterplan.blend` in Blender 4.3 or later. The named wing, podium, planted terrace and neighborhood groups contain the editable geometry. The two wing storey modules and trees use linked meshes. `apartment-a3.blend` contains the separate furnished home.
+Open `masterplan.blend` in Blender 4.5 LTS. The named wing, podium, planted terrace and neighborhood groups contain the editable geometry. The two wing storey modules and trees use linked meshes. `apartment-a3.blend` contains the separate furnished home.
 
 ## Rebuild the masterplan
 
-Run from the project root. The sources bundled under `dist/assets` are sufficient for an offline rebuild. Blender 4.3.2 and gltfpack 1.0 produced the delivered GLBs.
+Run from the project root. The checked-in texture maps and fern GLB are sufficient for an offline rebuild. Blender 4.5.17 and native gltfpack 1.3 produced the exterior rebuild.
 
 ```sh
-GLTFPACK=/path/to/gltfpack blender -b --python-exit-code 1 --python scripts/generate_exterior.py
+BRIGADE_BAKE_AO=1 BRIGADE_KTX2=1 GLTFPACK=/path/to/native/gltfpack blender -b --python-exit-code 1 --python scripts/generate_exterior.py
 ```
 
-The command writes `models/masterplan.blend`, seven separate editable component files in `models/architecture/`, the detailed and mobile exterior GLBs, each architectural component, the unlocated clubhouse studies and the geographic context GLB. Setting `GLTFPACK` enables quantization and meshopt compression. The Three.js loader uses the vendored meshopt decoder. Both exterior files retain parent wing identifiers and identical wing bounds. The mobile model uses simplified windows and foliage.
+The command writes `models/masterplan.blend`, seven separate editable component files in `models/architecture/`, the detailed and mobile exterior GLBs, each architectural component, the unlocated clubhouse studies and the geographic context GLB. The bake flag creates the podium occlusion atlas. The native encoder produces KTX2 textures for both browser tiers, and gltfpack compresses their geometry with Meshopt. The Three.js loader uses the vendored Basis Universal and Meshopt decoders. Both exterior files retain parent wing identifiers and identical wing bounds. The mobile model uses simplified windows and foliage.
 
 ## Sources and calibration
 
