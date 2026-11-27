@@ -10,6 +10,7 @@ const fixture = await mkdtemp(join(tmpdir(), 'brigade-production-check-'));
 const source = join(fixture, 'dist');
 const destination = join(fixture, 'build/site');
 const runtime = join(destination, 'data/arcgis-runtime.json');
+const rootRuntime = join(fixture, 'build/data/arcgis-runtime.json');
 const template = '{"arcgisImageryEnabled":false,"arcgisApiKey":""}\n';
 const repositoryTemplate = new URL('../dist/data/arcgis-runtime.json', import.meta.url);
 const originalTemplate = await readFile(repositoryTemplate, 'utf8');
@@ -35,6 +36,7 @@ try {
   let config = JSON.parse(await readFile(runtime, 'utf8'));
   check('Enabled production output uses the supplied hosting credential', config.arcgisImageryEnabled && config.arcgisApiKey === 'synthetic-host-key');
   check('Nested experience route is preserved', await readFile(join(destination, 'experience/index.html'), 'utf8') === 'nested route fixture');
+  check('Render build root mirrors the production site', JSON.parse(await readFile(rootRuntime, 'utf8')).arcgisApiKey === 'synthetic-host-key');
   check('Production packaging preserves the disabled source template', await readFile(join(source, 'data/arcgis-runtime.json'), 'utf8') === template);
 
   const beforeInvalid = await readFile(runtime, 'utf8');

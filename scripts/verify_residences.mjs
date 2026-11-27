@@ -3,13 +3,16 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { join, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { makeNavigator } from '../dist/navigation.js';
 const { chromium } = createRequire(import.meta.url)(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const all = (await json('brochure-manifest.json')).layouts;
 const only = process.argv[2],
   entries = only ? all.filter((r) => r.code === only) : all;
 const base = process.env.BRIGADE_QA_URL || 'http://127.0.0.1:5173/';
-const folder = new URL('../qa/evidence/', import.meta.url);
+const qa = resolve(process.env.BRIGADE_RESIDENCE_QA_DIR || fileURLToPath(new URL('../qa/', import.meta.url)));
+const folder = join(qa, 'evidence');
 await mkdir(folder, { recursive: true });
 const dataPath = (name) => new URL('../dist/assets/' + name, import.meta.url);
 async function json(file) {
@@ -147,7 +150,7 @@ try {
     assert.equal(new Set(lighting).size, 4);
     await page.locator('#lightingModes [data-light="day"]').click();
     await page.locator('#cardToggle').click();
-    if (code === 'B10') await page.screenshot({ path: new URL('b10-dollhouse.png', folder).pathname });
+    if (code === 'B10') await page.screenshot({ path: join(folder, 'b10-dollhouse.png') });
     const frame = await page.evaluate(() => {
       const { r, scene } = window.residenceFrame;
       return {
@@ -191,7 +194,7 @@ try {
   if (!only) {
     assert.equal(new Set(report.layouts.map((r) => r.sha256)).size, 13);
     await writeFile(
-      new URL('../qa/all-residences.json', import.meta.url),
+      join(qa, 'all-residences.json'),
       JSON.stringify(report, null, 2) + '\n',
     );
   }

@@ -23,6 +23,11 @@ export async function buildProduction({
     await writeFile(join(stage, 'data/arcgis-runtime.json'), JSON.stringify(config) + '\n');
     await rm(destination, { recursive: true, force: true });
     await rename(stage, destination);
+    // Render currently publishes the `build` directory. Keep the canonical
+    // build/site artifact for hosts configured to publish it, and mirror its
+    // contents into the parent so the current Render setting serves the app at
+    // the domain root as well.
+    await cp(destination, parent, { recursive: true, force: true });
   } finally {
     await rm(stage, { recursive: true, force: true });
   }

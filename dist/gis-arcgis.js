@@ -371,9 +371,13 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key, sta
     if (!table) return;
     const pixels = table.image.data;
     pixels.fill(0);
+    // Keep the previous tile visible while its replacement is loading. Clearing
+    // it as soon as the camera selects a new set leaves a one-frame architectural
+    // ground hole during rotation, which reads as a flashing/glitching surface.
+    // Desired entries are written last so a newly loaded tile always wins over
+    // the retained tile it replaces.
     for (const entry of [...activeTiles.values()]
-      .filter((e) => desired.has(e.tile.id))
-      .sort((a, b) => a.tile.z - b.tile.z)) {
+      .sort((a, b) => Number(desired.has(a.tile.id)) - Number(desired.has(b.tile.id)) || a.tile.z - b.tile.z)) {
       const t = entry.tile,
         span = 2 ** (maxZoom - t.z),
         sourceScale = 2 ** (maxZoom - START);
@@ -437,6 +441,7 @@ export function createArcGISOverlay(THREE, terrain, { mobile, onChange, key, sta
       atlas.image.data.set(decodeContext.getImageData(0, 0, SIDE, SIDE).data, slot * TILE_BYTES);
       atlas.addLayerUpdate(slot);
       atlas.needsUpdate = true;
+      fades[slot] = 0;
       activeTiles.set(t.id, { tile: t, slot, loaded: performance.now() });
       t.failures = 0;
       t.retry = 0;

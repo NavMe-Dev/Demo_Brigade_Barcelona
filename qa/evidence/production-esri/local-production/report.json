@@ -1,0 +1,385 @@
+{
+  "base": "http://127.0.0.1:5174/",
+  "checkedAt": "2026-11-27T08:51:45.196Z",
+  "checks": [
+    "Published runtime enables Esri imagery",
+    "Satellite tiles render around the building",
+    "Plot 20 anchor matches Neopolis coordinates",
+    "Terrain patches meet without measurable seams",
+    "Full orbit keeps finite camera positions and rendered geometry",
+    "Regional satellite environment renders",
+    "Mobile renders real imagery without horizontal overflow",
+    "No browser script or CSP failures"
+  ],
+  "failures": [
+    "No ArcGIS authentication failures"
+  ],
+  "consoleErrors": [],
+  "pageErrors": [],
+  "requestsFailed": [],
+  "httpErrors": [],
+  "arcgisErrors": [
+    {
+      "url": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer/getSamples",
+      "code": 498,
+      "message": "Invalid Token"
+    },
+    {
+      "url": "https://elevation.arcgis.com/arcgis/rest/services/WorldElevation/Terrain/ImageServer/getSamples",
+      "code": 498,
+      "message": "Invalid Token"
+    }
+  ],
+  "tileResponses": 212,
+  "elevationResponses": 2,
+  "cspViolations": [],
+  "captures": [
+    "exterior.jpg",
+    "orbit-3.jpg",
+    "orbit-6.jpg",
+    "orbit-9.jpg",
+    "regional.jpg",
+    "mobile.jpg"
+  ],
+  "configuration": {
+    "enabled": true,
+    "keyPresent": true
+  },
+  "cspHeader": null,
+  "exterior": {
+    "camera": [
+      -173.00000000000006,
+      240.00000000000003,
+      397.00000000000017
+    ],
+    "target": [
+      0,
+      60,
+      8
+    ],
+    "pixelRatio": 1,
+    "triangles": 3969596,
+    "drawCalls": 440,
+    "geometries": 516,
+    "textures": 79,
+    "quality": "auto",
+    "detail": "full",
+    "floor": null,
+    "renderedFrames": 176,
+    "cameraUpdates": 2,
+    "motion": "manual",
+    "mood": "morning",
+    "solarDirection": [
+      -0.08820157986074005,
+      0.3816738877287618,
+      -0.9200790861312316
+    ],
+    "wing": null,
+    "landscape": {
+      "kind": "hybrid",
+      "anchor": [
+        78.312086932,
+        17.402192529
+      ],
+      "anchorElevationM": 596.286,
+      "elevation": {
+        "provider": "open DEM",
+        "reason": "Esri elevation unavailable",
+        "requests": 4
+      },
+      "regionalImagery": {
+        "reason": "Checking imagery coverage",
+        "state": "loading",
+        "canRetry": false,
+        "loading": 0,
+        "visibleTiles": 0,
+        "maxZoom": null,
+        "highestVisibleZoom": 0,
+        "textures": 0,
+        "estimatedTextureBytes": 0
+      },
+      "imagery": {
+        "provider": "arcgis",
+        "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+        "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+        "reason": "World Imagery",
+        "state": "ready",
+        "canRetry": false,
+        "loading": 0,
+        "visibleTiles": 62,
+        "maxZoom": 19,
+        "highestVisibleZoom": 18,
+        "textures": 2,
+        "estimatedTextureBytes": 22762838
+      },
+      "roads": {
+        "ready": true,
+        "tiles": 62,
+        "visibleTiles": 61
+      },
+      "buildings": {
+        "ready": true,
+        "active": true,
+        "visibleTiles": 15,
+        "cachedTiles": 15,
+        "pending": 0,
+        "queued": 0,
+        "visibleBuildings": 566,
+        "distantTiles": 7,
+        "residentBytes": 2027706,
+        "failures": 0,
+        "excludedRoadConflicts": 1,
+        "heightMethods": {
+          "supplied": 1,
+          "floorCount": 17,
+          "estimated": 1357
+        }
+      },
+      "zones": {
+        "blendStartM": 8,
+        "blendEndM": 32
+      }
+    }
+  },
+  "terrain": {
+    "seams": 11843,
+    "maximumSeamErrorM": 0,
+    "maximumSamplerErrorM": 0.000003662109378410605
+  },
+  "orbit": [
+    {
+      "camera": [
+        0,
+        250.00000000000003,
+        440
+      ],
+      "triangles": 3959617,
+      "frames": 195,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        219.99999999999997,
+        250.00000000000003,
+        381.05117766515303
+      ],
+      "triangles": 3967029,
+      "frames": 209,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        381.051177665153,
+        250.00000000000003,
+        220.00000000000006
+      ],
+      "triangles": 3965517,
+      "frames": 222,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        440,
+        250.00000000000003,
+        2.694222958124177e-14
+      ],
+      "triangles": 3955903,
+      "frames": 235,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        381.05117766515303,
+        250.00000000000003,
+        -219.99999999999991
+      ],
+      "triangles": 3966256,
+      "frames": 252,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        219.99999999999997,
+        250.00000000000003,
+        -381.05117766515303
+      ],
+      "triangles": 3964373,
+      "frames": 265,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        5.388445916248354e-14,
+        250.00000000000003,
+        -440
+      ],
+      "triangles": 3958762,
+      "frames": 279,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        -219.9999999999998,
+        250.00000000000003,
+        -381.05117766515315
+      ],
+      "triangles": 3966417,
+      "frames": 296,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        -381.0511776651528,
+        250,
+        -220.00000000000023
+      ],
+      "triangles": 3962548,
+      "frames": 305,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        -440,
+        250.00000000000003,
+        -7.0757396585772e-14
+      ],
+      "triangles": 3959725,
+      "frames": 315,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        -381.051177665153,
+        250.00000000000003,
+        220.00000000000006
+      ],
+      "triangles": 3976661,
+      "frames": 333,
+      "contextLost": 0
+    },
+    {
+      "camera": [
+        -220.00000000000017,
+        250,
+        381.05117766515286
+      ],
+      "triangles": 3971018,
+      "frames": 346,
+      "contextLost": 0
+    }
+  ],
+  "regional": {
+    "provider": "arcgis",
+    "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+    "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+    "reason": "World Imagery",
+    "state": "ready",
+    "canRetry": false,
+    "loading": 4,
+    "visibleTiles": 33,
+    "maxZoom": 18,
+    "highestVisibleZoom": 13,
+    "textures": 2,
+    "estimatedTextureBytes": 24728918
+  },
+  "mobile": {
+    "width": 390,
+    "scrollWidth": 390,
+    "metrics": {
+      "camera": [
+        94,
+        120.99999999999999,
+        162
+      ],
+      "target": [
+        1,
+        84,
+        24
+      ],
+      "pixelRatio": 0.95,
+      "triangles": 899702,
+      "drawCalls": 154,
+      "geometries": 171,
+      "textures": 49,
+      "quality": "auto",
+      "detail": "low",
+      "floor": null,
+      "renderedFrames": 88,
+      "cameraUpdates": 1,
+      "motion": "manual",
+      "mood": "morning",
+      "solarDirection": [
+        -0.08820157986074005,
+        0.3816738877287618,
+        -0.9200790861312316
+      ],
+      "wing": "B",
+      "landscape": {
+        "kind": "hybrid",
+        "anchor": [
+          78.312086932,
+          17.402192529
+        ],
+        "anchorElevationM": 596.286,
+        "elevation": {
+          "provider": "open DEM",
+          "reason": "Esri elevation unavailable",
+          "requests": 4
+        },
+        "regionalImagery": {
+          "reason": "Checking imagery coverage",
+          "state": "loading",
+          "canRetry": false,
+          "loading": 0,
+          "visibleTiles": 0,
+          "maxZoom": null,
+          "highestVisibleZoom": 0,
+          "textures": 0,
+          "estimatedTextureBytes": 0
+        },
+        "imagery": {
+          "provider": "arcgis",
+          "attribution": "Source: Esri, Vantor, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community",
+          "attributionUrl": "https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9",
+          "reason": "World Imagery",
+          "state": "ready",
+          "canRetry": false,
+          "loading": 0,
+          "visibleTiles": 31,
+          "maxZoom": 19,
+          "highestVisibleZoom": 17,
+          "textures": 2,
+          "estimatedTextureBytes": 11578027
+        },
+        "roads": {
+          "ready": true,
+          "tiles": 11,
+          "visibleTiles": 11
+        },
+        "buildings": {
+          "ready": true,
+          "active": true,
+          "visibleTiles": 9,
+          "cachedTiles": 9,
+          "pending": 0,
+          "queued": 0,
+          "visibleBuildings": 295,
+          "distantTiles": 4,
+          "residentBytes": 797232,
+          "failures": 0,
+          "excludedRoadConflicts": 1,
+          "heightMethods": {
+            "supplied": 0,
+            "floorCount": 0,
+            "estimated": 527
+          }
+        },
+        "zones": {
+          "blendStartM": 8,
+          "blendEndM": 32
+        }
+      }
+    },
+    "contextLost": 0
+  }
+}
