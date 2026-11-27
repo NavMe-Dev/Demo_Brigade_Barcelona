@@ -40,7 +40,8 @@ body.exploring .enquire-link {
   font-size: 14px;
 }
 body.exploring .estate-menu {
-  width: 40px;
+  width: auto;
+  min-width: 64px;
   height: 40px;
   border-radius: 8px;
   border-color: var(--ui-line);

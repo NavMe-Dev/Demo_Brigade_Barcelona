@@ -9,6 +9,8 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:production": "node scripts/build-production.mjs",
+    "verify:production": "node scripts/verify_production_build.mjs",
     "start": "python3 scripts/serve.py"
   }
 }
